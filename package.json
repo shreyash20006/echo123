@@ -1,0 +1,17 @@
+{
+  "name": "echotgpcop",
+  "version": "1.0.0",
+  "description": "Echo.TGPCOP | Official Campus Media & Creative Cell",
+  "main": "index.html",
+  "scripts": {
+    "build": "node build.js",
+    "start": "node build.js"
+  },
+  "keywords": [
+    "tgpcop",
+    "echo",
+    "campus-media"
+  ],
+  "author": "Echo TGPCOP",
+  "license": "ISC"
+}

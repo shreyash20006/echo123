@@ -1,0 +1,9 @@
+{
+  "cleanUrls": true,
+  "rewrites": [
+    {
+      "source": "/((?!public/|images/|.*\\..*).*)",
+      "destination": "/index.html"
+    }
+  ]
+}
