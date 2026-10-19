@@ -22,7 +22,6 @@
   --deep-bg: #001550;
   --white: #ffffff;
   --dot: #1e69ff;
-  --card-border: #ffffff;
   --accent-pink: #FF2E93;
   --accent-cyan: #00F0FF;
   --shadow-color: rgba(0, 20, 90, 0.45);
@@ -40,23 +39,27 @@ html {
   scroll-padding-top: 84px;
 }
 
+/* Base Body with signature dot-grid pattern on #004BFE */
 body {
   margin: 0;
-  background: var(--blue) radial-gradient(circle, var(--dot) 2px, transparent 2.5px) 0 0/54px 54px;
+  background-color: var(--blue);
+  background-image: radial-gradient(circle, var(--dot) 2px, transparent 2.5px);
+  background-size: 54px 54px;
+  background-position: 0 0;
   color: var(--white);
   font: 400 16px/1.6 'Poppins', system-ui, -apple-system, sans-serif;
   overflow-x: hidden;
   position: relative;
 }
 
-/* Headings */
+/* Headings font: Bebas Neue */
 h1, h2, h3, h4 {
   margin: 0;
   font-family: 'Bebas Neue', Impact, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
-  line-height: .94;
-  letter-spacing: .02em;
+  line-height: .92;
+  letter-spacing: .01em;
 }
 
 .y { color: var(--yellow); }
@@ -76,6 +79,14 @@ section {
   z-index: 2;
 }
 
+/* Dot-grid pattern reusable section class */
+.dot-bg {
+  background-color: var(--blue);
+  background-image: radial-gradient(circle, var(--dot) 2px, transparent 2.5px);
+  background-size: 54px 54px;
+  background-position: 0 0;
+}
+
 /* Custom Scrollbar */
 ::-webkit-scrollbar { width: 10px; }
 ::-webkit-scrollbar-track { background: var(--navy); }
@@ -91,7 +102,7 @@ section {
   font-weight: 800;
   font-size: 14px;
   letter-spacing: 0.05em;
-  padding: 10px 0;
+  padding: 11px 0;
   border-bottom: 2px solid rgba(0,0,0,0.1);
   box-shadow: 0 4px 15px rgba(0,0,0,0.15);
   position: relative;
@@ -101,7 +112,7 @@ section {
 .marq-track {
   display: inline-flex;
   white-space: nowrap;
-  animation: mq 32s linear infinite;
+  animation: mq 30s linear infinite;
 }
 
 .marq-track:hover {
@@ -158,36 +169,18 @@ nav .wrap {
   gap: 12px;
 }
 
-.brand-logo-svg {
+/* White Transparent Logo in Navbar */
+.brand-logo-img {
   height: 48px;
   width: auto;
-  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.25));
+  display: block;
+  object-fit: contain;
   transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.25));
 }
 
-.brand-link:hover .brand-logo-svg {
-  transform: rotate(-4deg) scale(1.05);
-}
-
-.brand-meta {
-  display: flex;
-  flex-direction: column;
-}
-
-.brand-meta .title {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 26px;
-  line-height: 0.9;
-  letter-spacing: 0.04em;
-  color: var(--white);
-}
-
-.brand-meta .subtitle {
-  font-size: 10px;
-  font-weight: 700;
-  color: var(--yellow);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+.brand-link:hover .brand-logo-img {
+  transform: scale(1.06) rotate(-2deg);
 }
 
 .nav-right {
@@ -351,18 +344,19 @@ nav .wrap {
   100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 255, 102, 0); }
 }
 
+/* Specific Hero Headline Requirement:
+   "CAPTURING CAMPUS." in white and "CREATING MEMORIES." in yellow #FFD60A */
 .hero h1 {
-  font-size: clamp(60px, 9.2vw, 132px);
-  line-height: 0.88;
-  letter-spacing: 0.02em;
-  margin-bottom: 20px;
+  font-size: clamp(62px, 9.8vw, 136px);
+  line-height: 0.92;
+  letter-spacing: 0.01em;
+  margin-bottom: 22px;
+  color: #ffffff;
   text-shadow: 0 10px 30px rgba(0, 20, 80, 0.4);
 }
 
-.hero h1 .gradient-text {
-  background: linear-gradient(180deg, #FFFFFF 20%, #D5E2FF 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.hero h1 .y {
+  color: var(--yellow);
 }
 
 .hero p {
@@ -623,7 +617,7 @@ h2 {
   font-weight: 500;
 }
 
-/* What We Do - Cards */
+/* What We Do - Cards (Font: Bowlby One for card headings) */
 .services-section {
   background: rgba(0, 32, 120, 0.5);
   border-top: 2px solid rgba(255, 255, 255, 0.1);
@@ -690,6 +684,7 @@ h2 {
   transform: scale(1.2) rotate(8deg);
 }
 
+/* Card headings in Bowlby One */
 .card h3 {
   font-family: 'Bowlby One', cursive;
   font-size: 21px;
@@ -1010,7 +1005,13 @@ h2 {
   margin: 0;
 }
 
-/* Team Section */
+/* Team Section with signature dot-grid */
+.team-section {
+  background-color: var(--blue);
+  background-image: radial-gradient(circle, var(--dot) 2px, transparent 2.5px);
+  background-size: 54px 54px;
+}
+
 .team {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -1272,7 +1273,7 @@ h2 {
   color: #777;
 }
 
-/* Footer */
+/* Footer with White Transparent Logo */
 footer {
   background: var(--dark-navy);
   padding: 60px 0 100px;
@@ -1281,11 +1282,18 @@ footer {
   position: relative;
 }
 
-footer .footer-logo {
-  height: 80px;
+.footer-logo-img {
+  height: 86px;
   width: auto;
   margin: 0 auto 16px;
-  filter: drop-shadow(0 6px 15px rgba(0,0,0,0.3));
+  display: block;
+  object-fit: contain;
+  filter: drop-shadow(0 6px 15px rgba(0,0,0,0.35));
+  transition: transform 0.3s ease;
+}
+
+.footer-logo-img:hover {
+  transform: scale(1.05);
 }
 
 footer p {
@@ -1623,40 +1631,31 @@ footer .college-tag {
 <!-- Camera Shutter Flash Effect Container -->
 <div id="cameraFlash" class="camera-flash"></div>
 
-<!-- Top Live Campus Marquee -->
+<!-- Top Live Campus Marquee (National Pharmacy Week removed as requested) -->
 <div class="marq">
   <div class="marq-track" id="mq">
     <span><i class="dot-sep"></i>🔴 ECHO.TGPCOP CAMPUS MEDIA</span>
-    <span><i class="dot-sep"></i>📸 FRESH REELS DROPPED FOR NATIONAL PHARMACY WEEK</span>
     <span><i class="dot-sep"></i>🎬 CINEMATIC AFTERMOVIES & CANDIDS</span>
     <span><i class="dot-sep"></i>⚡ CREW AUDITIONS OPEN FOR BATCH 2026-27</span>
     <span><i class="dot-sep"></i>🏆 CAPTURING CAMPUS • CREATING MEMORIES</span>
     <span><i class="dot-sep"></i>📩 DM US FOR EVENT COVERAGE & PORTFOLIO SHOOTS</span>
-    <!-- Repeat for seamless infinite loop -->
+    <span><i class="dot-sep"></i>📸 FRESH REELS & PHOTOGRAPHY ARCHIVE</span>
+    <!-- Seamless infinite repeat -->
     <span><i class="dot-sep"></i>🔴 ECHO.TGPCOP CAMPUS MEDIA</span>
-    <span><i class="dot-sep"></i>📸 FRESH REELS DROPPED FOR NATIONAL PHARMACY WEEK</span>
     <span><i class="dot-sep"></i>🎬 CINEMATIC AFTERMOVIES & CANDIDS</span>
     <span><i class="dot-sep"></i>⚡ CREW AUDITIONS OPEN FOR BATCH 2026-27</span>
     <span><i class="dot-sep"></i>🏆 CAPTURING CAMPUS • CREATING MEMORIES</span>
     <span><i class="dot-sep"></i>📩 DM US FOR EVENT COVERAGE & PORTFOLIO SHOOTS</span>
+    <span><i class="dot-sep"></i>📸 FRESH REELS & PHOTOGRAPHY ARCHIVE</span>
   </div>
 </div>
 
-<!-- Sticky Navbar -->
+<!-- Sticky Navigation with White Transparent Logo -->
 <nav id="navbar">
   <div class="wrap">
-    <a href="#home" class="brand-link" title="Echo TGPCOP Home">
-      <!-- High-resolution bespoke SVG brand mark -->
-      <svg class="brand-logo-svg" viewBox="0 0 160 52" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="2" y="2" width="48" height="48" rx="14" fill="#FFD60A" stroke="#FFFFFF" stroke-width="3"/>
-        <!-- Aperture / Camera Lens icon -->
-        <circle cx="26" cy="26" r="14" fill="#004BFE"/>
-        <circle cx="26" cy="26" r="6" fill="#FFD60A"/>
-        <path d="M26 12L31 20M38 22L33 30M32 38L24 35M18 34L20 25M18 20L26 21" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
-        <!-- Brand Wordmark -->
-        <text x="58" y="30" font-family="'Bebas Neue', Impact, sans-serif" font-size="34" fill="#FFFFFF" letter-spacing="1.5">ECHO</text>
-        <text x="58" y="44" font-family="'Poppins', sans-serif" font-weight="800" font-size="10.5" fill="#FFD60A" letter-spacing="2">TGPCOP MEDIA</text>
-      </svg>
+    <a href="#home" class="brand-link" title="Echo.TGPCOP Home">
+      <!-- Replaced with white transparent PNG logo -->
+      <img src="public/images/echo_logo_white_transparent.png" alt="Echo.TGPCOP" class="brand-logo-img" onerror="this.src='echo_logo_white_transparent.png'">
     </a>
 
     <div class="nav-right">
@@ -1681,8 +1680,8 @@ footer .college-tag {
   </div>
 </nav>
 
-<!-- Hero Section -->
-<header class="hero" id="home">
+<!-- Hero Section with subtle dot-grid pattern on #004BFE -->
+<header class="hero dot-bg" id="home">
   <div class="wrap">
     <div class="hero-content rv">
       <div class="hero-badge">
@@ -1690,15 +1689,14 @@ footer .college-tag {
         OFFICIAL MEDIA & CREATIVE CELL • TGPCOP
       </div>
 
+      <!-- Hero headline: "CAPTURING CAMPUS." in white and "CREATING MEMORIES." in yellow #FFD60A -->
       <h1>
-        <span class="gradient-text">CAPTURING</span><br>
-        <span class="y">CAMPUS.</span><br>
-        <span class="gradient-text">CREATING</span><br>
-        <span class="y">MEMORIES.</span>
+        CAPTURING CAMPUS.<br>
+        <span class="y">CREATING MEMORIES.</span>
       </h1>
 
       <p>
-        The official visual heartbeat of <strong>Tulsiramji Gaikwad-Patil College of Pharmacy</strong>. We freeze high-octane fests, raw backstage laughs, pharmacist rallies, and unforgettable college milestones into cinematic history.
+        The official visual heartbeat of <strong>Tulsiramji Gaikwad-Patil College of Pharmacy</strong>. We freeze high-octane fests, raw backstage laughs, research showcases, and unforgettable college milestones into cinematic history.
       </p>
 
       <div class="cta">
@@ -1714,7 +1712,7 @@ footer .college-tag {
       </div>
     </div>
 
-    <!-- Floating Interactive Photo Collage -->
+    <!-- Floating Interactive Photo Collage (Real photos from /public/images/) -->
     <div class="pic rv">
       <div class="circ c1"></div>
       <div class="circ c2"></div>
@@ -1725,12 +1723,12 @@ footer .college-tag {
 
       <!-- Frame 1 -->
       <div class="fr f1" data-img-idx="0" title="Click to enlarge">
-        <img src="https://images.unsplash.com/photo-1511578314322-379afb476865?q=80&w=800&auto=format&fit=crop" alt="Campus Fest Lights & Stage" loading="eager">
+        <img src="public/images/hero-1.jpg" alt="Campus Fest Stage" loading="eager" onerror="this.src='https://images.unsplash.com/photo-1511578314322-379afb476865?q=80&w=800&auto=format&fit=crop'">
       </div>
 
       <!-- Frame 2 -->
       <div class="fr f2" data-img-idx="1" title="Click to enlarge">
-        <img src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?q=80&w=800&auto=format&fit=crop" alt="College Students Celebrating" loading="eager">
+        <img src="public/images/hero-2.jpg" alt="College Students Celebrating" loading="eager" onerror="this.src='https://images.unsplash.com/photo-1523580494863-6f3031224c94?q=80&w=800&auto=format&fit=crop'">
       </div>
     </div>
   </div>
@@ -1752,7 +1750,7 @@ footer .college-tag {
           Founded by passionate student storytellers at <strong>Tulsiramji Gaikwad-Patil College of Pharmacy (TGPCOP), Nagpur</strong>, Echo is more than just a media club—it is our campus diary.
         </p>
         <p>
-          From the intense spirit of National Pharmacy Week to heart-stopping cultural dance battles, sports leagues, research symposiums, and emotional farewells, our team works relentlessly behind the viewfinders, gimbals, and editing suites.
+          From the intense spirit of campus symposiums to heart-stopping cultural dance battles, sports leagues, and emotional farewells, our team works relentlessly behind the viewfinders, gimbals, and editing suites.
         </p>
 
         <div class="about-features">
@@ -1777,7 +1775,7 @@ footer .college-tag {
           <b class="counter" data-target="58">0</b>
           <div class="stat-info">
             <span>Campus Events Covered</span>
-            <small>Fests, Sports, NPW & Convocations</small>
+            <small>Fests, Sports & Convocations</small>
           </div>
         </div>
 
@@ -1814,7 +1812,7 @@ footer .college-tag {
   <path d="M0,0 C320,50 640,-20 960,35 C1200,65 1360,10 1440,25 L1440,60 L0,60 Z" fill="#004BFE"></path>
 </svg>
 
-<!-- What We Do / Creative Pillars Section -->
+<!-- What We Do / Creative Pillars Section (Card Headings: Bowlby One) -->
 <section id="services" class="services-section">
   <div class="wrap">
     <div class="section-head rv">
@@ -1859,8 +1857,8 @@ footer .college-tag {
   </div>
 </section>
 
-<!-- Visual Feed / Interactive Gallery Section -->
-<section id="gallery" class="gallery-section">
+<!-- Visual Archive / Interactive Gallery Section (Images in /public/images/) -->
+<section id="gallery" class="gallery-section dot-bg">
   <div class="wrap">
     <div class="section-head rv">
       <span class="pill">Visual Archive</span>
@@ -1872,18 +1870,18 @@ footer .college-tag {
     <div class="filter-bar rv">
       <button class="filter-btn active" data-filter="all">All Moments</button>
       <button class="filter-btn" data-filter="fest">Fests & Culture</button>
-      <button class="filter-btn" data-filter="pharma">Pharmacy Week</button>
+      <button class="filter-btn" data-filter="events">Special Events</button>
       <button class="filter-btn" data-filter="life">Campus Life</button>
       <button class="filter-btn" data-filter="portraits">Portraits</button>
     </div>
 
-    <!-- Gallery Grid -->
+    <!-- Gallery Grid with real photos from /public/images/ -->
     <div class="grid" id="galleryGrid">
       <!-- Item 1 (Tall span 2) -->
-      <div class="g t rv" data-cat="fest" data-full="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=1200&auto=format&fit=crop" data-title="Annual Cultural Night 2026" data-sub="Grand stage lights, student choir & rock band performances">
+      <div class="g t rv" data-cat="fest" data-full="public/images/gallery-1.jpg" data-title="Annual Cultural Night" data-sub="Grand stage lights, student choir & rock band performances">
         <span class="g-badge">Culture</span>
         <button class="g-like-btn" title="Like photo">♥</button>
-        <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=600&auto=format&fit=crop" alt="Annual Cultural Fest">
+        <img src="public/images/gallery-1.jpg" alt="Annual Cultural Fest" onerror="this.src='https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=600&auto=format&fit=crop'">
         <div class="g-caption">
           <h4>ANNUAL CULTURAL NIGHT</h4>
           <p>The electrifying finale of Spandan Youth Fest.</p>
@@ -1891,21 +1889,21 @@ footer .college-tag {
       </div>
 
       <!-- Item 2 -->
-      <div class="g rv" data-cat="pharma" data-full="https://images.unsplash.com/photo-1579165466791-788189255670?q=80&w=1200&auto=format&fit=crop" data-title="National Pharmacy Week Rally" data-sub="Pharmacists for a healthier world - student awareness rally">
-        <span class="g-badge">NPW Event</span>
+      <div class="g rv" data-cat="events" data-full="public/images/gallery-2.jpg" data-title="Academic Symposium & Expo" data-sub="Scientific presentations and student innovation display">
+        <span class="g-badge">Symposium</span>
         <button class="g-like-btn" title="Like photo">♥</button>
-        <img src="https://images.unsplash.com/photo-1579165466791-788189255670?q=80&w=600&auto=format&fit=crop" alt="Pharmacy Research & Lab">
+        <img src="public/images/gallery-2.jpg" alt="Academic Conference" onerror="this.src='https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?q=80&w=600&auto=format&fit=crop'">
         <div class="g-caption">
-          <h4>PHARMACY EXPO & LABS</h4>
-          <p>Scientific symposiums and drug delivery demonstrations.</p>
+          <h4>CAMPUS EXPO & LABS</h4>
+          <p>Scientific symposiums and student demonstrations.</p>
         </div>
       </div>
 
       <!-- Item 3 -->
-      <div class="g rv" data-cat="life" data-full="https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=1200&auto=format&fit=crop" data-title="Corridor Laughs & Discussions" data-sub="Candid student life between lectures at TGPCOP">
+      <div class="g rv" data-cat="life" data-full="public/images/gallery-3.jpg" data-title="Corridor Laughs & Discussions" data-sub="Candid student life between lectures at TGPCOP">
         <span class="g-badge">Campus Life</span>
         <button class="g-like-btn" title="Like photo">♥</button>
-        <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=600&auto=format&fit=crop" alt="Students Studying Together">
+        <img src="public/images/gallery-3.jpg" alt="Students Studying Together" onerror="this.src='https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=600&auto=format&fit=crop'">
         <div class="g-caption">
           <h4>CORRIDOR CHRONICLES</h4>
           <p>Friendships brewed between semester practicals.</p>
@@ -1913,21 +1911,21 @@ footer .college-tag {
       </div>
 
       <!-- Item 4 (Tall span 2) -->
-      <div class="g t rv" data-cat="portraits" data-full="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1200&auto=format&fit=crop" data-title="Graduation Batch Spotlight" data-sub="B.Pharm Final Year farewell shoot">
+      <div class="g t rv" data-cat="portraits" data-full="public/images/gallery-4.jpg" data-title="Graduation Batch Spotlight" data-sub="Final Year farewell portrait shoot">
         <span class="g-badge">Portrait</span>
         <button class="g-like-btn" title="Like photo">♥</button>
-        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=600&auto=format&fit=crop" alt="Graduation Portrait">
+        <img src="public/images/gallery-4.jpg" alt="Graduation Portrait" onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=600&auto=format&fit=crop'">
         <div class="g-caption">
           <h4>CLASS OF 2026</h4>
-          <p>Proud future pharmacists stepping into tomorrow.</p>
+          <p>Proud graduates stepping into tomorrow.</p>
         </div>
       </div>
 
       <!-- Item 5 -->
-      <div class="g rv" data-cat="fest" data-full="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=1200&auto=format&fit=crop" data-title="DJ Night & Crowd Flare" data-sub="High-tempo celebration during fresher's bash">
+      <div class="g rv" data-cat="fest" data-full="public/images/gallery-5.jpg" data-title="DJ Night & Crowd Flare" data-sub="High-tempo celebration during fresher's bash">
         <span class="g-badge">DJ Night</span>
         <button class="g-like-btn" title="Like photo">♥</button>
-        <img src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=600&auto=format&fit=crop" alt="DJ Concert Crowd">
+        <img src="public/images/gallery-5.jpg" alt="DJ Concert Crowd" onerror="this.src='https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=600&auto=format&fit=crop'">
         <div class="g-caption">
           <h4>BASS IN THE AIR</h4>
           <p>Unfiltered excitement when the drop hits.</p>
@@ -1935,10 +1933,10 @@ footer .college-tag {
       </div>
 
       <!-- Item 6 -->
-      <div class="g rv" data-cat="life" data-full="https://images.unsplash.com/photo-1562774053-701939374585?q=80&w=1200&auto=format&fit=crop" data-title="TGPCOP Campus Greenery" data-sub="Golden hour on the college premises">
+      <div class="g rv" data-cat="life" data-full="public/images/gallery-6.jpg" data-title="TGPCOP Campus Greenery" data-sub="Golden hour on the college premises">
         <span class="g-badge">Campus</span>
         <button class="g-like-btn" title="Like photo">♥</button>
-        <img src="https://images.unsplash.com/photo-1562774053-701939374585?q=80&w=600&auto=format&fit=crop" alt="College Campus Architecture">
+        <img src="public/images/gallery-6.jpg" alt="College Campus Architecture" onerror="this.src='https://images.unsplash.com/photo-1562774053-701939374585?q=80&w=600&auto=format&fit=crop'">
         <div class="g-caption">
           <h4>CAMPUS ARCHITECTURE</h4>
           <p>Wardha Road, Mohgaon, Nagpur beauty.</p>
@@ -1948,7 +1946,7 @@ footer .college-tag {
   </div>
 </section>
 
-<!-- Featured Reels Section -->
+<!-- Featured Reels Section (Images in /public/images/) -->
 <section id="reels" class="reels-section">
   <div class="wrap">
     <div class="section-head rv">
@@ -1959,12 +1957,12 @@ footer .college-tag {
 
     <div class="reels-grid">
       <!-- Reel 1 -->
-      <div class="reel-card rv" onclick="openReelModal('Pharmacy Week 2026 Official Teaser', 'Over 85K views in 48 hours across Instagram!')">
-        <img src="https://images.unsplash.com/photo-1501386761578-eac5c94b800a?q=80&w=600&auto=format&fit=crop" alt="Reel Preview 1">
+      <div class="reel-card rv" onclick="openReelModal('Annual Youth Fest Official Teaser', 'Over 85K views across Instagram!')">
+        <img src="public/images/reel-1.jpg" alt="Reel Preview 1" onerror="this.src='https://images.unsplash.com/photo-1501386761578-eac5c94b800a?q=80&w=600&auto=format&fit=crop'">
         <div class="reel-play-icon">▶</div>
         <div class="reel-overlay">
           <span class="reel-tag">⚡ Official Teaser</span>
-          <h3>PHARMACY WEEK '26: RECHARGED</h3>
+          <h3>CAMPUS FEST '26: RECHARGED</h3>
           <div class="reel-stats">
             <span>👁️ 85.4K</span>
             <span>❤️ 12.8K</span>
@@ -1974,12 +1972,12 @@ footer .college-tag {
       </div>
 
       <!-- Reel 2 -->
-      <div class="reel-card rv" onclick="openReelModal('When The Viva Examiner Asks Formula', 'Campus comedy sketch that resonated with every pharmacy student!')">
-        <img src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?q=80&w=600&auto=format&fit=crop" alt="Reel Preview 2">
+      <div class="reel-card rv" onclick="openReelModal('When The Viva Examiner Asks Formula', 'Campus comedy sketch that resonated with every student!')">
+        <img src="public/images/reel-2.jpg" alt="Reel Preview 2" onerror="this.src='https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?q=80&w=600&auto=format&fit=crop'">
         <div class="reel-play-icon">▶</div>
         <div class="reel-overlay">
           <span class="reel-tag">😂 Campus Humor</span>
-          <h3>POV: ORGANIC CHEMISTRY VIVA</h3>
+          <h3>POV: PRACTICAL LAB VIVA</h3>
           <div class="reel-stats">
             <span>👁️ 112K</span>
             <span>❤️ 24.1K</span>
@@ -1989,8 +1987,8 @@ footer .college-tag {
       </div>
 
       <!-- Reel 3 -->
-      <div class="reel-card rv" onclick="openReelModal('Annual Sports Meet 2026 Recap', 'Adrenaline-packed cinematic montage of cricket, badminton, and relay races.')">
-        <img src="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?q=80&w=600&auto=format&fit=crop" alt="Reel Preview 3">
+      <div class="reel-card rv" onclick="openReelModal('Annual Sports Meet 2026 Recap', 'Adrenaline-packed cinematic montage of sports championships.')">
+        <img src="public/images/reel-3.jpg" alt="Reel Preview 3" onerror="this.src='https://images.unsplash.com/photo-1461896836934-ffe607ba8211?q=80&w=600&auto=format&fit=crop'">
         <div class="reel-play-icon">▶</div>
         <div class="reel-overlay">
           <span class="reel-tag">🏆 Sports Meet</span>
@@ -2043,8 +2041,8 @@ footer .college-tag {
   </div>
 </section>
 
-<!-- Meet The Core Team / Squad Section -->
-<section id="team" style="background: var(--blue);">
+<!-- Meet The Core Team / Squad Section (Images in /public/images/) -->
+<section id="team" class="team-section dot-bg">
   <div class="wrap">
     <div class="section-head rv">
       <span class="pill">The Creators</span>
@@ -2056,11 +2054,11 @@ footer .college-tag {
       <!-- Member 1 -->
       <div class="tm rv">
         <div class="fr">
-          <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=600&auto=format&fit=crop" alt="Media Lead">
+          <img src="public/images/team-1.jpg" alt="Media Lead" onerror="this.src='https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=600&auto=format&fit=crop'">
         </div>
         <h3>ROHAN SHARMA</h3>
         <div class="tm-role">PRESIDENT & LEAD DIRECTOR</div>
-        <div class="tm-branch">B.Pharm • Final Year</div>
+        <div class="tm-branch">Final Year</div>
         <div class="tm-socials">
           <a href="#team" title="Instagram">📸</a>
           <a href="#team" title="Portfolio">🌐</a>
@@ -2071,11 +2069,11 @@ footer .college-tag {
       <!-- Member 2 -->
       <div class="tm rv">
         <div class="fr">
-          <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=600&auto=format&fit=crop" alt="Creative Lead">
+          <img src="public/images/team-2.jpg" alt="Creative Lead" onerror="this.src='https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=600&auto=format&fit=crop'">
         </div>
         <h3>ANANYA PATIL</h3>
         <div class="tm-role">HEAD OF CREATIVES & REELS</div>
-        <div class="tm-branch">B.Pharm • 3rd Year</div>
+        <div class="tm-branch">3rd Year</div>
         <div class="tm-socials">
           <a href="#team" title="Instagram">📸</a>
           <a href="#team" title="Portfolio">🌐</a>
@@ -2086,11 +2084,11 @@ footer .college-tag {
       <!-- Member 3 -->
       <div class="tm rv">
         <div class="fr">
-          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=600&auto=format&fit=crop" alt="Lead Cinematographer">
+          <img src="public/images/team-3.jpg" alt="Lead Cinematographer" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=600&auto=format&fit=crop'">
         </div>
         <h3>SAHIL DESHMUKH</h3>
         <div class="tm-role">CHIEF CINEMATOGRAPHER</div>
-        <div class="tm-branch">B.Pharm • 3rd Year</div>
+        <div class="tm-branch">3rd Year</div>
         <div class="tm-socials">
           <a href="#team" title="Instagram">📸</a>
           <a href="#team" title="Portfolio">🌐</a>
@@ -2121,15 +2119,15 @@ footer .college-tag {
     <div class="shoutout-wall" id="shoutWall">
       <div class="shout-card rv">
         <span class="shout-pin"></span>
-        <p>"Echo's Pharmacy Week aftermovie brought tears to our eyes. Best visual team Nagpur has seen!"</p>
+        <p>"Echo's Youth Fest aftermovie was purely magical. Best visual team Nagpur has seen!"</p>
         <span class="shout-author">— Tanmay G. (Batch '25)</span>
         <span class="shout-time">2 days ago</span>
       </div>
 
       <div class="shout-card rv">
         <span class="shout-pin" style="background: var(--yellow);"></span>
-        <p>"Please cover our final year pharmacy farewell next month! Your portrait shoots are top tier!"</p>
-        <span class="shout-author">— Sneha & Gang (B.Pharm 4th Year)</span>
+        <p>"Please cover our final year graduation farewell next month! Your portrait shoots are top tier!"</p>
+        <span class="shout-author">— Sneha & Gang (4th Year)</span>
         <span class="shout-time">Yesterday</span>
       </div>
 
@@ -2183,12 +2181,12 @@ footer .college-tag {
             <label for="appBatch">Batch / Course *</label>
             <select id="appBatch" class="form-control" required style="cursor: pointer;">
               <option value="" disabled selected>Select Your Course & Year</option>
-              <option value="B.Pharm 1st Year">B.Pharm - 1st Year (Fresher)</option>
-              <option value="B.Pharm 2nd Year">B.Pharm - 2nd Year</option>
-              <option value="B.Pharm 3rd Year">B.Pharm - 3rd Year</option>
-              <option value="B.Pharm Final Year">B.Pharm - Final Year</option>
-              <option value="M.Pharm">M.Pharm (Pharmaceutics/QA/Cology)</option>
-              <option value="D.Pharm">D.Pharm</option>
+              <option value="1st Year">1st Year (Fresher)</option>
+              <option value="2nd Year">2nd Year</option>
+              <option value="3rd Year">3rd Year</option>
+              <option value="Final Year">Final Year</option>
+              <option value="Postgraduate">Postgraduate</option>
+              <option value="Diploma">Diploma</option>
             </select>
           </div>
 
@@ -2213,18 +2211,11 @@ footer .college-tag {
   </div>
 </section>
 
-<!-- Footer -->
+<!-- Footer with White Transparent Logo -->
 <footer>
   <div class="wrap">
-    <!-- Brand SVG in Footer -->
-    <svg class="footer-logo" viewBox="0 0 160 52" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect x="2" y="2" width="48" height="48" rx="14" fill="#FFD60A" stroke="#FFFFFF" stroke-width="3"/>
-      <circle cx="26" cy="26" r="14" fill="#004BFE"/>
-      <circle cx="26" cy="26" r="6" fill="#FFD60A"/>
-      <path d="M26 12L31 20M38 22L33 30M32 38L24 35M18 34L20 25M18 20L26 21" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
-      <text x="58" y="30" font-family="'Bebas Neue', Impact, sans-serif" font-size="34" fill="#FFFFFF" letter-spacing="1.5">ECHO</text>
-      <text x="58" y="44" font-family="'Poppins', sans-serif" font-weight="800" font-size="10.5" fill="#FFD60A" letter-spacing="2">TGPCOP MEDIA</text>
-    </svg>
+    <!-- White Transparent PNG logo in Footer (Replaced generated SVG) -->
+    <img src="public/images/echo_logo_white_transparent.png" alt="Echo.TGPCOP" class="footer-logo-img" onerror="this.src='echo_logo_white_transparent.png'">
 
     <p class="college-tag">
       TULSIRAMJI GAIKWAD-PATIL COLLEGE OF PHARMACY
@@ -2380,7 +2371,6 @@ if (menuBtn && navLinks) {
     menuBtn.textContent = navLinks.classList.contains('on') ? '✕' : '☰';
   });
 
-  // Close nav drawer when link clicked
   navLinks.querySelectorAll('a').forEach(link => {
     link.addEventListener('click', () => {
       navLinks.classList.remove('on');
@@ -2404,7 +2394,6 @@ const rvObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
       entry.target.classList.add('in');
-      // Trigger counter animation if inside
       const counters = entry.target.querySelectorAll('.counter');
       counters.forEach(animateCounter);
     }
@@ -2525,7 +2514,8 @@ galleryItems.forEach((item, index) => {
 // Floating hero collage frames click
 document.querySelectorAll('.hero .fr').forEach(fr => {
   fr.addEventListener('click', () => {
-    openLightbox(0);
+    const idx = parseInt(fr.dataset.imgIdx || '0', 10);
+    openLightbox(idx);
   });
 });
 
@@ -2546,7 +2536,7 @@ lb.addEventListener('click', (e) => {
   if (e.target === lb) closeLightbox();
 });
 
-// Reel Modal Placeholder
+// Reel Modal Trigger
 function openReelModal(title, desc) {
   triggerCameraFlash();
   showToast(`🎬 Opening Reel: "${title}"`);
@@ -2593,7 +2583,6 @@ if (auditionForm) {
 
     triggerCameraFlash();
 
-    // Store in localStorage for persistence
     const applicants = JSON.parse(localStorage.getItem('echo_applicants') || '[]');
     applicants.push({ name, phone, batch, insta, role: selectedRole, date: new Date().toISOString() });
     localStorage.setItem('echo_applicants', JSON.stringify(applicants));
