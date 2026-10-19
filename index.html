@@ -1,0 +1,2672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Echo.TGPCOP | Campus Media Cell</title>
+<meta name="description" content="Echo.TGPCOP | Official Campus Media & Creative Cell of Tulsiramji Gaikwad-Patil College of Pharmacy, Nagpur. Capturing Campus. Creating Memories. Events • Reels • Photography • Creatives.">
+<meta name="keywords" content="Echo TGPCOP, Campus Media, College Photography, Pharmacy College Nagpur, Student Media Cell, Reels, Aftermovies, Campus Life">
+<meta property="og:title" content="Echo.TGPCOP | Campus Media">
+<meta property="og:description" content="Capturing Campus. Creating Memories. The official media & creative house of TGPCOP.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Bowlby+One&family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --blue: #004BFE;
+  --yellow: #FFD60A;
+  --navy: #002DAA;
+  --dark-navy: #001A66;
+  --deep-bg: #001550;
+  --white: #ffffff;
+  --dot: #1e69ff;
+  --card-border: #ffffff;
+  --accent-pink: #FF2E93;
+  --accent-cyan: #00F0FF;
+  --shadow-color: rgba(0, 20, 90, 0.45);
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 84px;
+}
+
+body {
+  margin: 0;
+  background: var(--blue) radial-gradient(circle, var(--dot) 2px, transparent 2.5px) 0 0/54px 54px;
+  color: var(--white);
+  font: 400 16px/1.6 'Poppins', system-ui, -apple-system, sans-serif;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Headings */
+h1, h2, h3, h4 {
+  margin: 0;
+  font-family: 'Bebas Neue', Impact, sans-serif;
+  font-weight: 400;
+  text-transform: uppercase;
+  line-height: .94;
+  letter-spacing: .02em;
+}
+
+.y { color: var(--yellow); }
+.cyan { color: var(--accent-cyan); }
+.pink { color: var(--accent-pink); }
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; display: block; }
+
+.wrap {
+  width: min(1160px, 92%);
+  margin: auto;
+}
+
+section {
+  padding: 95px 0;
+  position: relative;
+  z-index: 2;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: var(--navy); }
+::-webkit-scrollbar-thumb { background: var(--yellow); border-radius: 99px; border: 2px solid var(--navy); }
+::-webkit-scrollbar-thumb:hover { background: #ffe033; }
+
+/* Top Marquee Banner */
+.marq {
+  background: var(--white);
+  color: var(--blue);
+  overflow: hidden;
+  white-space: nowrap;
+  font-weight: 800;
+  font-size: 14px;
+  letter-spacing: 0.05em;
+  padding: 10px 0;
+  border-bottom: 2px solid rgba(0,0,0,0.1);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+  position: relative;
+  z-index: 60;
+}
+
+.marq-track {
+  display: inline-flex;
+  white-space: nowrap;
+  animation: mq 32s linear infinite;
+}
+
+.marq-track:hover {
+  animation-play-state: paused;
+}
+
+.marq span {
+  display: inline-flex;
+  align-items: center;
+  margin: 0 16px;
+}
+
+.marq .dot-sep {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  background: var(--accent-pink);
+  border-radius: 50%;
+  margin-right: 14px;
+}
+
+@keyframes mq {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* Sticky Navigation */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 55;
+  background: rgba(0, 75, 254, 0.94);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.15);
+  transition: all 0.3s ease;
+}
+
+nav.scrolled {
+  background: rgba(0, 38, 145, 0.98);
+  box-shadow: 0 10px 30px rgba(0, 15, 70, 0.5);
+}
+
+nav .wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 76px;
+}
+
+.brand-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-logo-svg {
+  height: 48px;
+  width: auto;
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.25));
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.brand-link:hover .brand-logo-svg {
+  transform: rotate(-4deg) scale(1.05);
+}
+
+.brand-meta {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-meta .title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 26px;
+  line-height: 0.9;
+  letter-spacing: 0.04em;
+  color: var(--white);
+}
+
+.brand-meta .subtitle {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--yellow);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.links {
+  display: flex;
+  gap: 22px;
+  align-items: center;
+  font-weight: 600;
+  font-size: 14.5px;
+  letter-spacing: 0.02em;
+}
+
+.links a {
+  position: relative;
+  padding: 6px 2px;
+  transition: color 0.2s ease;
+}
+
+.links a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0%;
+  height: 2.5px;
+  background: var(--yellow);
+  border-radius: 99px;
+  transition: width 0.25s ease;
+}
+
+.links a:hover {
+  color: var(--yellow);
+}
+
+.links a:hover::after {
+  width: 100%;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 99px;
+  padding: 12px 26px;
+  font-weight: 700;
+  border: 2.5px solid var(--yellow);
+  background: var(--yellow);
+  color: var(--navy);
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  cursor: pointer;
+  font-size: 14.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+}
+
+.btn:hover {
+  transform: translateY(-3px) scale(1.04);
+  box-shadow: 0 10px 24px rgba(255, 214, 10, 0.4);
+  background: #fff;
+  color: var(--blue);
+  border-color: #fff;
+}
+
+.btn:active {
+  transform: translateY(1px) scale(0.98);
+}
+
+.btn.o {
+  background: transparent;
+  color: var(--white);
+  border-color: var(--white);
+  box-shadow: none;
+}
+
+.btn.o:hover {
+  background: var(--white);
+  color: var(--blue);
+  box-shadow: 0 8px 20px rgba(255, 255, 255, 0.3);
+}
+
+.btn-icon-sound {
+  background: rgba(255, 255, 255, 0.15);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  color: var(--white);
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: 0.25s;
+  font-size: 18px;
+}
+
+.btn-icon-sound:hover {
+  background: var(--yellow);
+  color: var(--navy);
+  border-color: var(--yellow);
+  transform: scale(1.1);
+}
+
+#menu {
+  display: none;
+  background: none;
+  border: 0;
+  color: var(--white);
+  font-size: 32px;
+  cursor: pointer;
+  line-height: 1;
+}
+
+/* Hero Section */
+.hero {
+  padding-top: 60px;
+  padding-bottom: 90px;
+  overflow: hidden;
+}
+
+.hero .wrap {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 36px;
+  align-items: center;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(0, 26, 102, 0.7);
+  border: 1.5px solid var(--yellow);
+  padding: 7px 18px;
+  border-radius: 99px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  margin-bottom: 22px;
+  backdrop-filter: blur(6px);
+}
+
+.pulse-dot {
+  width: 10px;
+  height: 10px;
+  background: #00FF66;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #00FF66;
+  animation: pulse 1.8s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 255, 102, 0.7); }
+  70% { transform: scale(1.15); box-shadow: 0 0 0 10px rgba(0, 255, 102, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 255, 102, 0); }
+}
+
+.hero h1 {
+  font-size: clamp(60px, 9.2vw, 132px);
+  line-height: 0.88;
+  letter-spacing: 0.02em;
+  margin-bottom: 20px;
+  text-shadow: 0 10px 30px rgba(0, 20, 80, 0.4);
+}
+
+.hero h1 .gradient-text {
+  background: linear-gradient(180deg, #FFFFFF 20%, #D5E2FF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero p {
+  max-width: 520px;
+  margin: 0 0 32px;
+  font-size: 18px;
+  line-height: 1.65;
+  color: #e5eeff;
+  font-weight: 400;
+}
+
+.hero .cta {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+/* Floating Picture Collage */
+.pic {
+  position: relative;
+  height: 520px;
+  width: 100%;
+}
+
+.circ {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: fl 7s ease-in-out infinite;
+}
+
+.c1 {
+  width: 320px;
+  height: 320px;
+  background: var(--yellow);
+  right: -50px;
+  top: 60px;
+  filter: blur(2px);
+  opacity: 0.95;
+}
+
+.c2 {
+  width: 220px;
+  height: 220px;
+  background: var(--navy);
+  left: -40px;
+  bottom: 20px;
+  animation-delay: -3.5s;
+  border: 4px dashed rgba(255, 255, 255, 0.2);
+}
+
+@keyframes fl {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-18px) rotate(1.5deg); }
+}
+
+.fr {
+  position: absolute;
+  border: 10px solid var(--white);
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow: 0 22px 50px var(--shadow-color);
+  background: var(--white);
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s;
+  cursor: pointer;
+}
+
+.fr:hover {
+  transform: translateY(-8px) scale(1.05) rotate(0deg) !important;
+  box-shadow: 0 30px 60px rgba(0, 15, 60, 0.65);
+  z-index: 10 !important;
+}
+
+.fr img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.fr:hover img {
+  transform: scale(1.08);
+}
+
+.f1 {
+  width: 260px;
+  height: 340px;
+  left: 4%;
+  top: 25px;
+  transform: rotate(-5deg);
+  animation: fl 6s ease-in-out infinite;
+  z-index: 3;
+}
+
+.f2 {
+  width: 260px;
+  height: 340px;
+  right: 4%;
+  top: 140px;
+  transform: rotate(4deg);
+  animation: fl 6s ease-in-out infinite -2.5s;
+  z-index: 4;
+}
+
+/* Floating stickers */
+.sticker {
+  position: absolute;
+  z-index: 6;
+  background: #fff;
+  color: var(--blue);
+  padding: 8px 16px;
+  border-radius: 99px;
+  font-family: 'Bowlby One', cursive;
+  font-size: 13px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+  border: 3px solid var(--navy);
+  transform: rotate(-10deg);
+  animation: floatSticker 4s ease-in-out infinite alternate;
+}
+
+.stk-1 {
+  top: 10px;
+  right: 15%;
+  background: var(--yellow);
+  color: var(--navy);
+  transform: rotate(8deg);
+}
+
+.stk-2 {
+  bottom: 40px;
+  left: 20%;
+  background: var(--accent-pink);
+  color: #fff;
+  border-color: #fff;
+  transform: rotate(-8deg);
+}
+
+@keyframes floatSticker {
+  0% { transform: translateY(0) rotate(-6deg); }
+  100% { transform: translateY(-10px) rotate(6deg); }
+}
+
+/* Wavy Section Divider */
+.rib {
+  display: block;
+  width: 100%;
+  height: 60px;
+  margin: -1px 0;
+  fill: var(--blue);
+  position: relative;
+  z-index: 5;
+}
+
+/* Headings & Badges */
+h2 {
+  font-size: clamp(48px, 7vw, 96px);
+  margin-bottom: 22px;
+  letter-spacing: 0.02em;
+}
+
+.pill {
+  display: inline-block;
+  background: var(--yellow);
+  color: var(--blue);
+  font-weight: 800;
+  border-radius: 99px;
+  padding: 6px 20px;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* About Section */
+.about {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 48px;
+  align-items: center;
+}
+
+.about-text p {
+  font-size: 17px;
+  line-height: 1.7;
+  color: #e5eeff;
+  margin-bottom: 24px;
+}
+
+.about-features {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 26px;
+}
+
+.feat-item {
+  background: rgba(0, 45, 170, 0.4);
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.feat-item i {
+  font-size: 24px;
+}
+
+.stats {
+  display: grid;
+  gap: 16px;
+}
+
+.stat {
+  background: var(--white);
+  color: var(--blue);
+  border-radius: 22px;
+  padding: 20px 28px;
+  display: flex;
+  align-items: baseline;
+  gap: 18px;
+  box-shadow: 0 14px 30px var(--shadow-color);
+  transition: transform 0.25s, box-shadow 0.25s;
+  border-left: 8px solid var(--yellow);
+}
+
+.stat:hover {
+  transform: translateX(8px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(0, 15, 60, 0.45);
+}
+
+.stat b {
+  font: 400 58px/1 'Bebas Neue', Impact, sans-serif;
+  color: var(--blue);
+  letter-spacing: 0.02em;
+}
+
+.stat-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-info span {
+  font-weight: 700;
+  font-size: 17px;
+  color: var(--navy);
+  line-height: 1.2;
+}
+
+.stat-info small {
+  font-size: 12px;
+  color: #5577bb;
+  font-weight: 500;
+}
+
+/* What We Do - Cards */
+.services-section {
+  background: rgba(0, 32, 120, 0.5);
+  border-top: 2px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.section-head {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 54px;
+}
+
+.section-head p {
+  font-size: 17px;
+  color: #dce7ff;
+  margin-top: 12px;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 22px;
+}
+
+.card {
+  background: var(--navy);
+  border: 3px solid var(--white);
+  border-radius: 26px;
+  padding: 32px 24px;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s;
+  box-shadow: 0 14px 34px rgba(0, 20, 90, 0.4);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 90px;
+  height: 90px;
+  background: radial-gradient(circle, rgba(255, 214, 10, 0.25) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.card:hover {
+  transform: translateY(-10px) scale(1.03);
+  box-shadow: 0 24px 50px rgba(0, 10, 60, 0.65);
+  border-color: var(--yellow);
+}
+
+.card i {
+  font-style: normal;
+  font-size: 44px;
+  display: inline-block;
+  margin-bottom: 16px;
+  transition: transform 0.3s ease;
+}
+
+.card:hover i {
+  transform: scale(1.2) rotate(8deg);
+}
+
+.card h3 {
+  font-family: 'Bowlby One', cursive;
+  font-size: 21px;
+  line-height: 1.15;
+  margin-bottom: 12px;
+  color: var(--yellow);
+}
+
+.card p {
+  margin: 0;
+  font-size: 14.5px;
+  line-height: 1.6;
+  opacity: 0.94;
+  color: #e5eeff;
+  flex-grow: 1;
+}
+
+.card .tag {
+  display: inline-block;
+  align-self: flex-start;
+  margin-top: 18px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 4px 12px;
+  border-radius: 99px;
+  color: var(--white);
+}
+
+/* Gallery Section */
+.gallery-section {
+  position: relative;
+}
+
+.filter-bar {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 38px;
+}
+
+.filter-btn {
+  background: rgba(0, 30, 110, 0.6);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  color: var(--white);
+  padding: 8px 20px;
+  border-radius: 99px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.filter-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: var(--white);
+}
+
+.filter-btn.active {
+  background: var(--yellow);
+  color: var(--navy);
+  border-color: var(--yellow);
+  font-weight: 700;
+  box-shadow: 0 4px 16px rgba(255, 214, 10, 0.35);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 240px;
+  gap: 20px;
+}
+
+.g {
+  border: 7px solid var(--white);
+  border-radius: 24px;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--navy), #0a3fd6);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  cursor: zoom-in;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s;
+  box-shadow: 0 12px 30px rgba(0, 20, 80, 0.35);
+}
+
+.g:hover {
+  transform: rotate(-1.5deg) scale(1.03);
+  box-shadow: 0 22px 45px rgba(0, 15, 60, 0.6);
+  z-index: 8;
+  border-color: var(--yellow);
+}
+
+.g img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.g:hover img {
+  transform: scale(1.1);
+}
+
+.g.t {
+  grid-row: span 2;
+}
+
+.g-caption {
+  position: absolute;
+  inset: auto 0 0 0;
+  background: linear-gradient(0deg, rgba(0, 15, 60, 0.95) 0%, rgba(0, 15, 60, 0.7) 60%, transparent 100%);
+  padding: 24px 18px 14px;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: left;
+}
+
+.g:hover .g-caption {
+  transform: translateY(0);
+}
+
+.g-caption h4 {
+  font-size: 20px;
+  color: var(--yellow);
+  line-height: 1;
+}
+
+.g-caption p {
+  font-size: 12px;
+  margin: 0;
+  opacity: 0.9;
+  color: #fff;
+}
+
+.g-badge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  background: rgba(0, 10, 50, 0.75);
+  backdrop-filter: blur(4px);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 4px 10px;
+  border-radius: 99px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  z-index: 2;
+}
+
+.g-like-btn {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: rgba(255, 255, 255, 0.85);
+  color: var(--accent-pink);
+  border: none;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 16px;
+  transition: transform 0.2s;
+  z-index: 3;
+}
+
+.g-like-btn:hover {
+  transform: scale(1.2);
+}
+
+/* Featured Reels Section */
+.reels-section {
+  background: var(--dark-navy);
+  border-top: 3px solid rgba(255, 255, 255, 0.15);
+  border-bottom: 3px solid rgba(255, 255, 255, 0.15);
+}
+
+.reels-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+
+.reel-card {
+  background: #000;
+  border: 8px solid var(--white);
+  border-radius: 32px;
+  height: 480px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 18px 45px rgba(0, 10, 50, 0.6);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s;
+  cursor: pointer;
+}
+
+.reel-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 28px 60px rgba(0, 0, 0, 0.8);
+  border-color: var(--yellow);
+}
+
+.reel-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.reel-play-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 64px;
+  height: 64px;
+  background: rgba(255, 214, 10, 0.9);
+  border: 3px solid #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--navy);
+  font-size: 26px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  transition: transform 0.25s ease;
+}
+
+.reel-card:hover .reel-play-icon {
+  transform: translate(-50%, -50%) scale(1.18);
+  background: #fff;
+  color: var(--accent-pink);
+}
+
+.reel-overlay {
+  position: absolute;
+  inset: auto 0 0 0;
+  background: linear-gradient(0deg, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.6) 65%, transparent 100%);
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.reel-overlay .reel-tag {
+  color: var(--accent-cyan);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.reel-overlay h3 {
+  font-size: 24px;
+  line-height: 1;
+  color: var(--white);
+}
+
+.reel-stats {
+  display: flex;
+  gap: 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #ccc;
+  margin-top: 4px;
+}
+
+.reel-stats span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Gear Locker Section */
+.gear-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.gear-box {
+  background: rgba(0, 45, 170, 0.35);
+  border: 2px dashed rgba(255, 255, 255, 0.3);
+  border-radius: 20px;
+  padding: 24px 20px;
+  text-align: center;
+  transition: all 0.25s ease;
+}
+
+.gear-box:hover {
+  background: rgba(0, 45, 170, 0.7);
+  border-color: var(--yellow);
+  transform: translateY(-5px);
+}
+
+.gear-box .gear-icon {
+  font-size: 38px;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.gear-box h4 {
+  font-size: 22px;
+  color: var(--yellow);
+  margin-bottom: 6px;
+}
+
+.gear-box p {
+  font-size: 13px;
+  color: #c9dbff;
+  margin: 0;
+}
+
+/* Team Section */
+.team {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 36px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.tm {
+  text-align: center;
+}
+
+.tm .fr {
+  position: relative;
+  width: 100%;
+  height: 350px;
+  margin-bottom: 18px;
+  display: block;
+}
+
+.tm:nth-child(1) .fr { transform: rotate(-3deg); }
+.tm:nth-child(2) .fr { transform: rotate(3deg); }
+.tm:nth-child(3) .fr { transform: rotate(-2deg); }
+
+.tm h3 {
+  font-size: 42px;
+  margin-top: 8px;
+  margin-bottom: 4px;
+  color: var(--white);
+}
+
+.tm .tm-role {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--yellow);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.tm .tm-branch {
+  font-size: 12px;
+  color: #c0d4ff;
+}
+
+.tm-socials {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.tm-socials a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  color: var(--white);
+  font-size: 14px;
+  transition: 0.2s;
+}
+
+.tm-socials a:hover {
+  background: var(--yellow);
+  color: var(--navy);
+  transform: translateY(-2px);
+}
+
+/* Join the Squad / Auditions Section */
+.join {
+  background: var(--navy);
+  text-align: center;
+  overflow: hidden;
+  position: relative;
+  border-top: 3px solid rgba(255, 255, 255, 0.15);
+}
+
+.join .c1 {
+  opacity: 0.8;
+  right: -80px;
+  top: -80px;
+}
+
+.join p {
+  max-width: 600px;
+  margin: 0 auto 28px;
+  font-size: 17px;
+  color: #dce7ff;
+}
+
+.roles {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 34px;
+  max-width: 780px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.role-pill {
+  background: rgba(255, 255, 255, 0.12);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  padding: 10px 20px;
+  border-radius: 99px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.role-pill:hover {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: #fff;
+  transform: translateY(-2px);
+}
+
+.role-pill.selected {
+  background: var(--yellow);
+  color: var(--navy);
+  border-color: var(--yellow);
+  font-weight: 800;
+  transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(255, 214, 10, 0.4);
+}
+
+/* Application Form Container */
+.app-form-box {
+  background: rgba(0, 20, 80, 0.6);
+  border: 3px solid var(--white);
+  border-radius: 30px;
+  padding: 40px;
+  max-width: 680px;
+  margin: 0 auto;
+  text-align: left;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+  backdrop-filter: blur(10px);
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group.full {
+  grid-column: span 2;
+}
+
+.form-group label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--yellow);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.form-control {
+  background: rgba(255, 255, 255, 0.08);
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  border-radius: 12px;
+  padding: 12px 16px;
+  color: #fff;
+  font-family: inherit;
+  font-size: 14.5px;
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.form-control:focus {
+  border-color: var(--yellow);
+  background: rgba(255, 255, 255, 0.16);
+  box-shadow: 0 0 0 3px rgba(255, 214, 10, 0.25);
+}
+
+.form-control::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Shoutout / Wall of Memories */
+.shoutouts-section {
+  background: rgba(0, 25, 95, 0.8);
+  border-top: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.shoutout-form-row {
+  display: flex;
+  gap: 12px;
+  max-width: 640px;
+  margin: 0 auto 36px;
+}
+
+.shoutout-wall {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.shout-card {
+  background: var(--white);
+  color: var(--navy);
+  border-radius: 20px;
+  padding: 22px;
+  position: relative;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+  transform: rotate(-1.5deg);
+  transition: transform 0.25s ease;
+}
+
+.shout-card:nth-child(even) {
+  transform: rotate(1.5deg);
+}
+
+.shout-card:hover {
+  transform: translateY(-5px) rotate(0deg) scale(1.02);
+  z-index: 5;
+}
+
+.shout-pin {
+  width: 14px;
+  height: 14px;
+  background: var(--accent-pink);
+  border-radius: 50%;
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+
+.shout-card p {
+  font-style: italic;
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 10px 0 12px;
+  color: #222;
+}
+
+.shout-card .shout-author {
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--blue);
+  display: block;
+}
+
+.shout-card .shout-time {
+  font-size: 11px;
+  color: #777;
+}
+
+/* Footer */
+footer {
+  background: var(--dark-navy);
+  padding: 60px 0 100px;
+  text-align: center;
+  border-top: 4px solid var(--yellow);
+  position: relative;
+}
+
+footer .footer-logo {
+  height: 80px;
+  width: auto;
+  margin: 0 auto 16px;
+  filter: drop-shadow(0 6px 15px rgba(0,0,0,0.3));
+}
+
+footer p {
+  margin: 6px 0;
+  color: #d0e0ff;
+}
+
+footer .college-tag {
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.soc {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin: 22px 0 26px;
+}
+
+.soc a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1.5px solid rgba(255, 255, 255, 0.25);
+  border-radius: 50%;
+  color: var(--yellow);
+  font-size: 18px;
+  transition: all 0.2s ease;
+}
+
+.soc a:hover {
+  background: var(--yellow);
+  color: var(--navy);
+  transform: translateY(-4px) scale(1.1);
+  box-shadow: 0 8px 20px rgba(255, 214, 10, 0.4);
+}
+
+.footer-copy {
+  font-size: 12px;
+  opacity: 0.7;
+  margin-top: 24px;
+}
+
+/* Reveal Animations */
+.rv {
+  opacity: 0;
+  transform: translateY(34px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.rv.in {
+  opacity: 1;
+  transform: none;
+}
+
+/* Flash Transition Effect on Load */
+#fl {
+  position: fixed;
+  inset: 0;
+  background: #fff;
+  z-index: 120;
+  pointer-events: none;
+  animation: fx 0.6s ease-out forwards;
+}
+
+@keyframes fx {
+  0% { opacity: 1; }
+  100% { opacity: 0; visibility: hidden; }
+}
+
+/* Lightbox Modal */
+#lb {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 10, 60, 0.94);
+  backdrop-filter: blur(10px);
+  display: none;
+  place-items: center;
+  z-index: 100;
+  padding: 30px 20px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+#lb.on {
+  display: grid;
+  opacity: 1;
+}
+
+.lb-content {
+  position: relative;
+  max-width: 900px;
+  width: 100%;
+  text-align: center;
+  animation: lbPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes lbPop {
+  0% { transform: scale(0.9); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+#lb img {
+  max-height: 75vh;
+  max-width: 100%;
+  margin: 0 auto;
+  border: 8px solid var(--white);
+  border-radius: 24px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+  object-fit: contain;
+}
+
+.lb-caption {
+  margin-top: 16px;
+}
+
+.lb-caption h3 {
+  font-size: 32px;
+  color: var(--yellow);
+  margin-bottom: 4px;
+}
+
+.lb-caption p {
+  margin: 0;
+  font-size: 14px;
+  color: #ccc;
+}
+
+.lb-close {
+  position: absolute;
+  top: -20px;
+  right: -10px;
+  background: var(--yellow);
+  border: 3px solid #fff;
+  color: var(--navy);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  font-size: 24px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+  transition: transform 0.2s;
+}
+
+.lb-close:hover {
+  transform: scale(1.15) rotate(90deg);
+  background: var(--accent-pink);
+  color: #fff;
+}
+
+.lb-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.2);
+  border: 2px solid #fff;
+  color: #fff;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.lb-nav:hover {
+  background: var(--yellow);
+  color: var(--navy);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.lb-prev { left: -20px; }
+.lb-next { right: -20px; }
+
+/* Camera Flash Animation (for sound effect feedback) */
+.camera-flash {
+  position: fixed;
+  inset: 0;
+  background: #ffffff;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 110;
+}
+
+.flash-active {
+  animation: singleFlash 0.35s ease-out;
+}
+
+@keyframes singleFlash {
+  0% { opacity: 0.85; }
+  100% { opacity: 0; }
+}
+
+/* Toast Notification */
+.toast {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background: var(--white);
+  color: var(--navy);
+  padding: 14px 24px;
+  border-radius: 16px;
+  font-weight: 700;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  border-left: 6px solid var(--yellow);
+  transform: translateY(120px);
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.toast.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Responsive Media Queries */
+@media (max-width: 960px) {
+  .hero .wrap, .about {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .cards {
+    grid-template-columns: 1fr 1fr;
+  }
+  .grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .reels-grid {
+    grid-template-columns: 1fr;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  .gear-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .shoutout-wall {
+    grid-template-columns: 1fr 1fr;
+  }
+  .pic {
+    height: 440px;
+  }
+  .links {
+    display: none;
+    position: absolute;
+    top: 76px;
+    left: 0;
+    right: 0;
+    background: var(--navy);
+    flex-direction: column;
+    padding: 24px 20px;
+    gap: 18px;
+    border-bottom: 3px solid var(--yellow);
+    box-shadow: 0 15px 35px rgba(0, 10, 50, 0.6);
+  }
+  .links.on {
+    display: flex;
+  }
+  #menu {
+    display: block;
+  }
+  .lb-prev { left: 10px; }
+  .lb-next { right: 10px; }
+  .lb-close { top: 10px; right: 10px; }
+}
+
+@media (max-width: 640px) {
+  .cards, .grid, .about-features, .shoutout-wall, .gear-grid {
+    grid-template-columns: 1fr;
+  }
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+  .form-group.full {
+    grid-column: span 1;
+  }
+  .shoutout-form-row {
+    flex-direction: column;
+  }
+  .f1, .f2 {
+    width: 220px;
+    height: 290px;
+  }
+  .f1 { left: 2%; top: 10px; }
+  .f2 { right: 2%; top: 110px; }
+  section {
+    padding: 68px 0;
+  }
+  .hero {
+    padding-top: 40px;
+  }
+  .app-form-box {
+    padding: 24px 18px;
+  }
+  .stat {
+    padding: 16px 20px;
+  }
+  .stat b {
+    font-size: 46px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  .rv {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Initial Camera Flash Transition -->
+<div id="fl"></div>
+
+<!-- Camera Shutter Flash Effect Container -->
+<div id="cameraFlash" class="camera-flash"></div>
+
+<!-- Top Live Campus Marquee -->
+<div class="marq">
+  <div class="marq-track" id="mq">
+    <span><i class="dot-sep"></i>🔴 ECHO.TGPCOP CAMPUS MEDIA</span>
+    <span><i class="dot-sep"></i>📸 FRESH REELS DROPPED FOR NATIONAL PHARMACY WEEK</span>
+    <span><i class="dot-sep"></i>🎬 CINEMATIC AFTERMOVIES & CANDIDS</span>
+    <span><i class="dot-sep"></i>⚡ CREW AUDITIONS OPEN FOR BATCH 2026-27</span>
+    <span><i class="dot-sep"></i>🏆 CAPTURING CAMPUS • CREATING MEMORIES</span>
+    <span><i class="dot-sep"></i>📩 DM US FOR EVENT COVERAGE & PORTFOLIO SHOOTS</span>
+    <!-- Repeat for seamless infinite loop -->
+    <span><i class="dot-sep"></i>🔴 ECHO.TGPCOP CAMPUS MEDIA</span>
+    <span><i class="dot-sep"></i>📸 FRESH REELS DROPPED FOR NATIONAL PHARMACY WEEK</span>
+    <span><i class="dot-sep"></i>🎬 CINEMATIC AFTERMOVIES & CANDIDS</span>
+    <span><i class="dot-sep"></i>⚡ CREW AUDITIONS OPEN FOR BATCH 2026-27</span>
+    <span><i class="dot-sep"></i>🏆 CAPTURING CAMPUS • CREATING MEMORIES</span>
+    <span><i class="dot-sep"></i>📩 DM US FOR EVENT COVERAGE & PORTFOLIO SHOOTS</span>
+  </div>
+</div>
+
+<!-- Sticky Navbar -->
+<nav id="navbar">
+  <div class="wrap">
+    <a href="#home" class="brand-link" title="Echo TGPCOP Home">
+      <!-- High-resolution bespoke SVG brand mark -->
+      <svg class="brand-logo-svg" viewBox="0 0 160 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="2" y="2" width="48" height="48" rx="14" fill="#FFD60A" stroke="#FFFFFF" stroke-width="3"/>
+        <!-- Aperture / Camera Lens icon -->
+        <circle cx="26" cy="26" r="14" fill="#004BFE"/>
+        <circle cx="26" cy="26" r="6" fill="#FFD60A"/>
+        <path d="M26 12L31 20M38 22L33 30M32 38L24 35M18 34L20 25M18 20L26 21" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+        <!-- Brand Wordmark -->
+        <text x="58" y="30" font-family="'Bebas Neue', Impact, sans-serif" font-size="34" fill="#FFFFFF" letter-spacing="1.5">ECHO</text>
+        <text x="58" y="44" font-family="'Poppins', sans-serif" font-weight="800" font-size="10.5" fill="#FFD60A" letter-spacing="2">TGPCOP MEDIA</text>
+      </svg>
+    </a>
+
+    <div class="nav-right">
+      <div class="links" id="navLinks">
+        <a href="#about">About</a>
+        <a href="#services">Pillars</a>
+        <a href="#gallery">Moments</a>
+        <a href="#reels">Reels</a>
+        <a href="#gear">Gear</a>
+        <a href="#team">Squad</a>
+        <a href="#shoutouts">Wall</a>
+        <a href="#join" class="btn" style="padding: 8px 20px; font-size: 13px;">Join Squad</a>
+      </div>
+
+      <!-- Shutter Sound FX Toggle -->
+      <button class="btn-icon-sound" id="soundBtn" title="Toggle Shutter Sound FX" aria-label="Toggle Camera Sound">
+        <span id="soundIcon">🔊</span>
+      </button>
+
+      <button id="menu" aria-label="Toggle navigation menu">☰</button>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero Section -->
+<header class="hero" id="home">
+  <div class="wrap">
+    <div class="hero-content rv">
+      <div class="hero-badge">
+        <span class="pulse-dot"></span>
+        OFFICIAL MEDIA & CREATIVE CELL • TGPCOP
+      </div>
+
+      <h1>
+        <span class="gradient-text">CAPTURING</span><br>
+        <span class="y">CAMPUS.</span><br>
+        <span class="gradient-text">CREATING</span><br>
+        <span class="y">MEMORIES.</span>
+      </h1>
+
+      <p>
+        The official visual heartbeat of <strong>Tulsiramji Gaikwad-Patil College of Pharmacy</strong>. We freeze high-octane fests, raw backstage laughs, pharmacist rallies, and unforgettable college milestones into cinematic history.
+      </p>
+
+      <div class="cta">
+        <a href="#gallery" class="btn">
+          <span>📸 Explore Visuals</span>
+        </a>
+        <a href="#join" class="btn o">
+          <span>⚡ Join The Crew</span>
+        </a>
+        <button id="snapHeroBtn" class="btn o" style="border-style: dashed; padding: 12px 20px;" title="Take a test photo snap!">
+          <span>📷 Snap Photo</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Floating Interactive Photo Collage -->
+    <div class="pic rv">
+      <div class="circ c1"></div>
+      <div class="circ c2"></div>
+
+      <!-- Fun Graphic Stickers -->
+      <div class="sticker stk-1">100% RAW VIBES 🔥</div>
+      <div class="sticker stk-2">4K 60FPS 🎬</div>
+
+      <!-- Frame 1 -->
+      <div class="fr f1" data-img-idx="0" title="Click to enlarge">
+        <img src="https://images.unsplash.com/photo-1511578314322-379afb476865?q=80&w=800&auto=format&fit=crop" alt="Campus Fest Lights & Stage" loading="eager">
+      </div>
+
+      <!-- Frame 2 -->
+      <div class="fr f2" data-img-idx="1" title="Click to enlarge">
+        <img src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?q=80&w=800&auto=format&fit=crop" alt="College Students Celebrating" loading="eager">
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Wave Ribbon Divider -->
+<svg class="rib" viewBox="0 0 1440 60" preserveAspectRatio="none">
+  <path d="M0,0 C320,50 640,-20 960,35 C1200,65 1360,10 1440,25 L1440,60 L0,60 Z" fill="#002DAA"></path>
+</svg>
+
+<!-- About Section -->
+<section id="about" style="background: var(--navy);">
+  <div class="wrap">
+    <div class="about">
+      <div class="about-text rv">
+        <span class="pill">Who We Are</span>
+        <h2>WE ARE THE LENS BEHIND THE LEGACY</h2>
+        <p>
+          Founded by passionate student storytellers at <strong>Tulsiramji Gaikwad-Patil College of Pharmacy (TGPCOP), Nagpur</strong>, Echo is more than just a media club—it is our campus diary.
+        </p>
+        <p>
+          From the intense spirit of National Pharmacy Week to heart-stopping cultural dance battles, sports leagues, research symposiums, and emotional farewells, our team works relentlessly behind the viewfinders, gimbals, and editing suites.
+        </p>
+
+        <div class="about-features">
+          <div class="feat-item">
+            <i>⚡</i> High-Speed Event Coverage
+          </div>
+          <div class="feat-item">
+            <i>🎬</i> Viral Instagram Reels
+          </div>
+          <div class="feat-item">
+            <i>🎨</i> Next-Gen Creative Graphics
+          </div>
+          <div class="feat-item">
+            <i>🎙️</i> Campus Vox-Pops & Buzz
+          </div>
+        </div>
+      </div>
+
+      <!-- Live Campus Statistics Counter -->
+      <div class="stats rv">
+        <div class="stat">
+          <b class="counter" data-target="58">0</b>
+          <div class="stat-info">
+            <span>Campus Events Covered</span>
+            <small>Fests, Sports, NPW & Convocations</small>
+          </div>
+        </div>
+
+        <div class="stat">
+          <b class="counter" data-target="180">0</b>
+          <div class="stat-info">
+            <span>Reels & Cinematic Recaps</span>
+            <small>Over 1.5 Million+ Total Views</small>
+          </div>
+        </div>
+
+        <div class="stat">
+          <b class="counter" data-target="36">0</b>
+          <div class="stat-info">
+            <span>Active Student Creators</span>
+            <small>Photographers, Editors, Designers</small>
+          </div>
+        </div>
+
+        <div class="stat">
+          <b class="counter" data-target="100">0</b>
+          <div class="stat-info">
+            <span>% Pure Campus Hype</span>
+            <small>Memories Captured For Life</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Wave Ribbon Divider -->
+<svg class="rib" viewBox="0 0 1440 60" preserveAspectRatio="none" style="transform: rotate(180deg); fill: var(--navy);">
+  <path d="M0,0 C320,50 640,-20 960,35 C1200,65 1360,10 1440,25 L1440,60 L0,60 Z" fill="#004BFE"></path>
+</svg>
+
+<!-- What We Do / Creative Pillars Section -->
+<section id="services" class="services-section">
+  <div class="wrap">
+    <div class="section-head rv">
+      <span class="pill">What We Do</span>
+      <h2>FOUR PILLARS OF CAMPUS MEDIA</h2>
+      <p>We blend storytelling, art, and cutting-edge digital production to make every TGPCOP moment look straight out of a festival billboard.</p>
+    </div>
+
+    <div class="cards">
+      <!-- Card 1 -->
+      <div class="card rv" data-tilt>
+        <i>📸</i>
+        <h3>STILL PHOTOGRAPHY</h3>
+        <p>From crisp stage photography with telephoto lenses to raw backstage candid laughs and portrait shoots for graduation batches.</p>
+        <span class="tag">SONY ALPHA • CANDIDS • 4K</span>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="card rv" data-tilt>
+        <i>🎬</i>
+        <h3>REELS & AFTERMOVIES</h3>
+        <p>High-energy cuts synced to trending audio beats, cinematic color grading, hyperlapses, and drone aerials that set social feeds ablaze.</p>
+        <span class="tag">60FPS • PREMIERE • DAVINCI</span>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="card rv" data-tilt>
+        <i>🎨</i>
+        <h3>CREATIVES & BRANDING</h3>
+        <p>Bold typography, eye-catching event posters, digital passes, ID designs, merchandise mockups, and cohesive social media aesthetics.</p>
+        <span class="tag">PHOTOSHOP • ILLUSTRATOR</span>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="card rv" data-tilt>
+        <i>🎤</i>
+        <h3>PR & VOX-POPS</h3>
+        <p>Microphone in hand, roaming the campus corridors to capture genuine student reactions, professor interviews, and campus trend banter.</p>
+        <span class="tag">RODE WIRELESS • RED CARPET</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Visual Feed / Interactive Gallery Section -->
+<section id="gallery" class="gallery-section">
+  <div class="wrap">
+    <div class="section-head rv">
+      <span class="pill">Visual Archive</span>
+      <h2>CAMPUS IN FRAMES</h2>
+      <p>Click on any photo to open the interactive high-resolution viewer. Hit the heart icon to vote for your favorite shot!</p>
+    </div>
+
+    <!-- Filter Buttons -->
+    <div class="filter-bar rv">
+      <button class="filter-btn active" data-filter="all">All Moments</button>
+      <button class="filter-btn" data-filter="fest">Fests & Culture</button>
+      <button class="filter-btn" data-filter="pharma">Pharmacy Week</button>
+      <button class="filter-btn" data-filter="life">Campus Life</button>
+      <button class="filter-btn" data-filter="portraits">Portraits</button>
+    </div>
+
+    <!-- Gallery Grid -->
+    <div class="grid" id="galleryGrid">
+      <!-- Item 1 (Tall span 2) -->
+      <div class="g t rv" data-cat="fest" data-full="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=1200&auto=format&fit=crop" data-title="Annual Cultural Night 2026" data-sub="Grand stage lights, student choir & rock band performances">
+        <span class="g-badge">Culture</span>
+        <button class="g-like-btn" title="Like photo">♥</button>
+        <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=600&auto=format&fit=crop" alt="Annual Cultural Fest">
+        <div class="g-caption">
+          <h4>ANNUAL CULTURAL NIGHT</h4>
+          <p>The electrifying finale of Spandan Youth Fest.</p>
+        </div>
+      </div>
+
+      <!-- Item 2 -->
+      <div class="g rv" data-cat="pharma" data-full="https://images.unsplash.com/photo-1579165466791-788189255670?q=80&w=1200&auto=format&fit=crop" data-title="National Pharmacy Week Rally" data-sub="Pharmacists for a healthier world - student awareness rally">
+        <span class="g-badge">NPW Event</span>
+        <button class="g-like-btn" title="Like photo">♥</button>
+        <img src="https://images.unsplash.com/photo-1579165466791-788189255670?q=80&w=600&auto=format&fit=crop" alt="Pharmacy Research & Lab">
+        <div class="g-caption">
+          <h4>PHARMACY EXPO & LABS</h4>
+          <p>Scientific symposiums and drug delivery demonstrations.</p>
+        </div>
+      </div>
+
+      <!-- Item 3 -->
+      <div class="g rv" data-cat="life" data-full="https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=1200&auto=format&fit=crop" data-title="Corridor Laughs & Discussions" data-sub="Candid student life between lectures at TGPCOP">
+        <span class="g-badge">Campus Life</span>
+        <button class="g-like-btn" title="Like photo">♥</button>
+        <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=600&auto=format&fit=crop" alt="Students Studying Together">
+        <div class="g-caption">
+          <h4>CORRIDOR CHRONICLES</h4>
+          <p>Friendships brewed between semester practicals.</p>
+        </div>
+      </div>
+
+      <!-- Item 4 (Tall span 2) -->
+      <div class="g t rv" data-cat="portraits" data-full="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1200&auto=format&fit=crop" data-title="Graduation Batch Spotlight" data-sub="B.Pharm Final Year farewell shoot">
+        <span class="g-badge">Portrait</span>
+        <button class="g-like-btn" title="Like photo">♥</button>
+        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=600&auto=format&fit=crop" alt="Graduation Portrait">
+        <div class="g-caption">
+          <h4>CLASS OF 2026</h4>
+          <p>Proud future pharmacists stepping into tomorrow.</p>
+        </div>
+      </div>
+
+      <!-- Item 5 -->
+      <div class="g rv" data-cat="fest" data-full="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=1200&auto=format&fit=crop" data-title="DJ Night & Crowd Flare" data-sub="High-tempo celebration during fresher's bash">
+        <span class="g-badge">DJ Night</span>
+        <button class="g-like-btn" title="Like photo">♥</button>
+        <img src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=600&auto=format&fit=crop" alt="DJ Concert Crowd">
+        <div class="g-caption">
+          <h4>BASS IN THE AIR</h4>
+          <p>Unfiltered excitement when the drop hits.</p>
+        </div>
+      </div>
+
+      <!-- Item 6 -->
+      <div class="g rv" data-cat="life" data-full="https://images.unsplash.com/photo-1562774053-701939374585?q=80&w=1200&auto=format&fit=crop" data-title="TGPCOP Campus Greenery" data-sub="Golden hour on the college premises">
+        <span class="g-badge">Campus</span>
+        <button class="g-like-btn" title="Like photo">♥</button>
+        <img src="https://images.unsplash.com/photo-1562774053-701939374585?q=80&w=600&auto=format&fit=crop" alt="College Campus Architecture">
+        <div class="g-caption">
+          <h4>CAMPUS ARCHITECTURE</h4>
+          <p>Wardha Road, Mohgaon, Nagpur beauty.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Featured Reels Section -->
+<section id="reels" class="reels-section">
+  <div class="wrap">
+    <div class="section-head rv">
+      <span class="pill" style="background: var(--accent-pink); color: #fff;">Trending Now</span>
+      <h2>VIRAL CAMPUS REELS</h2>
+      <p>Watch how our creators turn everyday college moments into dynamic, punchy vertical storytelling.</p>
+    </div>
+
+    <div class="reels-grid">
+      <!-- Reel 1 -->
+      <div class="reel-card rv" onclick="openReelModal('Pharmacy Week 2026 Official Teaser', 'Over 85K views in 48 hours across Instagram!')">
+        <img src="https://images.unsplash.com/photo-1501386761578-eac5c94b800a?q=80&w=600&auto=format&fit=crop" alt="Reel Preview 1">
+        <div class="reel-play-icon">▶</div>
+        <div class="reel-overlay">
+          <span class="reel-tag">⚡ Official Teaser</span>
+          <h3>PHARMACY WEEK '26: RECHARGED</h3>
+          <div class="reel-stats">
+            <span>👁️ 85.4K</span>
+            <span>❤️ 12.8K</span>
+            <span>🎵 Echo Original Audio</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Reel 2 -->
+      <div class="reel-card rv" onclick="openReelModal('When The Viva Examiner Asks Formula', 'Campus comedy sketch that resonated with every pharmacy student!')">
+        <img src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?q=80&w=600&auto=format&fit=crop" alt="Reel Preview 2">
+        <div class="reel-play-icon">▶</div>
+        <div class="reel-overlay">
+          <span class="reel-tag">😂 Campus Humor</span>
+          <h3>POV: ORGANIC CHEMISTRY VIVA</h3>
+          <div class="reel-stats">
+            <span>👁️ 112K</span>
+            <span>❤️ 24.1K</span>
+            <span>💬 840+ Comments</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Reel 3 -->
+      <div class="reel-card rv" onclick="openReelModal('Annual Sports Meet 2026 Recap', 'Adrenaline-packed cinematic montage of cricket, badminton, and relay races.')">
+        <img src="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?q=80&w=600&auto=format&fit=crop" alt="Reel Preview 3">
+        <div class="reel-play-icon">▶</div>
+        <div class="reel-overlay">
+          <span class="reel-tag">🏆 Sports Meet</span>
+          <h3>IGNITE 2026: THE CHAMPIONS</h3>
+          <div class="reel-stats">
+            <span>👁️ 64.9K</span>
+            <span>❤️ 9.4K</span>
+            <span>⚡ High Shutter Speed</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Gear Locker Section -->
+<section id="gear" style="background: rgba(0, 20, 85, 0.95);">
+  <div class="wrap">
+    <div class="section-head rv">
+      <span class="pill">Behind The Lens</span>
+      <h2>THE GEAR LOCKER</h2>
+      <p>Precision cinema tools and gear that elevate Echo productions above ordinary smartphone clips.</p>
+    </div>
+
+    <div class="gear-grid rv">
+      <div class="gear-box">
+        <span class="gear-icon">📷</span>
+        <h4>SONY ALPHA MIRRORLESS</h4>
+        <p>Full-frame low light monsters pushing 4K 10-bit 4:2:2 video at 120fps.</p>
+      </div>
+
+      <div class="gear-box">
+        <span class="gear-icon">🔭</span>
+        <h4>G-MASTER GLASS</h4>
+        <p>Ultra-sharp 24-70mm f/2.8 & 85mm f/1.4 primes for buttery bokeh portraits.</p>
+      </div>
+
+      <div class="gear-box">
+        <span class="gear-icon">🛸</span>
+        <h4>DJI GIMBALS & DRONES</h4>
+        <p>3-axis motorized stability and sweeping aerial perspectives of the campus.</p>
+      </div>
+
+      <div class="gear-box">
+        <span class="gear-icon">🎙️</span>
+        <h4>RODE AUDIO ECOSYSTEM</h4>
+        <p>Dual-channel wireless mics capturing crisp student vox-pops and keynote speeches.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Meet The Core Team / Squad Section -->
+<section id="team" style="background: var(--blue);">
+  <div class="wrap">
+    <div class="section-head rv">
+      <span class="pill">The Creators</span>
+      <h2>MEET THE CORE SQUAD</h2>
+      <p>The student directors, visionaries, and shutterbugs steering the ship for academic year 2026-27.</p>
+    </div>
+
+    <div class="team">
+      <!-- Member 1 -->
+      <div class="tm rv">
+        <div class="fr">
+          <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=600&auto=format&fit=crop" alt="Media Lead">
+        </div>
+        <h3>ROHAN SHARMA</h3>
+        <div class="tm-role">PRESIDENT & LEAD DIRECTOR</div>
+        <div class="tm-branch">B.Pharm • Final Year</div>
+        <div class="tm-socials">
+          <a href="#team" title="Instagram">📸</a>
+          <a href="#team" title="Portfolio">🌐</a>
+          <a href="#team" title="LinkedIn">💼</a>
+        </div>
+      </div>
+
+      <!-- Member 2 -->
+      <div class="tm rv">
+        <div class="fr">
+          <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=600&auto=format&fit=crop" alt="Creative Lead">
+        </div>
+        <h3>ANANYA PATIL</h3>
+        <div class="tm-role">HEAD OF CREATIVES & REELS</div>
+        <div class="tm-branch">B.Pharm • 3rd Year</div>
+        <div class="tm-socials">
+          <a href="#team" title="Instagram">📸</a>
+          <a href="#team" title="Portfolio">🌐</a>
+          <a href="#team" title="LinkedIn">💼</a>
+        </div>
+      </div>
+
+      <!-- Member 3 -->
+      <div class="tm rv">
+        <div class="fr">
+          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=600&auto=format&fit=crop" alt="Lead Cinematographer">
+        </div>
+        <h3>SAHIL DESHMUKH</h3>
+        <div class="tm-role">CHIEF CINEMATOGRAPHER</div>
+        <div class="tm-branch">B.Pharm • 3rd Year</div>
+        <div class="tm-socials">
+          <a href="#team" title="Instagram">📸</a>
+          <a href="#team" title="Portfolio">🌐</a>
+          <a href="#team" title="LinkedIn">💼</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Student Memory Wall / Shoutouts -->
+<section id="shoutouts" class="shoutouts-section">
+  <div class="wrap">
+    <div class="section-head rv">
+      <span class="pill">Student Voice</span>
+      <h2>CAMPUS MEMORY WALL</h2>
+      <p>Leave a quick shoutout, drop love for our recent reels, or ask Echo to cover your class batch!</p>
+    </div>
+
+    <!-- Interactive Shoutout Input -->
+    <div class="shoutout-form-row rv">
+      <input type="text" id="shoutName" class="form-control" placeholder="Your Name & Batch (e.g., Priya - 2nd Year)" style="flex: 1;">
+      <input type="text" id="shoutMsg" class="form-control" placeholder="Your Message or Shoutout..." style="flex: 2;">
+      <button class="btn" id="postShoutBtn" style="white-space: nowrap;">📌 Post</button>
+    </div>
+
+    <!-- Wall Container -->
+    <div class="shoutout-wall" id="shoutWall">
+      <div class="shout-card rv">
+        <span class="shout-pin"></span>
+        <p>"Echo's Pharmacy Week aftermovie brought tears to our eyes. Best visual team Nagpur has seen!"</p>
+        <span class="shout-author">— Tanmay G. (Batch '25)</span>
+        <span class="shout-time">2 days ago</span>
+      </div>
+
+      <div class="shout-card rv">
+        <span class="shout-pin" style="background: var(--yellow);"></span>
+        <p>"Please cover our final year pharmacy farewell next month! Your portrait shoots are top tier!"</p>
+        <span class="shout-author">— Sneha & Gang (B.Pharm 4th Year)</span>
+        <span class="shout-time">Yesterday</span>
+      </div>
+
+      <div class="shout-card rv">
+        <span class="shout-pin" style="background: var(--accent-cyan);"></span>
+        <p>"The drone shot over the college campus during sports meet was cinematic excellence 🔥"</p>
+        <span class="shout-author">— Prof. K. Verma</span>
+        <span class="shout-time">3 hours ago</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Join The Squad / Auditions Section -->
+<section id="join" class="join">
+  <div class="circ c1"></div>
+  <div class="wrap">
+    <div class="section-head rv">
+      <span class="pill">Auditions 2026-27</span>
+      <h2>JOIN THE ECHO SQUAD</h2>
+      <p>
+        Got a knack for framing shots, editing reels, writing scripts, or designing posters? We're recruiting fresh talent across all batches of TGPCOP.
+      </p>
+    </div>
+
+    <!-- Role Selection Pills -->
+    <div class="roles rv" id="rolePills">
+      <div class="role-pill selected" data-role="Photography">📸 Photography</div>
+      <div class="role-pill" data-role="Reel Editing">🎬 Reel Editing & VFX</div>
+      <div class="role-pill" data-role="Graphic Design">🎨 Graphic Design</div>
+      <div class="role-pill" data-role="Anchor / Host">🎤 Anchoring & PR</div>
+      <div class="role-pill" data-role="Scriptwriting">✍️ Script & Content</div>
+      <div class="role-pill" data-role="Social Media">📱 Social Media Handler</div>
+    </div>
+
+    <!-- Application Form -->
+    <div class="app-form-box rv">
+      <form id="auditionForm">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="appName">Full Name *</label>
+            <input type="text" id="appName" class="form-control" placeholder="e.g. Aayush Mehta" required>
+          </div>
+
+          <div class="form-group">
+            <label for="appPhone">WhatsApp / Mobile *</label>
+            <input type="tel" id="appPhone" class="form-control" placeholder="e.g. +91 98765 43210" required>
+          </div>
+
+          <div class="form-group">
+            <label for="appBatch">Batch / Course *</label>
+            <select id="appBatch" class="form-control" required style="cursor: pointer;">
+              <option value="" disabled selected>Select Your Course & Year</option>
+              <option value="B.Pharm 1st Year">B.Pharm - 1st Year (Fresher)</option>
+              <option value="B.Pharm 2nd Year">B.Pharm - 2nd Year</option>
+              <option value="B.Pharm 3rd Year">B.Pharm - 3rd Year</option>
+              <option value="B.Pharm Final Year">B.Pharm - Final Year</option>
+              <option value="M.Pharm">M.Pharm (Pharmaceutics/QA/Cology)</option>
+              <option value="D.Pharm">D.Pharm</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="appInsta">Instagram / Portfolio</label>
+            <input type="text" id="appInsta" class="form-control" placeholder="@yourhandle or Drive link">
+          </div>
+
+          <div class="form-group full">
+            <label for="appWhy">Why do you want to join Echo? *</label>
+            <textarea id="appWhy" rows="3" class="form-control" placeholder="Tell us about your gear, past experience, or what excites you about college media..." required></textarea>
+          </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 10px;">
+          <button type="submit" class="btn" style="width: min(340px, 100%); font-size: 16px;">
+            🚀 Submit Audition Form
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="wrap">
+    <!-- Brand SVG in Footer -->
+    <svg class="footer-logo" viewBox="0 0 160 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="2" y="2" width="48" height="48" rx="14" fill="#FFD60A" stroke="#FFFFFF" stroke-width="3"/>
+      <circle cx="26" cy="26" r="14" fill="#004BFE"/>
+      <circle cx="26" cy="26" r="6" fill="#FFD60A"/>
+      <path d="M26 12L31 20M38 22L33 30M32 38L24 35M18 34L20 25M18 20L26 21" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+      <text x="58" y="30" font-family="'Bebas Neue', Impact, sans-serif" font-size="34" fill="#FFFFFF" letter-spacing="1.5">ECHO</text>
+      <text x="58" y="44" font-family="'Poppins', sans-serif" font-weight="800" font-size="10.5" fill="#FFD60A" letter-spacing="2">TGPCOP MEDIA</text>
+    </svg>
+
+    <p class="college-tag">
+      TULSIRAMJI GAIKWAD-PATIL COLLEGE OF PHARMACY
+    </p>
+    <p style="font-size: 13px; color: #a5c2ff;">
+      Wardha Road, Mohgaon, Nagpur, Maharashtra 441108
+    </p>
+
+    <!-- Social Media Links -->
+    <div class="soc">
+      <a href="https://instagram.com" target="_blank" rel="noopener" title="Instagram">📸</a>
+      <a href="https://youtube.com" target="_blank" rel="noopener" title="YouTube">▶️</a>
+      <a href="https://linkedin.com" target="_blank" rel="noopener" title="LinkedIn">💼</a>
+      <a href="mailto:echo.tgpcop@gmail.com" title="Email Us">✉️</a>
+    </div>
+
+    <div style="margin-top: 18px;">
+      <a href="#home" class="btn o" style="padding: 6px 18px; font-size: 12px; border-radius: 99px;">
+        ⬆ Back To Top
+      </a>
+    </div>
+
+    <p class="footer-copy">
+      © 2026 Echo.TGPCOP • Campus Media & Creative Cell. All rights reserved.<br>
+      Designed & Powered with Pure Student Spirit.
+    </p>
+  </div>
+</footer>
+
+<!-- Fullscreen Lightbox Modal -->
+<div id="lb" role="dialog" aria-modal="true" aria-label="Photo Viewer">
+  <div class="lb-content">
+    <button class="lb-close" id="lbClose" title="Close (Esc)">✕</button>
+    <button class="lb-nav lb-prev" id="lbPrev" title="Previous photo (Left Arrow)">◀</button>
+    <button class="lb-nav lb-next" id="lbNext" title="Next photo (Right Arrow)">▶</button>
+    <img id="lbImg" src="" alt="Enlarged Campus Moment">
+    <div class="lb-caption">
+      <h3 id="lbTitle">Event Title</h3>
+      <p id="lbSub">Event Description</p>
+    </div>
+  </div>
+</div>
+
+<!-- Interactive Toast Alert -->
+<div class="toast" id="toastBox">
+  <span id="toastIcon">✨</span>
+  <span id="toastMsg">Action successful!</span>
+</div>
+
+<!-- Application JavaScript -->
+<script>
+/**
+ * ECHO.TGPCOP — Interactive Website Engine
+ */
+
+// Synthesized Web Audio API Camera Shutter Sound (Zero external file dependencies)
+let audioCtx = null;
+let soundEnabled = true;
+
+function initAudio() {
+  if (!audioCtx) {
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    if (AudioContext) {
+      audioCtx = new AudioContext();
+    }
+  }
+}
+
+function playShutterSound() {
+  if (!soundEnabled) return;
+  try {
+    initAudio();
+    if (!audioCtx) return;
+    if (audioCtx.state === 'suspended') {
+      audioCtx.resume();
+    }
+
+    // Camera click 1 (Mirror flip)
+    const osc1 = audioCtx.createOscillator();
+    const gain1 = audioCtx.createGain();
+    osc1.type = 'triangle';
+    osc1.frequency.setValueAtTime(320, audioCtx.currentTime);
+    osc1.frequency.exponentialRampToValueAtTime(80, audioCtx.currentTime + 0.05);
+
+    gain1.gain.setValueAtTime(0.3, audioCtx.currentTime);
+    gain1.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05);
+
+    osc1.connect(gain1);
+    gain1.connect(audioCtx.destination);
+    osc1.start();
+    osc1.stop(audioCtx.currentTime + 0.05);
+
+    // Camera click 2 (Shutter curtain snap)
+    setTimeout(() => {
+      if (!audioCtx) return;
+      const osc2 = audioCtx.createOscillator();
+      const gain2 = audioCtx.createGain();
+      osc2.type = 'square';
+      osc2.frequency.setValueAtTime(700, audioCtx.currentTime);
+      osc2.frequency.exponentialRampToValueAtTime(120, audioCtx.currentTime + 0.08);
+
+      gain2.gain.setValueAtTime(0.4, audioCtx.currentTime);
+      gain2.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.08);
+
+      osc2.connect(gain2);
+      gain2.connect(audioCtx.destination);
+      osc2.start();
+      osc2.stop(audioCtx.currentTime + 0.08);
+    }, 45);
+
+  } catch (e) {
+    console.warn('Audio playback error:', e);
+  }
+}
+
+// Visual flash trigger
+function triggerCameraFlash() {
+  const flash = document.getElementById('cameraFlash');
+  if (flash) {
+    flash.classList.remove('flash-active');
+    void flash.offsetWidth; // Trigger reflow
+    flash.classList.add('flash-active');
+  }
+  playShutterSound();
+}
+
+// Sound toggle button
+const soundBtn = document.getElementById('soundBtn');
+const soundIcon = document.getElementById('soundIcon');
+if (soundBtn && soundIcon) {
+  soundBtn.addEventListener('click', () => {
+    soundEnabled = !soundEnabled;
+    soundIcon.textContent = soundEnabled ? '🔊' : '🔇';
+    showToast(soundEnabled ? 'Camera shutter SFX enabled!' : 'Camera shutter SFX muted');
+  });
+}
+
+// Hero Quick Snap Demo Button
+const snapHeroBtn = document.getElementById('snapHeroBtn');
+if (snapHeroBtn) {
+  snapHeroBtn.addEventListener('click', () => {
+    triggerCameraFlash();
+    showToast('📸 *Snap!* Memory captured into Echo vault!');
+  });
+}
+
+// Mobile Navbar Drawer Toggle
+const menuBtn = document.getElementById('menu');
+const navLinks = document.getElementById('navLinks');
+if (menuBtn && navLinks) {
+  menuBtn.addEventListener('click', () => {
+    navLinks.classList.toggle('on');
+    menuBtn.textContent = navLinks.classList.contains('on') ? '✕' : '☰';
+  });
+
+  // Close nav drawer when link clicked
+  navLinks.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      navLinks.classList.remove('on');
+      menuBtn.textContent = '☰';
+    });
+  });
+}
+
+// Navbar scroll shadow state
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 50) {
+    navbar.classList.add('scrolled');
+  } else {
+    navbar.classList.remove('scrolled');
+  }
+});
+
+// Scroll Reveal Observer
+const rvObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('in');
+      // Trigger counter animation if inside
+      const counters = entry.target.querySelectorAll('.counter');
+      counters.forEach(animateCounter);
+    }
+  });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('.rv').forEach(el => rvObserver.observe(el));
+
+// Animated Numerical Stats Counters
+function animateCounter(counter) {
+  if (counter.dataset.animated === 'true') return;
+  counter.dataset.animated = 'true';
+  const target = +counter.dataset.target;
+  let current = 0;
+  const increment = Math.max(1, Math.ceil(target / 45));
+  const timer = setInterval(() => {
+    current += increment;
+    if (current >= target) {
+      counter.textContent = target + '+';
+      clearInterval(timer);
+    } else {
+      counter.textContent = current + '+';
+    }
+  }, 35);
+}
+
+// Interactive Gallery Filtering & Lightbox Data
+const filterBtns = document.querySelectorAll('.filter-btn');
+const galleryItems = document.querySelectorAll('.grid .g');
+let currentGalleryList = Array.from(galleryItems);
+let activeLightboxIndex = 0;
+
+filterBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    filterBtns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const filter = btn.dataset.filter;
+
+    galleryItems.forEach(item => {
+      if (filter === 'all' || item.dataset.cat === filter) {
+        item.style.display = 'flex';
+      } else {
+        item.style.display = 'none';
+      }
+    });
+
+    currentGalleryList = Array.from(galleryItems).filter(i => i.style.display !== 'none');
+  });
+});
+
+// Like Button Behavior
+document.querySelectorAll('.g-like-btn').forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    btn.classList.toggle('liked');
+    if (btn.classList.contains('liked')) {
+      btn.style.color = '#fff';
+      btn.style.background = '#FF2E93';
+      showToast('❤️ Added to your liked campus highlights!');
+    } else {
+      btn.style.color = '#FF2E93';
+      btn.style.background = 'rgba(255,255,255,0.85)';
+    }
+    triggerCameraFlash();
+  });
+});
+
+// Lightbox Modal Logic
+const lb = document.getElementById('lb');
+const lbImg = document.getElementById('lbImg');
+const lbTitle = document.getElementById('lbTitle');
+const lbSub = document.getElementById('lbSub');
+const lbClose = document.getElementById('lbClose');
+const lbPrev = document.getElementById('lbPrev');
+const lbNext = document.getElementById('lbNext');
+
+function openLightbox(idx) {
+  if (!currentGalleryList[idx]) return;
+  activeLightboxIndex = idx;
+  const item = currentGalleryList[idx];
+  const fullSrc = item.dataset.full;
+  const title = item.dataset.title || 'Echo Captured Moment';
+  const sub = item.dataset.sub || 'TGPCOP Campus Event';
+
+  lbImg.src = fullSrc;
+  lbTitle.textContent = title;
+  lbSub.textContent = sub;
+  lb.classList.add('on');
+  document.body.style.overflow = 'hidden';
+  triggerCameraFlash();
+}
+
+function closeLightbox() {
+  lb.classList.remove('on');
+  document.body.style.overflow = '';
+}
+
+function nextLightboxPhoto() {
+  let nextIdx = (activeLightboxIndex + 1) % currentGalleryList.length;
+  openLightbox(nextIdx);
+}
+
+function prevLightboxPhoto() {
+  let prevIdx = (activeLightboxIndex - 1 + currentGalleryList.length) % currentGalleryList.length;
+  openLightbox(prevIdx);
+}
+
+// Gallery Click Listeners
+galleryItems.forEach((item, index) => {
+  item.addEventListener('click', () => {
+    const visibleIdx = currentGalleryList.indexOf(item);
+    if (visibleIdx !== -1) {
+      openLightbox(visibleIdx);
+    }
+  });
+});
+
+// Floating hero collage frames click
+document.querySelectorAll('.hero .fr').forEach(fr => {
+  fr.addEventListener('click', () => {
+    openLightbox(0);
+  });
+});
+
+if (lbClose) lbClose.addEventListener('click', closeLightbox);
+if (lbNext) lbNext.addEventListener('click', nextLightboxPhoto);
+if (lbPrev) lbPrev.addEventListener('click', prevLightboxPhoto);
+
+// Keyboard controls
+window.addEventListener('keydown', (e) => {
+  if (!lb.classList.contains('on')) return;
+  if (e.key === 'Escape') closeLightbox();
+  if (e.key === 'ArrowRight') nextLightboxPhoto();
+  if (e.key === 'ArrowLeft') prevLightboxPhoto();
+});
+
+// Click outside lightbox content to close
+lb.addEventListener('click', (e) => {
+  if (e.target === lb) closeLightbox();
+});
+
+// Reel Modal Placeholder
+function openReelModal(title, desc) {
+  triggerCameraFlash();
+  showToast(`🎬 Opening Reel: "${title}"`);
+}
+
+// 3D Card Hover Tilt Effect
+document.querySelectorAll('[data-tilt]').forEach(card => {
+  card.addEventListener('mousemove', (e) => {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left - rect.width / 2;
+    const y = e.clientY - rect.top - rect.height / 2;
+    const rotX = -(y / rect.height) * 14;
+    const rotY = (x / rect.width) * 14;
+    card.style.transform = `perspective(800px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale(1.04)`;
+  });
+
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg) scale(1)';
+  });
+});
+
+// Audition Form Role Selector Pills
+const rolePills = document.querySelectorAll('#rolePills .role-pill');
+let selectedRole = 'Photography';
+
+rolePills.forEach(pill => {
+  pill.addEventListener('click', () => {
+    rolePills.forEach(p => p.classList.remove('selected'));
+    pill.classList.add('selected');
+    selectedRole = pill.dataset.role;
+    showToast(`Role selected: ${selectedRole}`);
+  });
+});
+
+// Audition Form Submission
+const auditionForm = document.getElementById('auditionForm');
+if (auditionForm) {
+  auditionForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const name = document.getElementById('appName').value;
+    const phone = document.getElementById('appPhone').value;
+    const batch = document.getElementById('appBatch').value;
+    const insta = document.getElementById('appInsta').value;
+
+    triggerCameraFlash();
+
+    // Store in localStorage for persistence
+    const applicants = JSON.parse(localStorage.getItem('echo_applicants') || '[]');
+    applicants.push({ name, phone, batch, insta, role: selectedRole, date: new Date().toISOString() });
+    localStorage.setItem('echo_applicants', JSON.stringify(applicants));
+
+    showToast(`🎉 Audition submitted, ${name}! Welcome to the shortlist.`);
+    auditionForm.reset();
+  });
+}
+
+// Student Memory Wall Post
+const postShoutBtn = document.getElementById('postShoutBtn');
+const shoutName = document.getElementById('shoutName');
+const shoutMsg = document.getElementById('shoutMsg');
+const shoutWall = document.getElementById('shoutWall');
+
+if (postShoutBtn && shoutName && shoutMsg && shoutWall) {
+  postShoutBtn.addEventListener('click', () => {
+    const name = shoutName.value.trim();
+    const msg = shoutMsg.value.trim();
+
+    if (!name || !msg) {
+      showToast('⚠️ Please enter both your name and message!');
+      return;
+    }
+
+    const card = document.createElement('div');
+    card.className = 'shout-card rv in';
+    card.style.transform = `rotate(${Math.random() * 4 - 2}deg)`;
+
+    const pin = document.createElement('span');
+    pin.className = 'shout-pin';
+    pin.style.background = ['#FF2E93', '#FFD60A', '#00F0FF', '#004BFE'][Math.floor(Math.random() * 4)];
+
+    const p = document.createElement('p');
+    p.textContent = `"${msg}"`;
+
+    const author = document.createElement('span');
+    author.className = 'shout-author';
+    author.textContent = `— ${name}`;
+
+    const time = document.createElement('span');
+    time.className = 'shout-time';
+    time.textContent = 'Just now';
+
+    card.appendChild(pin);
+    card.appendChild(p);
+    card.appendChild(author);
+    card.appendChild(time);
+
+    shoutWall.prepend(card);
+    shoutName.value = '';
+    shoutMsg.value = '';
+
+    triggerCameraFlash();
+    showToast('📌 Shoutout pinned to campus memory wall!');
+  });
+}
+
+// Toast Alert System
+const toastBox = document.getElementById('toastBox');
+const toastMsg = document.getElementById('toastMsg');
+let toastTimer = null;
+
+function showToast(message) {
+  if (!toastBox || !toastMsg) return;
+  toastMsg.textContent = message;
+  toastBox.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => {
+    toastBox.classList.remove('show');
+  }, 3200);
+}
+</script>
+
+</body>
+</html>
