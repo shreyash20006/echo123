@@ -1,6 +1,10 @@
 const fs = require('fs');
 const path = require('path');
 
+const rootDir = __dirname;
+const distDir = path.join(rootDir, 'dist');
+const publicDir = path.join(rootDir, 'public');
+
 function getEnv() {
   const envVars = {
     SUPABASE_URL: process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL || '',
@@ -8,8 +12,9 @@ function getEnv() {
     CLOUDINARY_LOGO_URL: process.env.CLOUDINARY_LOGO_URL || process.env.VITE_CLOUDINARY_LOGO_URL || ''
   };
 
-  if (!envVars.SUPABASE_URL && fs.existsSync('.env')) {
-    const lines = fs.readFileSync('.env', 'utf8').split(/\r?\n/);
+  const envFile = path.join(rootDir, '.env');
+  if (!envVars.SUPABASE_URL && fs.existsSync(envFile)) {
+    const lines = fs.readFileSync(envFile, 'utf8').split(/\r?\n/);
     for (const line of lines) {
       const trimmed = line.trim();
       if (!trimmed || trimmed.startsWith('#')) continue;
@@ -22,13 +27,16 @@ function getEnv() {
 
 const env = getEnv();
 const envScript = `window.__ENV__ = ${JSON.stringify(env, null, 2)};\n`;
-fs.writeFileSync('env.js', envScript, 'utf8');
+fs.writeFileSync(path.join(rootDir, 'env.js'), envScript, 'utf8');
 
-if (!fs.existsSync('dist')) {
-  fs.mkdirSync('dist', { recursive: true });
+if (!fs.existsSync(distDir)) {
+  fs.mkdirSync(distDir, { recursive: true });
+}
+if (!fs.existsSync(publicDir)) {
+  fs.mkdirSync(publicDir, { recursive: true });
 }
 
-fs.writeFileSync(path.join('dist', 'env.js'), envScript, 'utf8');
+fs.writeFileSync(path.join(distDir, 'env.js'), envScript, 'utf8');
 
 const staticFiles = [
   'index.html',
@@ -42,17 +50,19 @@ const staticFiles = [
 ];
 
 for (const file of staticFiles) {
-  if (fs.existsSync(file)) {
-    fs.copyFileSync(file, path.join('dist', file));
+  const src = path.join(rootDir, file);
+  if (fs.existsSync(src)) {
+    fs.copyFileSync(src, path.join(distDir, file));
+    fs.copyFileSync(src, path.join(publicDir, file));
   }
 }
 
-if (fs.existsSync('assets')) {
-  if (!fs.existsSync(path.join('dist', 'assets'))) {
-    fs.mkdirSync(path.join('dist', 'assets'), { recursive: true });
-  }
-  fs.readdirSync('assets').forEach(f => {
-    fs.copyFileSync(path.join('assets', f), path.join('dist', 'assets', f));
+const assetsDir = path.join(rootDir, 'assets');
+if (fs.existsSync(assetsDir)) {
+  const distAssets = path.join(distDir, 'assets');
+  if (!fs.existsSync(distAssets)) fs.mkdirSync(distAssets, { recursive: true });
+  fs.readdirSync(assetsDir).forEach(f => {
+    fs.copyFileSync(path.join(assetsDir, f), path.join(distAssets, f));
   });
 }
 

@@ -1,0 +1,19 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Events | Echo.TGPCOP</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Bowlby+One&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="echo.css"></head><body><div id="nav"></div>
+<section><div class="wrap"><h2 class="rv">Upcoming <span class="y">Events</span></h2><div class="cd rv" id="cd"></div><div class="cols" id="up"></div></div></section>
+<section style="padding-top:0"><div class="wrap"><h2 class="rv">Event <span class="y">Recaps</span></h2><div class="cols" id="rc"></div></div></section>
+<div id="foot"></div><script src="env.js"></script>
+<script src="echo.js"></script>
+<script>
+/* EDIT HERE: d = date/time (YYYY-MM-DDTHH:MM:SS), c = cover image URL, p = photo URLs, v = video URL (mp4) */
+const UP=[{t:'Next Echo Event',d:'2026-12-01T10:00:00',p:'TGPCOP Campus',x:'Edit this event in events.html'}];
+const RC=[{t:'Cultural Day 2K26',d:'15 Oct 2026',c:'',p:[],v:''},{t:'Pharmacy Week 2026',d:'13–17 Oct 2026',c:'',p:[],v:''},{t:'Treasure Hunt',d:'Oct 2026',c:'',p:[],v:''}];
+const e=UP[0],box=$('#cd');
+function tick(){const ms=new Date(e.d)-Date.now();if(ms<=0){box.innerHTML='<span class="pill">Happening now / Done</span>';return}
+ const s=Math.floor(ms/1e3),v=[['Days',Math.floor(s/86400)],['Hours',Math.floor(s%86400/3600)],['Mins',Math.floor(s%3600/60)],['Secs',s%60]];
+ box.innerHTML=v.map(a=>'<div><b>'+String(a[1]).padStart(2,'0')+'</b><small>'+a[0]+'</small></div>').join('')}
+tick();setInterval(tick,1000);
+$('#up').innerHTML=UP.map(u=>'<div class="card tilt rv"><div class="bd"><span class="pill">'+new Date(u.d).toDateString()+'</span><h3 style="margin-top:12px">'+esc(u.t)+'</h3><p>📍 '+esc(u.p)+'</p><p>'+esc(u.x)+'</p></div></div>').join('');
+$('#rc').innerHTML=RC.map((r,i)=>'<div class="card tilt rv"><div class="cv" data-i="'+i+'" style="'+(r.c?"background-image:url('"+esc(r.c)+"')":'')+'">'+(r.c?'':'View recap')+'</div><div class="bd"><span class="pill">'+esc(r.d)+'</span><h3 style="margin-top:12px">'+esc(r.t)+'</h3></div></div>').join('');
+$$('.cv').forEach(c=>c.onclick=()=>{const r=RC[c.dataset.i];const h=(r.v?'<video controls playsinline src="'+esc(r.v)+'"></video>':'')+r.p.map(x=>'<img src="'+esc(x)+'" alt="">').join('');LB(h||'<p style="grid-column:1/-1;text-align:center;font-size:20px">Photos and video coming soon 💙</p>')});
+rv();
+</script></body></html>

@@ -1,0 +1,9 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Login | Echo.TGPCOP</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Bowlby+One&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="echo.css"></head><body><div id="nav"></div>
+<section class="lgs"><div class="circ c1"></div><div class="circ c2"></div>
+<div class="lgc rv"><img id="lgl" alt="Echo TGPCOP Media"><h1>Welcome to <span class="y">Echo</span></h1>
+<p>Login to write reviews, send collab requests and join the crew.</p>
+<button class="gbtn" onclick="signIn()"><span class="gi"><svg viewBox="0 0 24 24" fill="none" stroke="#004BFE" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18.13 6.86A8 8 0 1 0 20 12H12"/></svg></span>Continue with Google</button>
+<p style="font-size:12px;opacity:.75;margin:16px 0 8px">By continuing you share your name, email and photo with Echo.TGPCOP.</p><a class="y" href="index.html">← Back to home</a><p id="warn" style="font-size:12px;color:var(--yellow)"></p></div></section>
+<div id="foot"></div><script src="env.js"></script>
+<script src="echo.js"></script>
+<script>$('#lgl').src=C.LOGO;ready.then(()=>{if(window.USER)location.href='index.html';if(!getSB())$('#warn').textContent='Setup pending: add Supabase keys in echo.js'})</script></body></html>
