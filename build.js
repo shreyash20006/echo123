@@ -1,43 +1,59 @@
 const fs = require('fs');
 const path = require('path');
 
-function copyRecursiveSync(src, dest) {
-  const exists = fs.existsSync(src);
-  const stats = exists && fs.statSync(src);
-  const isDirectory = exists && stats.isDirectory();
-  if (isDirectory) {
-    if (!fs.existsSync(dest)) {
-      fs.mkdirSync(dest, { recursive: true });
+function getEnv() {
+  const envVars = {
+    SUPABASE_URL: process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL || '',
+    SUPABASE_ANON_KEY: process.env.SUPABASE_ANON_KEY || process.env.VITE_SUPABASE_ANON_KEY || '',
+    CLOUDINARY_LOGO_URL: process.env.CLOUDINARY_LOGO_URL || process.env.VITE_CLOUDINARY_LOGO_URL || ''
+  };
+
+  if (!envVars.SUPABASE_URL && fs.existsSync('.env')) {
+    const lines = fs.readFileSync('.env', 'utf8').split(/\r?\n/);
+    for (const line of lines) {
+      const trimmed = line.trim();
+      if (!trimmed || trimmed.startsWith('#')) continue;
+      const [k, ...v] = trimmed.split('=');
+      if (k) envVars[k.trim()] = v.join('=').trim().replace(/^["']|["']$/g, '');
     }
-    fs.readdirSync(src).forEach((childItemName) => {
-      copyRecursiveSync(path.join(src, childItemName), path.join(dest, childItemName));
-    });
-  } else {
-    fs.copyFileSync(src, dest);
   }
+  return envVars;
 }
 
-// 1. Ensure dist directory exists
+const env = getEnv();
+const envScript = `window.__ENV__ = ${JSON.stringify(env, null, 2)};\n`;
+fs.writeFileSync('env.js', envScript, 'utf8');
+
 if (!fs.existsSync('dist')) {
   fs.mkdirSync('dist', { recursive: true });
 }
 
-// 2. Copy index.html to dist and public
-fs.copyFileSync('index.html', path.join('dist', 'index.html'));
-fs.copyFileSync('index.html', path.join('public', 'index.html'));
+fs.writeFileSync(path.join('dist', 'env.js'), envScript, 'utf8');
 
-// 3. Copy public folder to dist/public and dist directly
-if (fs.existsSync('public')) {
-  copyRecursiveSync('public', path.join('dist', 'public'));
-  if (fs.existsSync(path.join('public', 'images'))) {
-    copyRecursiveSync(path.join('public', 'images'), path.join('dist', 'images'));
-    copyRecursiveSync(path.join('public', 'images'), 'images');
+const staticFiles = [
+  'index.html',
+  'echo.css',
+  'echo.js',
+  'login.html',
+  'events.html',
+  'team.html',
+  'collab.html',
+  'echo_logo_white_transparent.png'
+];
+
+for (const file of staticFiles) {
+  if (fs.existsSync(file)) {
+    fs.copyFileSync(file, path.join('dist', file));
   }
 }
 
-// 4. Copy logo to dist and root
-if (fs.existsSync('echo_logo_white_transparent.png')) {
-  fs.copyFileSync('echo_logo_white_transparent.png', path.join('dist', 'echo_logo_white_transparent.png'));
+if (fs.existsSync('assets')) {
+  if (!fs.existsSync(path.join('dist', 'assets'))) {
+    fs.mkdirSync(path.join('dist', 'assets'), { recursive: true });
+  }
+  fs.readdirSync('assets').forEach(f => {
+    fs.copyFileSync(path.join('assets', f), path.join('dist', 'assets', f));
+  });
 }
 
-console.log('Build completed successfully. Artifacts ready in root, dist/, and public/.');
+console.log('Build completed successfully for Vercel deployment.');
