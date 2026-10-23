@@ -37,11 +37,13 @@ if (!fs.existsSync(publicDir)) {
 }
 
 fs.writeFileSync(path.join(distDir, 'env.js'), envScript, 'utf8');
+fs.writeFileSync(path.join(publicDir, 'env.js'), envScript, 'utf8');
 
 const staticFiles = [
   'index.html',
   'echo.css',
   'echo.js',
+  'env.js',
   'login.html',
   'events.html',
   'team.html',
@@ -60,9 +62,12 @@ for (const file of staticFiles) {
 const assetsDir = path.join(rootDir, 'assets');
 if (fs.existsSync(assetsDir)) {
   const distAssets = path.join(distDir, 'assets');
+  const publicAssets = path.join(publicDir, 'assets');
   if (!fs.existsSync(distAssets)) fs.mkdirSync(distAssets, { recursive: true });
+  if (!fs.existsSync(publicAssets)) fs.mkdirSync(publicAssets, { recursive: true });
   fs.readdirSync(assetsDir).forEach(f => {
     fs.copyFileSync(path.join(assetsDir, f), path.join(distAssets, f));
+    fs.copyFileSync(path.join(assetsDir, f), path.join(publicAssets, f));
   });
 }
 
