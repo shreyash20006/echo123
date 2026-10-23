@@ -21,7 +21,7 @@ function shell(){
   const L=$('#links');$('#menu')?.addEventListener('click',()=>L.classList.toggle('on'));L?.addEventListener('click',e=>{if(e.target.tagName=='A')L.classList.remove('on')});
  }
  const f=$('#foot');
- if(f)f.innerHTML=`<footer><div class="wrap"><img src="${C.LOGO}" alt=""><p><b>Capturing Campus. Creating Memories.</b></p><p>Events • Reels • Photography • Creatives</p><p class="soc"><a href="mailto:${C.MAIL}">${C.MAIL}</a> | <a href="${C.IG}" target="_blank" rel="noopener">@echo.tgpcop</a></p><p style="opacity:.7;font-size:13px">© 2026 Echo.TGPCOP | Campus Media</p></div></footer>`;
+ if(f)f.innerHTML=`<footer><div class="wrap"><img src="${C.LOGO}" alt=""><p><b>Capturing Campus. Creating Memories.</b></p><p>Events • Reels • Photography • Creatives</p><p class="soc"><a href="mailto:${C.MAIL}">${C.MAIL}</a> | <a href="${C.IG}" target="_blank" rel="noopener">@echo.tgpcop</a></p><p style="margin-top:14px;font-size:13px"><a href="privacy.html" style="text-decoration:underline">Privacy Policy</a> &nbsp;•&nbsp; <a href="terms.html" style="text-decoration:underline">Terms of Service</a></p><p style="opacity:.7;font-size:13px;margin-top:6px">© 2026 Echo.TGPCOP | Campus Media</p></div></footer>`;
 }
 function cnt(el){const to=+el.dataset.n,s=el.dataset.s||'+';let t0;const f=ts=>{t0=t0||ts;const p=Math.min((ts-t0)/1400,1);el.textContent=Math.round(to*p).toLocaleString()+(p==1?s:'');if(p<1)requestAnimationFrame(f)};requestAnimationFrame(f)}
 function rv(root=document){
