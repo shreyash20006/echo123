@@ -108,3 +108,55 @@ VALUES
     ('Faculty Member', 'Teacher', 'Professional, creative and always on time. Proud of this student team.', TRUE),
     ('Club Member', 'Student', 'Their reels make our events go viral on campus. Love the Echo style!', TRUE)
 ON CONFLICT DO NOTHING;
+
+
+-- ==============================================================================
+-- 5. TABLE: student_submissions (Student Performance Showcase - Photo/Video)
+-- ==============================================================================
+CREATE TABLE IF NOT EXISTS public.student_submissions (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE NOT NULL,
+    student_name TEXT NOT NULL,
+    title TEXT NOT NULL,
+    category TEXT DEFAULT 'Dance',
+    media_type TEXT NOT NULL CHECK (media_type IN ('image', 'video')),
+    media_url TEXT NOT NULL,
+    storage_path TEXT NOT NULL,
+    instagram_handle TEXT,
+    approved BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Indexes
+CREATE INDEX IF NOT EXISTS idx_submissions_created ON public.student_submissions (created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_submissions_user_id ON public.student_submissions (user_id);
+CREATE INDEX IF NOT EXISTS idx_submissions_type ON public.student_submissions (media_type);
+
+-- Enable Row Level Security (RLS)
+ALTER TABLE public.student_submissions ENABLE ROW LEVEL SECURITY;
+
+-- Policy 1: Anyone can view approved submissions
+CREATE POLICY "Public can view approved showcase"
+    ON public.student_submissions FOR SELECT
+    USING (approved = TRUE OR (auth.uid() = user_id));
+
+-- Policy 2: Logged-in students can upload their submissions
+CREATE POLICY "Logged in students can upload"
+    ON public.student_submissions FOR INSERT
+    TO authenticated
+    WITH CHECK (auth.uid() = user_id);
+
+-- Policy 3: Student can only delete their own submission
+CREATE POLICY "Student can delete own submission"
+    ON public.student_submissions FOR DELETE
+    TO authenticated
+    USING (auth.uid() = user_id);
+
+-- ==============================================================================
+-- STORAGE BUCKET SETUP INSTRUCTIONS:
+-- 1. Go to Supabase Dashboard -> Storage
+-- 2. Click "New bucket" -> Name it "student_media"
+-- 3. Toggle "Public bucket" to ON (Enabled)
+-- 4. Save bucket
+-- ==============================================================================
+

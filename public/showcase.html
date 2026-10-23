@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>Student Showcase | Echo.TGPCOP</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Bowlby+One&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="echo.css">
+  <style>
+    .upload-card{background:var(--navy);border:3px solid #fff;border-radius:26px;padding:32px 24px;max-width:680px;margin:0 auto 46px;box-shadow:0 18px 40px rgba(0,20,90,.45)}
+    .upload-card h3{font-family:'Bowlby One';font-size:24px;color:var(--yellow);margin-bottom:8px;text-align:center}
+    .media-box{height:230px;border-radius:22px 22px 0 0;overflow:hidden;background:#001040;position:relative}
+    .media-box img, .media-box video{width:100%;height:100%;object-fit:cover;display:block}
+    .badge-del{position:absolute;top:12px;right:12px;background:#ff334b;color:#fff;border:0;border-radius:99px;padding:6px 14px;font:700 12px Poppins;cursor:pointer;display:inline-flex;align-items:center;gap:4px;box-shadow:0 4px 12px rgba(0,0,0,.4);transition:.2s;z-index:5}
+    .badge-del:hover{transform:scale(1.08);background:#d32f2f}
+    .filter-bar{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:34px}
+    .filter-btn{background:transparent;border:2px solid #fff;color:#fff;border-radius:99px;padding:8px 20px;font:600 14px Poppins;cursor:pointer;transition:.2s}
+    .filter-btn.active, .filter-btn:hover{background:var(--yellow);color:var(--blue);border-color:var(--yellow)}
+    .file-drop{border:2px dashed #ffffff66;border-radius:18px;padding:22px 16px;text-align:center;cursor:pointer;transition:.2s;background:#ffffff08}
+    .file-drop:hover{border-color:var(--yellow);background:#ffffff12}
+    .preview-box{display:none;margin-top:14px;border-radius:16px;overflow:hidden;max-height:240px;background:#000;border:2px solid #ffffff33}
+    .preview-box img, .preview-box video{width:100%;max-height:240px;object-fit:contain}
+    .prog-bar{height:6px;width:100%;background:#ffffff22;border-radius:99px;overflow:hidden;margin-top:10px;display:none}
+    .prog-fill{height:100%;width:0;background:var(--yellow);transition:width .2s}
+    .card-footer{display:flex;justify-content:space-between;align-items:center;margin-top:12px;font-size:13px;opacity:.9}
+  </style>
+</head>
+<body>
+  <div id="nav"></div>
+
+  <section>
+    <div class="wrap">
+      <h2 class="rv" style="text-align:center">Student <span class="y">Showcase</span></h2>
+      <p class="rv" style="text-align:center;max-width:620px;margin:0 auto 36px">Upload your campus performances, reels, photography, singing, dance or art. Login required to showcase and manage your talent.</p>
+
+      <!-- Upload Form Container -->
+      <div class="upload-card rv" id="uploadArea">
+        <p style="text-align:center">Checking login status...</p>
+      </div>
+
+      <!-- Filter Controls -->
+      <div class="filter-bar rv" id="filterBar">
+        <button class="filter-btn active" data-filter="all" onclick="setFilter('all')">All Talent</button>
+        <button class="filter-btn" data-filter="video" onclick="setFilter('video')">🎬 Videos</button>
+        <button class="filter-btn" data-filter="image" onclick="setFilter('image')">📸 Photos</button>
+        <button class="filter-btn" data-filter="mine" onclick="setFilter('mine')">👤 My Uploads</button>
+      </div>
+
+      <!-- Gallery Grid -->
+      <div class="cols" id="galleryGrid">
+        <p style="grid-column:1/-1;text-align:center;opacity:.8;font-size:18px">Loading student performances... 💙</p>
+      </div>
+    </div>
+  </section>
+
+  <div id="foot"></div>
+  <script src="env.js"></script>
+  <script src="echo.js"></script>
+  <script>
+    let currentFilter = 'all';
+    let allSubmissions = [];
+    let selectedFile = null;
+
+    function renderUploadArea() {
+      const box = $('#uploadArea');
+      if (!box) return;
+
+      if (!window.USER) {
+        box.innerHTML = `
+          <div style="text-align:center;padding:12px 0">
+            <h3>Share Your Talent 🌟</h3>
+            <p style="margin:12px auto 22px;max-width:480px;opacity:.9">Students must login with Google to upload photos or videos and get delete access.</p>
+            <a class="btn" href="login.html">Login with Google to Upload</a>
+          </div>
+        `;
+        return;
+      }
+
+      const defaultName = window.USER.user_metadata?.full_name || '';
+      box.innerHTML = `
+        <h3>Upload Your Performance 🎬</h3>
+        <p style="text-align:center;font-size:13px;opacity:.85;margin-bottom:20px">Logged in as <b>${esc(window.USER.email)}</b></p>
+        <form class="fm" id="uploadForm" style="max-width:100%" onsubmit="handleUpload(event)">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+            <input type="text" id="sName" placeholder="Your Full Name" value="${esc(defaultName)}" required>
+            <select id="sCategory">
+              <option value="Dance">💃 Dance</option>
+              <option value="Music">🎤 Singing / Music</option>
+              <option value="Drama">🎭 Drama / Skit</option>
+              <option value="Art">🎨 Art / Painting</option>
+              <option value="Photography">📷 Photography</option>
+              <option value="Poetry">📖 Poetry / Shayari</option>
+              <option value="Other">✨ Other Talent</option>
+            </select>
+          </div>
+          <input type="text" id="sTitle" placeholder="Performance Title (e.g. Cultural Day Solo Dance)" required>
+          <input type="text" id="sInsta" placeholder="Instagram Username (Optional, e.g. @your_name)">
+          
+          <div class="file-drop" onclick="$('#fileInput').click()">
+            <span style="font-size:28px">📤</span>
+            <p style="margin:6px 0;font-weight:600">Choose a Video (.mp4, .mov) or Photo (.jpg, .png)</p>
+            <small style="opacity:.7">Click to browse files (Max 50MB)</small>
+            <input type="file" id="fileInput" accept="image/*,video/*" style="display:none" onchange="handleFileSelect(event)">
+          </div>
+
+          <div class="preview-box" id="previewBox"></div>
+          <div class="prog-bar" id="progBar"><div class="prog-fill" id="progFill"></div></div>
+
+          <button class="btn" type="submit" id="submitBtn" style="margin-top:10px">Upload & Showcase</button>
+          <small id="uploadMsg" style="text-align:center;font-weight:600"></small>
+        </form>
+      `;
+    }
+
+    function handleFileSelect(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      selectedFile = file;
+      const preview = $('#previewBox');
+      const isVideo = file.type.startsWith('video');
+
+      preview.style.display = 'block';
+      const fileUrl = URL.createObjectURL(file);
+      if (isVideo) {
+        preview.innerHTML = `<video src="${fileUrl}" controls playsinline style="max-height:220px"></video>`;
+      } else {
+        preview.innerHTML = `<img src="${fileUrl}" alt="Preview" style="max-height:220px">`;
+      }
+    }
+
+    async function handleUpload(e) {
+      e.preventDefault();
+      if (!selectedFile) {
+        alert('Please select a photo or video to upload.');
+        return;
+      }
+      if (!window.USER) {
+        alert('Please login with Google first.');
+        return;
+      }
+
+      const client = getSB();
+      if (!client) {
+        alert('Supabase is not configured.');
+        return;
+      }
+
+      const btn = $('#submitBtn');
+      const msg = $('#uploadMsg');
+      const prog = $('#progBar');
+      const fill = $('#progFill');
+
+      btn.disabled = true;
+      btn.textContent = 'Uploading... Please wait';
+      msg.textContent = '';
+      prog.style.display = 'block';
+      fill.style.width = '35%';
+
+      try {
+        const fileExt = selectedFile.name.split('.').pop() || 'bin';
+        const isVideo = selectedFile.type.startsWith('video');
+        const mediaType = isVideo ? 'video' : 'image';
+        const fileName = `${window.USER.id}/${Date.now()}.${fileExt}`;
+
+        // 1. Upload to Supabase Storage Bucket 'student_media'
+        fill.style.width = '60%';
+        const { error: uploadError } = await client.storage
+          .from('student_media')
+          .upload(fileName, selectedFile, { cacheControl: '3600', upsert: true });
+
+        if (uploadError) {
+          throw new Error('Storage Upload Error: ' + uploadError.message + ' (Make sure student_media bucket exists in Supabase Storage)');
+        }
+
+        fill.style.width = '85%';
+        // 2. Get Public URL
+        const { data: urlData } = client.storage.from('student_media').getPublicUrl(fileName);
+        const mediaUrl = urlData.publicUrl;
+
+        // 3. Insert record into database table 'student_submissions'
+        const { error: dbError } = await client
+          .from('student_submissions')
+          .insert({
+            user_id: window.USER.id,
+            student_name: $('#sName').value.trim(),
+            title: $('#sTitle').value.trim(),
+            category: $('#sCategory').value,
+            instagram_handle: $('#sInsta').value.trim() || null,
+            media_type: mediaType,
+            media_url: mediaUrl,
+            storage_path: fileName,
+            approved: true
+          });
+
+        if (dbError) {
+          throw new Error('Database Error: ' + dbError.message);
+        }
+
+        fill.style.width = '100%';
+        msg.textContent = '🎉 Your performance was uploaded successfully!';
+        msg.style.color = 'var(--yellow)';
+        selectedFile = null;
+        $('#uploadForm').reset();
+        $('#previewBox').style.display = 'none';
+        setTimeout(() => { prog.style.display = 'none'; fill.style.width = '0'; }, 1000);
+
+        // Refresh gallery
+        await fetchSubmissions();
+      } catch (err) {
+        console.error(err);
+        msg.textContent = err.message || 'Upload failed. Please try again.';
+        msg.style.color = '#ff6b6b';
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Upload & Showcase';
+      }
+    }
+
+    async function deleteSubmission(id, storagePath) {
+      if (!confirm('Are you sure you want to delete this performance?')) return;
+      const client = getSB();
+      if (!client || !window.USER) return;
+
+      try {
+        // Delete record from DB
+        const { error: dbErr } = await client
+          .from('student_submissions')
+          .delete()
+          .eq('id', id);
+
+        if (dbErr) throw dbErr;
+
+        // Delete file from Storage bucket
+        if (storagePath) {
+          await client.storage.from('student_media').remove([storagePath]);
+        }
+
+        alert('Performance deleted.');
+        await fetchSubmissions();
+      } catch (err) {
+        alert('Could not delete: ' + err.message);
+      }
+    }
+
+    async function fetchSubmissions() {
+      const grid = $('#galleryGrid');
+      const client = getSB();
+
+      if (!client) {
+        grid.innerHTML = '<p style="grid-column:1/-1;text-align:center">Supabase keys not found.</p>';
+        return;
+      }
+
+      const { data, error } = await client
+        .from('student_submissions')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        console.warn('Fetch error:', error);
+        grid.innerHTML = `<p style="grid-column:1/-1;text-align:center">No uploads yet. Be the first student to upload your performance! 💙</p>`;
+        return;
+      }
+
+      allSubmissions = data || [];
+      renderGallery();
+    }
+
+    function setFilter(type) {
+      currentFilter = type;
+      $$('.filter-btn').forEach(b => b.classList.toggle('active', b.dataset.filter === type));
+      renderGallery();
+    }
+
+    function renderGallery() {
+      const grid = $('#galleryGrid');
+      const myId = window.USER ? window.USER.id : null;
+
+      let list = allSubmissions;
+      if (currentFilter === 'video') list = list.filter(s => s.media_type === 'video');
+      else if (currentFilter === 'image') list = list.filter(s => s.media_type === 'image');
+      else if (currentFilter === 'mine') list = list.filter(s => s.user_id === myId);
+
+      if (!list.length) {
+        grid.innerHTML = `
+          <div style="grid-column:1/-1;text-align:center;padding:40px 20px">
+            <p style="font-size:20px;font-weight:600">No performances found in this filter.</p>
+            <p style="opacity:.8;margin-top:8px">Upload your video or photo above to showcase your talent!</p>
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = list.map(item => {
+        const isMine = myId && item.user_id === myId;
+        const isVideo = item.media_type === 'video';
+        const dateStr = new Date(item.created_at).toLocaleDateString();
+
+        return `
+          <div class="card rv in" style="overflow:hidden">
+            <div class="media-box">
+              ${isMine ? `<button class="badge-del" onclick="deleteSubmission('${esc(item.id)}', '${esc(item.storage_path)}')">🗑️ Delete</button>` : ''}
+              ${isVideo ? `
+                <video src="${esc(item.media_url)}" controls playsinline preload="metadata"></video>
+              ` : `
+                <img src="${esc(item.media_url)}" alt="${esc(item.title)}" loading="lazy">
+              `}
+            </div>
+            <div class="bd">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+                <span class="pill">${esc(item.category || 'Talent')}</span>
+                <small style="opacity:.7">${dateStr}</small>
+              </div>
+              <h3>${esc(item.title)}</h3>
+              <p>By <b>${esc(item.student_name)}</b></p>
+              <div class="card-footer">
+                ${item.instagram_handle ? `
+                  <a class="y" href="https://instagram.com/${esc(item.instagram_handle.replace('@',''))}" target="_blank" rel="noopener">
+                    📸 ${esc(item.instagram_handle.startsWith('@') ? item.instagram_handle : '@' + item.instagram_handle)}
+                  </a>
+                ` : '<span></span>'}
+                <span style="opacity:.6">${isVideo ? '🎥 Video' : '🖼️ Photo'}</span>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+      rv(grid);
+    }
+
+    ready.then(() => {
+      renderUploadArea();
+      fetchSubmissions();
+    });
+
+    document.addEventListener('echo-auth', () => {
+      renderUploadArea();
+      renderGallery();
+    });
+  </script>
+</body>
+</html>
