@@ -6,7 +6,7 @@
 <script>
 /* EDIT HERE: d = date/time (YYYY-MM-DDTHH:MM:SS), c = cover image URL, p = photo URLs, v = video URL (mp4) */
 const UP=[{t:'Next Echo Event',d:'2026-12-01T10:00:00',p:'TGPCOP Campus',x:'Edit this event in events.html'}];
-const RC=[{t:'Cultural Day 2K26',d:'15 Oct 2026',c:'',p:[],v:''},{t:'Pharmacy Week 2026',d:'13–17 Oct 2026',c:'',p:[],v:''},{t:'Treasure Hunt',d:'Oct 2026',c:'',p:[],v:''}];
+const RC=[{t:'Cultural Day 2K26',d:'15 Oct 2026',c:'',p:[],v:''},{t:'Pharmacy Week 2026',d:'13–17 Oct 2026',c:'',p:[],v:''}];
 const e=UP[0],box=$('#cd');
 function tick(){const ms=new Date(e.d)-Date.now();if(ms<=0){box.innerHTML='<span class="pill">Happening now / Done</span>';return}
  const s=Math.floor(ms/1e3),v=[['Days',Math.floor(s/86400)],['Hours',Math.floor(s%86400/3600)],['Mins',Math.floor(s%3600/60)],['Secs',s%60]];
