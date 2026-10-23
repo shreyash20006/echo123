@@ -74,4 +74,13 @@ if (fs.existsSync(assetsDir)) {
   });
 }
 
+const imagesDir = path.join(rootDir, 'images');
+if (fs.existsSync(imagesDir)) {
+  for (const out of [distDir, publicDir]) {
+    const dst = path.join(out, 'images');
+    fs.mkdirSync(dst, { recursive: true });
+    fs.readdirSync(imagesDir).forEach(f => fs.copyFileSync(path.join(imagesDir, f), path.join(dst, f)));
+  }
+}
+
 console.log('Build completed successfully for Vercel deployment.');

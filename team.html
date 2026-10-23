@@ -1,9 +1,10 @@
 <!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Team | Echo.TGPCOP</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Bowlby+One&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="echo.css"></head><body><div id="nav"></div>
+<div data-shatter data-title="Meet the<br><span class='y'>Crew</span>" data-sub="The people behind every frame."></div>
 <section><div class="wrap"><h2 class="rv">Meet the <span class="y">Crew</span></h2><div class="cols" id="tg"></div></div></section>
 <div id="foot"></div><script src="env.js"></script>
 <script src="echo.js"></script>
 <script>
 /* EDIT HERE: n = name, r = role, i = photo URL, g = instagram username */
-const T=[{n:'Shreyash Borkar',r:'Media Team Head',i:'',g:''},{n:'Shreyash Bhaisare',r:'Media Team Head',i:'',g:''},{n:'Crew Member',r:'Photographer',i:'',g:''},{n:'Crew Member',r:'Editor',i:'',g:''}];
+const T=[{n:'Shreyash Borkar',r:'Media Team Head',i:'images/shreyash-borkar.jpg',g:''},{n:'Shreyash Bhaisare',r:'Media Team Head',i:'',g:''},{n:'Crew Member',r:'Photographer',i:'',g:''},{n:'Crew Member',r:'Editor',i:'',g:''}];
 $('#tg').innerHTML=T.map(m=>'<div class="tm rv"><div class="fr">'+(m.i?'<img src="'+esc(m.i)+'" alt="'+esc(m.n)+'">':'<div class="ini">'+esc(m.n[0])+'</div>')+'</div><span class="pill">'+esc(m.r)+'</span><h3>'+esc(m.n)+'</h3>'+(m.g?'<a class="y" href="https://instagram.com/'+esc(m.g)+'" target="_blank" rel="noopener">@'+esc(m.g)+'</a>':'')+'</div>').join('');rv();
 </script></body></html>

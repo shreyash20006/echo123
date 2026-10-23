@@ -73,4 +73,42 @@ async function love(){const g=$('#lv');if(!g)return;await ready;let d=[];
 /* ---- Instagram strip (manual posts, edit IGP above) ---- */
 function ig(){const g=$('#igs');if(!g)return;const d=IGP.length?IGP:Array.from({length:6},()=>({}));
  const h=d.map(p=>`<a class="igt" href="${esc(p.u||C.IG)}" target="_blank" rel="noopener" ${p.i?`style="background-image:url('${esc(p.i)}')"`:''}>${p.i?'':'@echo.tgpcop'}</a>`).join('');g.innerHTML=`<div class="igr">${h+h}</div>`}
-shell();fx();love();ig();
+
+/* ---- Scroll shatter logo hero: <div data-shatter data-title="Our<br>Events" data-sub="..." data-skip="#login"></div> ---- */
+function shatterInit(){
+ const host=$('[data-shatter]');if(!host)return;
+ const title=host.dataset.title||'Echo.<br>TGPCOP',sub=host.dataset.sub||'',skip=host.dataset.skip;
+ host.className='shatter';host.id='shatter';
+ host.innerHTML=`<div class="stage" id="stage"><div class="stage-text" id="stageText"><h2>${title}</h2>${sub?`<p>${sub}</p>`:''}</div><div class="logo-box" id="logoBox"></div><div class="hint" id="hint">Scroll<b>↓</b>${skip?`<a href="${skip}">Skip intro</a>`:''}</div></div>`;
+ const wrap=host,stage=$('#stage'),box=$('#logoBox'),txt=$('#stageText'),hint=$('#hint'),src=new URL(C.LOGO,location.href).href;
+ box.style.setProperty('--logo',`url("${src}")`);
+ if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+ const CN=8,RN=7,tiles=[],rnd=i=>{const x=Math.sin(i*127.1+311.7)*43758.5453;return x-Math.floor(x)};
+ for(let r=0;r<RN;r++)for(let c=0;c<CN;c++){
+  const t=document.createElement('div'),i=r*CN+c;t.className='tile';
+  t.style.cssText=`left:${c*100/CN}%;top:${r*100/RN}%;width:calc(${100/CN}% + 1px);height:calc(${100/RN}% + 1px);background-size:${CN*100}% ${RN*100}%;background-position:${c/(CN-1)*100}% ${r/(RN-1)*100}%`;
+  box.appendChild(t);const cx=(c+.5)/CN-.5,cy=(r+.5)/RN-.5;
+  tiles.push({el:t,cx,cy,rx:rnd(i+1)-.5,ry:rnd(i+50)-.5,rot:rnd(i+99)-.5,d:Math.hypot(cx,cy)*.35+rnd(i+7)*.12});
+ }
+ const sm=x=>{x=x<0?0:x>1?1:x;return x*x*(3-2*x)};
+ const render=()=>{
+  const rect=wrap.getBoundingClientRect(),total=wrap.offsetHeight-stage.offsetHeight,p=Math.max(0,Math.min(1,(72-rect.top)/total)),k=box.offsetWidth/560;
+  for(const t of tiles){
+   const e=sm((p-.03-t.d*.3)/.6),tx=(t.cx*1400+t.rx*500)*e*k,ty=(t.cy*1000+t.ry*400)*e*k+e*e*420*k;
+   t.el.style.transform=`translate3d(${tx.toFixed(1)}px,${ty.toFixed(1)}px,0) rotate(${(t.rot*760*e).toFixed(1)}deg) scale(${(1-.45*e).toFixed(3)})`;
+   t.el.style.opacity=(1-sm((e-.5)/.5)).toFixed(3);
+  }
+  txt.style.opacity=sm((p-.55)/.3);txt.style.transform=`scale(${.9+.1*sm((p-.55)/.3)})`;
+  hint.style.opacity=Math.max(0,1-p*8);
+ };
+ let busy=false;const req=()=>{if(!busy){busy=true;requestAnimationFrame(()=>{busy=false;render()})}};
+ addEventListener('scroll',req,{passive:true});addEventListener('resize',req);render();
+}
+/* ---- Scroll progress bar (all pages) ---- */
+function sprog(){
+ if(matchMedia('(prefers-reduced-motion:reduce)').matches||$('.sprog'))return;
+ document.body.insertAdjacentHTML('beforeend','<div class="sprog"></div>');const b=$('.sprog');
+ const u=()=>{const h=document.documentElement.scrollHeight-innerHeight;b.style.transform=`scaleX(${h>0?Math.min(1,scrollY/h):0})`};
+ addEventListener('scroll',u,{passive:true});addEventListener('resize',u);u();
+}
+shell();fx();love();ig();shatterInit();sprog();
