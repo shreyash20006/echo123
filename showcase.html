@@ -11,20 +11,26 @@
   <style>
     .upload-card{background:var(--navy);border:3px solid #fff;border-radius:26px;padding:32px 24px;max-width:680px;margin:0 auto 46px;box-shadow:0 18px 40px rgba(0,20,90,.45)}
     .upload-card h3{font-family:'Bowlby One';font-size:24px;color:var(--yellow);margin-bottom:8px;text-align:center}
-    .media-box{height:230px;border-radius:22px 22px 0 0;overflow:hidden;background:#001040;position:relative}
+    .media-box{height:250px;border-radius:22px 22px 0 0;overflow:hidden;background:#001040;position:relative}
     .media-box img, .media-box video{width:100%;height:100%;object-fit:cover;display:block}
-    .badge-del{position:absolute;top:12px;right:12px;background:#ff334b;color:#fff;border:0;border-radius:99px;padding:6px 14px;font:700 12px Poppins;cursor:pointer;display:inline-flex;align-items:center;gap:4px;box-shadow:0 4px 12px rgba(0,0,0,.4);transition:.2s;z-index:5}
+    .badge-del{position:absolute;top:12px;right:12px;background:#ff334b;color:#fff;border:0;border-radius:99px;padding:6px 14px;font:700 12px Poppins;cursor:pointer;display:inline-flex;align-items:center;gap:4px;box-shadow:0 4px 12px rgba(0,0,0,.4);transition:.2s;z-index:10}
     .badge-del:hover{transform:scale(1.08);background:#d32f2f}
     .filter-bar{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:34px}
     .filter-btn{background:transparent;border:2px solid #fff;color:#fff;border-radius:99px;padding:8px 20px;font:600 14px Poppins;cursor:pointer;transition:.2s}
     .filter-btn.active, .filter-btn:hover{background:var(--yellow);color:var(--blue);border-color:var(--yellow)}
     .file-drop{border:2px dashed #ffffff66;border-radius:18px;padding:22px 16px;text-align:center;cursor:pointer;transition:.2s;background:#ffffff08}
     .file-drop:hover{border-color:var(--yellow);background:#ffffff12}
-    .preview-box{display:none;margin-top:14px;border-radius:16px;overflow:hidden;max-height:240px;background:#000;border:2px solid #ffffff33}
-    .preview-box img, .preview-box video{width:100%;max-height:240px;object-fit:contain}
+    .preview-box{display:none;margin-top:14px;border-radius:16px;padding:12px;background:#000a26;border:2px solid #ffffff33}
+    .preview-grid{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:8px}
+    .preview-thumb{position:relative;width:76px;height:76px;border-radius:12px;overflow:hidden;border:2px solid var(--yellow)}
+    .preview-thumb img{width:100%;height:100%;object-fit:cover}
+    .preview-remove{position:absolute;top:2px;right:2px;background:rgba(0,0,0,.75);color:#fff;border-radius:50%;width:20px;height:20px;font:700 13px/20px sans-serif;text-align:center;cursor:pointer}
     .prog-bar{height:6px;width:100%;background:#ffffff22;border-radius:99px;overflow:hidden;margin-top:10px;display:none}
     .prog-fill{height:100%;width:0;background:var(--yellow);transition:width .2s}
     .card-footer{display:flex;justify-content:space-between;align-items:center;margin-top:12px;font-size:13px;opacity:.9}
+    .carousel-btn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,16,64,.75);color:#fff;border:2px solid #fff;border-radius:50%;width:34px;height:34px;cursor:pointer;display:grid;place-items:center;font-size:14px;transition:.2s;z-index:8}
+    .carousel-btn:hover{background:var(--yellow);color:var(--blue);border-color:var(--yellow)}
+    .carousel-badge{position:absolute;bottom:10px;right:12px;background:rgba(0,0,0,.7);color:#fff;padding:3px 10px;border-radius:99px;font-size:11px;font-weight:700;z-index:7}
   </style>
 </head>
 <body>
@@ -33,7 +39,7 @@
   <section>
     <div class="wrap">
       <h2 class="rv" style="text-align:center">Student <span class="y">Showcase</span></h2>
-      <p class="rv" style="text-align:center;max-width:620px;margin:0 auto 36px">Upload your campus performances, reels, photography, singing, dance or art. Login required to showcase and manage your talent.</p>
+      <p class="rv" style="text-align:center;max-width:620px;margin:0 auto 36px">Upload your campus performances, reels, multiple photos, art or music. Login required to showcase your talent and get delete access.</p>
 
       <!-- Upload Form Container -->
       <div class="upload-card rv" id="uploadArea">
@@ -61,7 +67,7 @@
   <script>
     let currentFilter = 'all';
     let allSubmissions = [];
-    let selectedFile = null;
+    let selectedFiles = []; // Holds single video or multiple images
 
     function renderUploadArea() {
       const box = $('#uploadArea');
@@ -71,7 +77,7 @@
         box.innerHTML = `
           <div style="text-align:center;padding:12px 0">
             <h3>Share Your Talent 🌟</h3>
-            <p style="margin:12px auto 22px;max-width:480px;opacity:.9">Students must login with Google to upload photos or videos and get delete access.</p>
+            <p style="margin:12px auto 22px;max-width:480px;opacity:.9">Students must login with Google to upload single or multiple photos / videos and manage their posts.</p>
             <a class="btn" href="login.html">Login with Google to Upload</a>
           </div>
         `;
@@ -95,45 +101,88 @@
               <option value="Other">✨ Other Talent</option>
             </select>
           </div>
-          <input type="text" id="sTitle" placeholder="Performance Title (e.g. Cultural Day Solo Dance)" required>
+          <input type="text" id="sTitle" placeholder="Performance Title (e.g. Cultural Day Dance / Artwork Series)" required>
           <input type="text" id="sInsta" placeholder="Instagram Username (Optional, e.g. @your_name)">
           
           <div class="file-drop" onclick="$('#fileInput').click()">
-            <span style="font-size:28px">📤</span>
-            <p style="margin:6px 0;font-weight:600">Choose a Video (.mp4, .mov) or Photo (.jpg, .png)</p>
-            <small style="opacity:.7">Click to browse files (Max 50MB)</small>
-            <input type="file" id="fileInput" accept="image/*,video/*" style="display:none" onchange="handleFileSelect(event)">
+            <span style="font-size:32px">📸 🎬</span>
+            <p style="margin:6px 0;font-weight:600">Choose Photos (Multiple Allowed) or a Video (.mp4)</p>
+            <small style="opacity:.75">Click to browse • Select 1 to 10 photos together or 1 video</small>
+            <input type="file" id="fileInput" multiple accept="image/*,video/*" style="display:none" onchange="handleFileSelect(event)">
           </div>
 
           <div class="preview-box" id="previewBox"></div>
           <div class="prog-bar" id="progBar"><div class="prog-fill" id="progFill"></div></div>
 
-          <button class="btn" type="submit" id="submitBtn" style="margin-top:10px">Upload & Showcase</button>
+          <button class="btn" type="submit" id="submitBtn" style="margin-top:14px">Upload & Showcase</button>
           <small id="uploadMsg" style="text-align:center;font-weight:600"></small>
         </form>
       `;
     }
 
     function handleFileSelect(e) {
-      const file = e.target.files[0];
-      if (!file) return;
-      selectedFile = file;
+      const files = Array.from(e.target.files || []);
+      if (!files.length) return;
+
+      const hasVideo = files.some(f => f.type.startsWith('video/'));
+      if (hasVideo) {
+        // Take the first video only
+        const vid = files.find(f => f.type.startsWith('video/'));
+        selectedFiles = [vid];
+      } else {
+        // Multi-image selection (max 10 photos)
+        selectedFiles = files.filter(f => f.type.startsWith('image/')).slice(0, 10);
+      }
+
+      renderPreview();
+    }
+
+    function removeFile(idx) {
+      selectedFiles.splice(idx, 1);
+      renderPreview();
+    }
+
+    function renderPreview() {
       const preview = $('#previewBox');
-      const isVideo = file.type.startsWith('video');
+      if (!selectedFiles.length) {
+        preview.style.display = 'none';
+        preview.innerHTML = '';
+        return;
+      }
 
       preview.style.display = 'block';
-      const fileUrl = URL.createObjectURL(file);
+      const isVideo = selectedFiles[0].type.startsWith('video/');
+
       if (isVideo) {
-        preview.innerHTML = `<video src="${fileUrl}" controls playsinline style="max-height:220px"></video>`;
+        const fileUrl = URL.createObjectURL(selectedFiles[0]);
+        preview.innerHTML = `
+          <div style="text-align:center">
+            <video src="${fileUrl}" controls playsinline style="max-height:220px;border-radius:12px"></video>
+            <small style="display:block;margin-top:6px;color:var(--yellow);font-weight:600">🎬 1 Video Selected (${Math.round(selectedFiles[0].size / 1024 / 1024)}MB)</small>
+          </div>
+        `;
       } else {
-        preview.innerHTML = `<img src="${fileUrl}" alt="Preview" style="max-height:220px">`;
+        preview.innerHTML = `
+          <div style="text-align:center">
+            <small style="color:var(--yellow);font-weight:700;font-size:13px">📸 ${selectedFiles.length} Photo${selectedFiles.length > 1 ? 's' : ''} Selected</small>
+            <div class="preview-grid">
+              ${selectedFiles.map((f, i) => `
+                <div class="preview-thumb">
+                  <img src="${URL.createObjectURL(f)}" alt="preview">
+                  <span class="preview-remove" onclick="removeFile(${i})" title="Remove">×</span>
+                </div>
+              `).join('')}
+            </div>
+            <small style="opacity:.65;display:block;margin-top:6px">Tip: Click × on any photo to remove before uploading</small>
+          </div>
+        `;
       }
     }
 
     async function handleUpload(e) {
       e.preventDefault();
-      if (!selectedFile) {
-        alert('Please select a photo or video to upload.');
+      if (!selectedFiles.length) {
+        alert('Please select at least one photo or video to upload.');
         return;
       }
       if (!window.USER) {
@@ -156,30 +205,42 @@
       btn.textContent = 'Uploading... Please wait';
       msg.textContent = '';
       prog.style.display = 'block';
-      fill.style.width = '35%';
+      fill.style.width = '15%';
 
       try {
-        const fileExt = selectedFile.name.split('.').pop() || 'bin';
-        const isVideo = selectedFile.type.startsWith('video');
+        const isVideo = selectedFiles[0].type.startsWith('video/');
         const mediaType = isVideo ? 'video' : 'image';
-        const fileName = `${window.USER.id}/${Date.now()}.${fileExt}`;
+        const uploadedUrls = [];
+        const storagePaths = [];
 
-        // 1. Upload to Supabase Storage Bucket 'student_media'
-        fill.style.width = '60%';
-        const { error: uploadError } = await client.storage
-          .from('student_media')
-          .upload(fileName, selectedFile, { cacheControl: '3600', upsert: true });
+        // Upload files sequentially with progress
+        for (let i = 0; i < selectedFiles.length; i++) {
+          const file = selectedFiles[i];
+          const fileExt = file.name.split('.').pop() || (isVideo ? 'mp4' : 'jpg');
+          const fileName = `${window.USER.id}/${Date.now()}_${i}.${fileExt}`;
 
-        if (uploadError) {
-          throw new Error('Storage Upload Error: ' + uploadError.message + ' (Make sure student_media bucket exists in Supabase Storage)');
+          fill.style.width = `${Math.round(20 + ((i + 1) / selectedFiles.length) * 65)}%`;
+
+          const { error: uploadError } = await client.storage
+            .from('student_media')
+            .upload(fileName, file, { cacheControl: '3600', upsert: true });
+
+          if (uploadError) {
+            throw new Error('Upload Error: ' + uploadError.message + ' (Make sure student_media bucket is created as Public)');
+          }
+
+          const { data: urlData } = client.storage.from('student_media').getPublicUrl(fileName);
+          uploadedUrls.push(urlData.publicUrl);
+          storagePaths.push(fileName);
         }
 
-        fill.style.width = '85%';
-        // 2. Get Public URL
-        const { data: urlData } = client.storage.from('student_media').getPublicUrl(fileName);
-        const mediaUrl = urlData.publicUrl;
+        fill.style.width = '90%';
 
-        // 3. Insert record into database table 'student_submissions'
+        // Store as array JSON if multiple, or single string if 1
+        const finalMediaUrl = uploadedUrls.length === 1 ? uploadedUrls[0] : JSON.stringify(uploadedUrls);
+        const finalStoragePath = storagePaths.length === 1 ? storagePaths[0] : JSON.stringify(storagePaths);
+
+        // Insert metadata record into table
         const { error: dbError } = await client
           .from('student_submissions')
           .insert({
@@ -189,8 +250,8 @@
             category: $('#sCategory').value,
             instagram_handle: $('#sInsta').value.trim() || null,
             media_type: mediaType,
-            media_url: mediaUrl,
-            storage_path: fileName,
+            media_url: finalMediaUrl,
+            storage_path: finalStoragePath,
             approved: true
           });
 
@@ -199,9 +260,9 @@
         }
 
         fill.style.width = '100%';
-        msg.textContent = '🎉 Your performance was uploaded successfully!';
+        msg.textContent = `🎉 Upload successful (${uploadedUrls.length} file${uploadedUrls.length > 1 ? 's' : ''})! Displaying below...`;
         msg.style.color = 'var(--yellow)';
-        selectedFile = null;
+        selectedFiles = [];
         $('#uploadForm').reset();
         $('#previewBox').style.display = 'none';
         setTimeout(() => { prog.style.display = 'none'; fill.style.width = '0'; }, 1000);
@@ -232,12 +293,24 @@
 
         if (dbErr) throw dbErr;
 
-        // Delete file from Storage bucket
+        // Delete file(s) from Storage bucket
         if (storagePath) {
-          await client.storage.from('student_media').remove([storagePath]);
+          let paths = [];
+          try {
+            if (storagePath.startsWith('[')) {
+              paths = JSON.parse(storagePath);
+            } else {
+              paths = [storagePath];
+            }
+          } catch(e) {
+            paths = [storagePath];
+          }
+          if (paths.length) {
+            await client.storage.from('student_media').remove(paths);
+          }
         }
 
-        alert('Performance deleted.');
+        alert('Performance deleted successfully.');
         await fetchSubmissions();
       } catch (err) {
         alert('Could not delete: ' + err.message);
@@ -249,7 +322,7 @@
       const client = getSB();
 
       if (!client) {
-        grid.innerHTML = '<p style="grid-column:1/-1;text-align:center">Supabase keys not found.</p>';
+        grid.innerHTML = '<p style="grid-column:1/-1;text-align:center">Supabase not configured.</p>';
         return;
       }
 
@@ -274,6 +347,19 @@
       renderGallery();
     }
 
+    window.moveCarousel = function(carouselId, images, dir) {
+      const box = document.getElementById(carouselId);
+      if (!box) return;
+      let idx = parseInt(box.dataset.idx || '0', 10);
+      idx = (idx + dir + images.length) % images.length;
+      box.dataset.idx = idx;
+
+      const img = box.querySelector('.carousel-img');
+      const badge = box.querySelector('.carousel-badge');
+      if (img) img.src = images[idx];
+      if (badge) badge.textContent = `${idx + 1} / ${images.length}`;
+    };
+
     function renderGallery() {
       const grid = $('#galleryGrid');
       const myId = window.USER ? window.USER.id : null;
@@ -287,7 +373,7 @@
         grid.innerHTML = `
           <div style="grid-column:1/-1;text-align:center;padding:40px 20px">
             <p style="font-size:20px;font-weight:600">No performances found in this filter.</p>
-            <p style="opacity:.8;margin-top:8px">Upload your video or photo above to showcase your talent!</p>
+            <p style="opacity:.8;margin-top:8px">Upload your video or photos above to showcase your talent!</p>
           </div>
         `;
         return;
@@ -298,15 +384,48 @@
         const isVideo = item.media_type === 'video';
         const dateStr = new Date(item.created_at).toLocaleDateString();
 
+        let mediaHtml = '';
+        let photoCount = 1;
+
+        if (isVideo) {
+          mediaHtml = `
+            <video src="${esc(item.media_url)}" controls playsinline preload="metadata"></video>
+          `;
+        } else {
+          let images = [];
+          try {
+            if (item.media_url.startsWith('[')) {
+              images = JSON.parse(item.media_url);
+            } else {
+              images = [item.media_url];
+            }
+          } catch(e) {
+            images = [item.media_url];
+          }
+
+          photoCount = images.length;
+
+          if (images.length > 1) {
+            const carId = 'car_' + item.id.replace(/[^a-zA-Z0-9]/g, '');
+            const jsonStr = JSON.stringify(images).replace(/"/g, '&quot;');
+            mediaHtml = `
+              <div id="${carId}" data-idx="0" style="position:relative;width:100%;height:100%">
+                <img class="carousel-img" src="${esc(images[0])}" alt="${esc(item.title)}">
+                <span class="carousel-badge">1 / ${images.length}</span>
+                <button type="button" class="carousel-btn" style="left:8px" onclick="moveCarousel('${carId}', ${jsonStr}, -1)" title="Previous photo">❮</button>
+                <button type="button" class="carousel-btn" style="right:8px" onclick="moveCarousel('${carId}', ${jsonStr}, 1)" title="Next photo">❯</button>
+              </div>
+            `;
+          } else {
+            mediaHtml = `<img src="${esc(images[0])}" alt="${esc(item.title)}" loading="lazy">`;
+          }
+        }
+
         return `
           <div class="card rv in" style="overflow:hidden">
             <div class="media-box">
               ${isMine ? `<button class="badge-del" onclick="deleteSubmission('${esc(item.id)}', '${esc(item.storage_path)}')">🗑️ Delete</button>` : ''}
-              ${isVideo ? `
-                <video src="${esc(item.media_url)}" controls playsinline preload="metadata"></video>
-              ` : `
-                <img src="${esc(item.media_url)}" alt="${esc(item.title)}" loading="lazy">
-              `}
+              ${mediaHtml}
             </div>
             <div class="bd">
               <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
@@ -321,7 +440,9 @@
                     📸 ${esc(item.instagram_handle.startsWith('@') ? item.instagram_handle : '@' + item.instagram_handle)}
                   </a>
                 ` : '<span></span>'}
-                <span style="opacity:.6">${isVideo ? '🎥 Video' : '🖼️ Photo'}</span>
+                <span style="opacity:.65;font-weight:600">
+                  ${isVideo ? '🎥 1 Video' : (photoCount > 1 ? `🖼️ ${photoCount} Photos` : '🖼️ 1 Photo')}
+                </span>
               </div>
             </div>
           </div>
