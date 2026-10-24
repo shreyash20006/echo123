@@ -50,13 +50,13 @@ ul.rules{margin:10px 0 0;padding-left:20px;font-size:14px;opacity:.95}ul.rules l
   <label>Email<input id="be" type="email" autocomplete="email" maxlength="80"></label>
   <label class="chk" style="margin-top:16px"><input type="checkbox" id="ok"><span>I understand that items with a printed name can’t be refunded or exchanged, and that my order is confirmed only after the pre-order target is reached.</span></label>
   <button class="btn" id="pay" style="width:100%;margin-top:18px" disabled>Pay &amp; Pre-order</button><div class="err" id="err"></div>
-  <p style="font-size:12px;opacity:.75;margin:6px 0 0">🔒 Secure payment by Cashfree (UPI, cards, netbanking).</p></div>
+  <p style="font-size:12px;opacity:.75;margin:6px 0 0">🔒 Secure payment by Razorpay (UPI, GPay, PhonePe, Cards, Netbanking).</p></div>
 </div></section>
 
 <section style="padding-top:0"><div class="wrap"><h2 class="rv">How it <span class="y">Works</span></h2>
  <ul class="rules rv"><li>Pay now → your pre-order is locked once payment succeeds.</li><li>We place the bulk order only when the target is reached, then you get your piece at the college handover.</li><li>If the target isn’t reached, we extend the deadline, run a smaller batch, or refund you in full.</li><li>A sample is checked before the bulk print. Extra pieces are never sold on top of your order.</li></ul></div></section>
 <div id="foot"></div>
-<script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script src="env.js"></script><script src="echo.js"></script>
 <script>
 const money=n=>'₹'+Number(n).toLocaleString('en-IN');
@@ -120,10 +120,49 @@ $('#pay').onclick=async()=>{
  b.disabled=true;b.textContent='Opening payment…';
  try{
   const r=await fetch('/api/create-order',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({buyer,items:cart})}),d=await r.json();
-  if(!r.ok)throw new Error(d.error||'Failed');
-  if(typeof Cashfree==='undefined')throw new Error('Payment module did not load. Check your internet and retry.');
-  await Cashfree({mode:d.mode}).checkout({paymentSessionId:d.payment_session_id,redirectTarget:'_self'});
- }catch(e){err.textContent=e.message;b.textContent='Pay & Pre-order';gate()}
+  if(!r.ok)throw new Error(d.error||'Failed to create order.');
+  if(typeof Razorpay==='undefined')throw new Error('Razorpay payment module did not load. Check your internet connection.');
+  const rzp=new Razorpay({
+   key:d.key_id,
+   amount:d.amount,
+   currency:d.currency||'INR',
+   name:'Echo.TGPCOP',
+   description:d.description||'Echo Merch Pre-order',
+   image:C.LOGO||'echo_logo_white_transparent.png',
+   order_id:d.rzp_order_id,
+   prefill:d.prefill,
+   notes:{order_id:d.order_id},
+   theme:{color:'#004BFE'},
+   modal:{
+    ondismiss:()=>{b.disabled=false;b.textContent='Pay & Pre-order';gate();}
+   },
+   handler:async(res)=>{
+    b.textContent='Verifying payment…';
+    try{
+     const v=await fetch('/api/verify-payment',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
+      order_id:d.order_id,
+      razorpay_order_id:res.razorpay_order_id,
+      razorpay_payment_id:res.razorpay_payment_id,
+      razorpay_signature:res.razorpay_signature
+     })}),vd=await v.json();
+     if(!v.ok)throw new Error(vd.error||'Payment verification failed.');
+     cart=[];save();paintCart();
+     const box=$('#status');
+     box.innerHTML=`<div class="ban">🎉 <b>Payment received!</b> Order <b>${esc(d.order_id)}</b> · Payment ID: <b>${esc(res.razorpay_payment_id)}</b> · ${money(d.due)} paid.<br><span style="font-weight:500">Your pre-order is locked. We’ll update you on Instagram <b>@echo.tgpcop</b> when the target is reached.</span></div>`;
+     box.scrollIntoView({behavior:'smooth'});
+    }catch(e){
+     err.textContent=e.message||('Payment completed with ID '+res.razorpay_payment_id+', but verification pending. Please contact @echo.tgpcop');
+    }finally{
+     b.textContent='Pay & Pre-order';gate();
+    }
+   }
+  });
+  rzp.on('payment.failed',res=>{
+   err.textContent='Payment failed: '+(res.error?.description||'Transaction declined');
+   b.disabled=false;b.textContent='Pay & Pre-order';gate();
+  });
+  rzp.open();
+ }catch(e){err.textContent=e.message;b.disabled=false;b.textContent='Pay & Pre-order';gate()}
 };
 
 async function returned(){

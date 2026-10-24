@@ -19,8 +19,7 @@ const MERCH = {
 /* ===================================================== */
 
 const env = (k) => String(process.env[k] || '').trim().replace(/^["']|["']$/g, '');
-const CF_MODE = env('CASHFREE_ENV').toLowerCase() === 'production' ? 'production' : 'sandbox';
-const CF_BASE = CF_MODE === 'production' ? 'https://api.cashfree.com/pg' : 'https://sandbox.cashfree.com/pg';
+const RZP_BASE = 'https://api.razorpay.com/v1';
 
 function send(res, code, obj, headers = {}) {
   res.statusCode = code;
@@ -35,28 +34,27 @@ async function readBody(req) {
   return Buffer.concat(chunks).toString('utf8');
 }
 
-async function cf(path, method = 'GET', body) {
-  const appId = env('CASHFREE_APP_ID');
-  const secretKey = env('CASHFREE_SECRET_KEY');
-  if (!appId || !secretKey) {
-    const e = new Error('CASHFREE_APP_ID or CASHFREE_SECRET_KEY is missing in Vercel environment variables.');
+async function rzp(path, method = 'GET', body) {
+  const keyId = env('RAZORPAY_KEY_ID');
+  const keySecret = env('RAZORPAY_KEY_SECRET');
+  if (!keyId || !keySecret) {
+    const e = new Error('RAZORPAY_KEY_ID or RAZORPAY_KEY_SECRET is missing in Vercel environment variables.');
     e.status = 500;
     throw e;
   }
-  const r = await fetch(CF_BASE + path, {
+  const auth = Buffer.from(`${keyId}:${keySecret}`).toString('base64');
+  const r = await fetch(RZP_BASE + path, {
     method,
     headers: {
-      'x-api-version': '2023-08-01',
-      'x-client-id': appId,
-      'x-client-secret': secretKey,
+      Authorization: `Basic ${auth}`,
       'Content-Type': 'application/json'
     },
     body: body ? JSON.stringify(body) : undefined
   });
   const data = await r.json().catch(() => ({}));
   if (!r.ok) {
-    const msg = data.message || data.error || (data.sub_code ? `Cashfree: ${data.sub_code}` : `Cashfree API error (${r.status})`);
-    const e = new Error(`${msg} [Cashfree Mode: ${CF_MODE}]`);
+    const msg = data.error?.description || data.error?.message || data.message || `Razorpay API error (${r.status})`;
+    const e = new Error(msg);
     e.status = r.status;
     e.data = data;
     throw e;
@@ -104,11 +102,33 @@ async function getCatalog() {
 const closedReason = (st) => !st.open ? 'Store is paused for now.' : (Date.now() > new Date(st.deadline).getTime() ? 'Pre-orders are closed.' : '');
 const siteUrl = (req) => (env('SITE_URL') || `https://${req.headers['x-forwarded-host'] || req.headers.host}`).replace(/\/$/, '');
 
-function verifyWebhook(raw, sig, ts) {
-  if (!sig || !ts) return false;
-  const calc = crypto.createHmac('sha256', env('CASHFREE_SECRET_KEY')).update(ts + raw).digest('base64');
-  const a = Buffer.from(calc), b = Buffer.from(String(sig));
+function verifyPaymentSignature({ order_id, payment_id, signature }) {
+  if (!order_id || !payment_id || !signature) return false;
+  const secret = env('RAZORPAY_KEY_SECRET');
+  if (!secret) return false;
+  const expected = crypto.createHmac('sha256', secret).update(`${order_id}|${payment_id}`).digest('hex');
+  const a = Buffer.from(expected), b = Buffer.from(String(signature));
   return a.length === b.length && crypto.timingSafeEqual(a, b);
 }
 
-module.exports = { MERCH, CF_MODE, send, readBody, cf, sb, getCatalog, closedReason, siteUrl, verifyWebhook, env };
+function verifyWebhookSignature(rawBody, signature) {
+  const secret = env('RAZORPAY_WEBHOOK_SECRET');
+  if (!secret || !signature || !rawBody) return false;
+  const expected = crypto.createHmac('sha256', secret).update(rawBody).digest('hex');
+  const a = Buffer.from(expected), b = Buffer.from(String(signature));
+  return a.length === b.length && crypto.timingSafeEqual(a, b);
+}
+
+module.exports = {
+  MERCH,
+  send,
+  readBody,
+  rzp,
+  sb,
+  getCatalog,
+  closedReason,
+  siteUrl,
+  verifyPaymentSignature,
+  verifyWebhookSignature,
+  env
+};

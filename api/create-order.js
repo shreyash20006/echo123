@@ -1,5 +1,5 @@
 const crypto = require('crypto');
-const { CF_MODE, send, readBody, cf, sb, getCatalog, closedReason, siteUrl } = require('./_lib');
+const { send, readBody, rzp, sb, getCatalog, closedReason, env } = require('./_lib');
 
 module.exports = async (req, res) => {
   if (req.method !== 'POST') return send(res, 405, { error: 'POST only' });
@@ -33,23 +33,56 @@ module.exports = async (req, res) => {
     const due = Math.ceil(total * Math.min(100, Math.max(50, st.advancePercent)) / 100);
     const orderId = 'ECHO' + Date.now().toString(36).toUpperCase() + crypto.randomBytes(3).toString('hex').toUpperCase();
 
+    // 1. Create order on Razorpay
+    const rzpOrder = await rzp('/orders', 'POST', {
+      amount: due * 100, // Razorpay amount in paise
+      currency: 'INR',
+      receipt: orderId.slice(0, 40),
+      notes: {
+        order_id: orderId,
+        buyer_name: name,
+        phone,
+        email,
+        batch,
+        qty: String(qty)
+      }
+    });
+
+    // 2. Save order in Supabase
     await sb('merch_orders', { method: 'POST', prefer: 'return=minimal', body: {
-      order_id: orderId, buyer_name: name, phone, email, batch, items, qty, total, amount_due: due, status: 'PENDING'
+      order_id: orderId,
+      rzp_order_id: rzpOrder.id,
+      buyer_name: name,
+      phone,
+      email,
+      batch,
+      items,
+      qty,
+      total,
+      amount_due: due,
+      status: 'PENDING'
     }});
 
-    const site = siteUrl(req);
-    const cfo = await cf('/orders', 'POST', {
+    send(res, 200, {
       order_id: orderId,
-      order_amount: due,
-      order_currency: 'INR',
-      order_note: `Echo Merch pre-order (${qty} pcs)`,
-      customer_details: { customer_id: 'c' + phone, customer_name: name, customer_email: email, customer_phone: phone },
-      order_meta: { return_url: `${site}/merch.html?order_id={order_id}`, notify_url: `${site}/api/cashfree-webhook` }
+      rzp_order_id: rzpOrder.id,
+      key_id: env('RAZORPAY_KEY_ID'),
+      amount: due * 100,
+      currency: 'INR',
+      name: 'Echo.TGPCOP',
+      description: `Echo Merch Pre-order (${qty} pcs)`,
+      prefill: {
+        name,
+        email,
+        contact: phone
+      },
+      theme: { color: '#004BFE' },
+      total,
+      due
     });
-    send(res, 200, { order_id: orderId, payment_session_id: cfo.payment_session_id, mode: CF_MODE, total, due });
   } catch (e) {
     console.error('create-order error:', e.message, e.data || '');
-    const detail = (e.data && (e.data.message || e.data.sub_code)) || e.message || 'Could not start payment.';
+    const detail = (e.data && e.data.error && e.data.error.description) || e.message || 'Could not start payment.';
     send(res, e.status || 500, { error: detail });
   }
 };

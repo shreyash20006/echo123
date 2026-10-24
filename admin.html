@@ -76,10 +76,10 @@ function card(o){
  return `<details class="oc"><summary><div><b>${esc(o.buyer_name)}</b><small>${esc(o.order_id)} · ${when(o.created_at)}</small></div><div>${o.qty} pcs · ${money(o.total)}<small>${esc(o.batch||'')}</small></div><span class="st ${o.status}">${o.status}</span><span>${o.delivered?'✅':''}</span></summary>
  <div class="bd2"><table class="t" style="margin:12px 0"><tr><th>Item</th><th>Size</th><th>Name printed</th><th>Qty</th><th>Price</th></tr>${o.items.map(i=>`<tr><td>${esc(i.title)}</td><td>${esc(i.size)}</td><td><b>${esc(i.printName)}</b></td><td>${i.qty}</td><td>${money(i.price*i.qty)}</td></tr>`).join('')}</table>
  <p style="margin:6px 0">📞 <a href="tel:${esc(o.phone)}">${esc(o.phone)}</a> · ✉️ ${esc(o.email)} · <a class="y" href="${wa}" target="_blank" rel="noopener">💬 WhatsApp</a></p>
- <p style="margin:6px 0;opacity:.85">Paid online: ${money(o.amount_due)} ${o.cf_payment_id?'· Cashfree #'+esc(o.cf_payment_id):''}</p>
+ <p style="margin:6px 0;opacity:.85">Paid online: ${money(o.amount_due)} ${(o.payment_id||o.cf_payment_id)?'· Payment #'+esc(o.payment_id||o.cf_payment_id):''}</p>
  <div class="fm"><div class="g3"><div><label>Status</label><select class="os">${['PENDING','PAID','FAILED','CANCELLED','REFUNDED'].map(s=>`<option ${s===o.status?'selected':''}>${s}</option>`).join('')}</select></div><div><label>&nbsp;</label><label class="chk"><input type="checkbox" class="od" ${o.delivered?'checked':''}> Delivered</label></div><div><label>&nbsp;</label><button class="btn s" data-save="${esc(o.order_id)}">Save</button></div></div>
  <label>Private note</label><textarea class="onote" rows="2" maxlength="500">${esc(o.admin_note||'')}</textarea></div>
- <p style="font-size:12px;opacity:.7;margin:8px 0 0">Refunds: do them in the Cashfree dashboard, then set status to REFUNDED here.</p></div></details>`}
+ <p style="font-size:12px;opacity:.7;margin:8px 0 0">Refunds: do them in the Razorpay dashboard, then set status to REFUNDED here.</p></div></details>`}
 
 /* ---------- PRINT SHEET ---------- */
 function vPrint(){

@@ -21,6 +21,8 @@ create table if not exists public.merch_orders (
 );
 alter table public.merch_orders add column if not exists delivered boolean not null default false;
 alter table public.merch_orders add column if not exists admin_note text;
+alter table public.merch_orders add column if not exists payment_id text;
+alter table public.merch_orders add column if not exists rzp_order_id text;
 create index if not exists idx_merch_status on public.merch_orders (status);
 
 create table if not exists public.merch_products (
