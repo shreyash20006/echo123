@@ -1,0 +1,142 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex,nofollow"><title>Admin | Echo.TGPCOP</title><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Bowlby+One&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="echo.css">
+<style>
+.tabs{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 24px}.tabs button{border:3px solid #fff;background:transparent;color:#fff;border-radius:99px;padding:9px 22px;font:700 14px Poppins;cursor:pointer}.tabs button.on{background:var(--yellow);color:var(--blue);border-color:var(--yellow)}
+.stats{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));margin-bottom:26px}.stats .stat b{font-size:48px}
+.panel{background:var(--navy);border:3px solid #fff;border-radius:24px;padding:22px}
+.tools{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}.tools input,.tools select{flex:1;min-width:160px;padding:11px 16px;border-radius:99px;border:3px solid #fff;background:var(--navy);color:#fff;font:500 14px Poppins}
+.oc{background:var(--navy);border:3px solid #fff;border-radius:20px;margin-bottom:12px;overflow:hidden}.oc summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:1.3fr 1fr auto auto;gap:6px 14px;align-items:center;padding:14px 18px}.oc summary::-webkit-details-marker{display:none}
+.oc summary small{display:block;opacity:.75;font-weight:500}.oc .bd2{padding:4px 18px 18px;border-top:2px dashed rgba(255,255,255,.3)}
+.st{display:inline-block;border-radius:99px;padding:3px 12px;font-size:12px;font-weight:700;background:#fff;color:var(--blue)}.st.PAID{background:#2ee59d;color:#003b27}.st.PENDING{background:var(--yellow)}.st.FAILED,.st.CANCELLED{background:#ff6b6b;color:#fff}.st.REFUNDED{background:#b99cff;color:#25005f}
+.fm label{display:block;font-weight:600;font-size:13px;margin:10px 0 4px}.fm .g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.fm .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.fm input[type=checkbox]{width:auto;margin-right:8px;accent-color:var(--yellow)}.fm input[type=color]{padding:3px;height:46px;cursor:pointer}.fm .chk{display:flex;align-items:center;font-weight:600}
+.pg{display:grid;gap:18px;grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}.pcard{background:var(--navy);border:3px solid #fff;border-radius:22px;overflow:hidden}.pcard .im{height:170px;background:#e8f0ff center/cover;display:grid;place-items:center;color:var(--blue);font-weight:700}.pcard .b3{padding:16px}.pcard h4{margin:0;font:400 26px 'Bebas Neue';color:var(--yellow)}
+.ph{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:12px;margin-top:8px}.ph div{position:relative;border:3px solid #fff;border-radius:16px;overflow:hidden;background:#e8f0ff}.ph img{width:100%;aspect-ratio:1;object-fit:cover}.ph .tb{position:absolute;left:0;right:0;bottom:0;display:flex;justify-content:center;gap:4px;background:rgba(0,20,90,.8);padding:4px}.ph button{background:none;border:0;color:#fff;cursor:pointer;font-size:15px;padding:2px 6px}.ph .main{position:absolute;top:6px;left:6px;background:var(--yellow);color:var(--blue);font-size:11px;font-weight:700;border-radius:99px;padding:2px 9px}
+.btn.s{padding:8px 18px;font-size:13px}.btn.red{background:#ff6b6b;border-color:#ff6b6b;color:#fff}
+table.t{border-collapse:collapse;width:100%;font-size:14px}.t th,.t td{border:2px solid rgba(255,255,255,.5);padding:8px 10px;text-align:left;vertical-align:top}.t th{background:var(--yellow);color:var(--blue)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#fff;color:var(--blue);font-weight:700;padding:12px 24px;border-radius:99px;box-shadow:0 10px 30px rgba(0,0,0,.35);z-index:300}.toast.bad{background:#ff6b6b;color:#fff}
+#v .fm{max-width:none;width:100%;margin:0}
+@media(max-width:700px){.oc summary{grid-template-columns:1fr auto}.fm .g2,.fm .g3{grid-template-columns:1fr}}
+</style></head><body><div id="nav"></div>
+<section><div class="wrap">
+<h2>Admin <span class="y">Panel</span></h2>
+<div id="gate"><p>Loading…</p></div>
+<div id="app" hidden>
+ <div class="stats" id="stats"></div>
+ <div class="tabs" id="tabs"><button data-t="orders" class="on">📦 Orders</button><button data-t="print">🖨️ Print sheet</button><button data-t="products">👕 Products</button><button data-t="settings">⚙️ Settings</button></div>
+ <div id="v"></div>
+</div></div></section>
+<div id="foot"></div>
+<script src="env.js"></script><script src="echo.js"></script>
+<script>
+const money=n=>'₹'+Number(n||0).toLocaleString('en-IN');
+const when=i=>i?new Date(i).toLocaleString('en-IN',{timeZone:'Asia/Kolkata',day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}):'';
+const slug=s=>String(s).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,40);
+let D=null,tab='orders',F=null,SB=null;
+function toast(m,bad){const t=document.createElement('div');t.className='toast'+(bad?' bad':'');t.textContent=m;document.body.appendChild(t);setTimeout(()=>t.remove(),3200)}
+async function api(action,payload={}){
+ const{data}=await SB.auth.getSession();const tok=data.session?.access_token;
+ const r=await fetch('/api/admin',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+tok},body:JSON.stringify({action,...payload})});
+ const d=await r.json().catch(()=>({}));if(!r.ok){const e=new Error(d.error||'Failed');e.status=r.status;throw e}return d}
+function csv(name,rows){const q=v=>'"'+String(v??'').replace(/"/g,'""')+'"';const b=new Blob(['\ufeff'+rows.map(r=>r.map(q).join(',')).join('\n')],{type:'text/csv'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),2000)}
+
+/* ---------- boot / gate ---------- */
+(async()=>{
+ await ready;SB=getSB();const g=$('#gate');
+ if(!SB){g.innerHTML='<div class="panel">Supabase keys are not set in Vercel yet.</div>';return}
+ const{data}=await SB.auth.getSession(),u=data.session?.user;
+ if(!u){g.innerHTML='<div class="panel"><p style="margin-top:0">Admin access is only for approved Google accounts.</p><button class="btn" id="gl">Login with Google</button></div>';
+  $('#gl').onclick=()=>SB.auth.signInWithOAuth({provider:'google',options:{redirectTo:location.origin+location.pathname}});return}
+ try{D=await api('load')}catch(e){
+  g.innerHTML=`<div class="panel"><b>${e.status===403?'🚫 Access denied':'Error'}</b><p>${e.status===403?`<b>${esc(u.email)}</b> is not an admin account.`:esc(e.message)}</p><button class="btn o sm" id="so">Logout</button></div>`;$('#so').onclick=async()=>{await SB.auth.signOut();location.reload()};return}
+ g.hidden=true;$('#app').hidden=false;render();
+})();
+
+$('#tabs').onclick=e=>{const b=e.target.closest('button');if(!b)return;tab=b.dataset.t;F=null;$$('#tabs button').forEach(x=>x.classList.toggle('on',x===b));render()};
+const refresh=async()=>{D=await api('load');render()};
+function render(){stats();({orders:vOrders,print:vPrint,products:vProducts,settings:vSettings})[tab]()}
+
+function stats(){
+ const paid=D.orders.filter(o=>o.status==='PAID'),pcs=paid.reduce((s,o)=>s+o.qty,0),rev=paid.reduce((s,o)=>s+o.amount_due,0),moq=D.settings?.moq||50;
+ const s=[[D.orders.length,'Total orders'],[paid.length,'Paid orders'],[pcs+' / '+moq,'Paid pieces / MOQ'],[money(rev),'Collected'],[D.orders.filter(o=>o.status==='PENDING').length,'Pending'],[paid.filter(o=>!o.delivered).length,'To deliver']];
+ $('#stats').innerHTML=s.map(a=>`<div class="stat"><b>${esc(a[0])}</b><span>${a[1]}</span></div>`).join('')}
+
+/* ---------- ORDERS ---------- */
+let fq='',fs='ALL';
+function vOrders(){
+ $('#v').innerHTML=`<div class="tools"><input id="q" placeholder="Search name, phone, order id, print name…" value="${esc(fq)}"><select id="fs">${['ALL','PAID','PENDING','FAILED','CANCELLED','REFUNDED'].map(s=>`<option ${s===fs?'selected':''}>${s}</option>`).join('')}</select><button class="btn sm" id="ex">⬇ CSV</button><button class="btn o sm" id="rf">↻ Refresh</button></div><div id="ol"></div>`;
+ const list=()=>{const q=fq.toLowerCase();const rows=D.orders.filter(o=>(fs==='ALL'||o.status===fs)&&(!q||JSON.stringify([o.buyer_name,o.phone,o.email,o.order_id,o.batch,o.items.map(i=>i.printName)]).toLowerCase().includes(q)));
+  $('#ol').innerHTML=rows.length?rows.map(card).join(''):'<div class="panel">No orders yet.</div>'};
+ $('#q').oninput=e=>{fq=e.target.value;list()};$('#fs').onchange=e=>{fs=e.target.value;list()};$('#rf').onclick=()=>refresh().then(()=>toast('Refreshed'));
+ $('#ex').onclick=()=>csv('echo-orders.csv',[['Order','Date','Status','Delivered','Name','Phone','Email','Batch','Items','Pieces','Total','Paid online','Note'],...D.orders.map(o=>[o.order_id,when(o.created_at),o.status,o.delivered?'Yes':'No',o.buyer_name,o.phone,o.email,o.batch,o.items.map(i=>`${i.qty}x ${i.title} ${i.size} [${i.printName}]`).join(' | '),o.qty,o.total,o.amount_due,o.admin_note])]);
+ $('#ol').onclick=async e=>{const b=e.target.closest('[data-save]');if(!b)return;const c=b.closest('.oc'),id=b.dataset.save;b.disabled=true;
+  try{await api('order_update',{order_id:id,status:$('.os',c).value,delivered:$('.od',c).checked,admin_note:$('.onote',c).value});toast('Saved ✓');await refresh()}catch(x){toast(x.message,1);b.disabled=false}};
+ list()}
+function card(o){
+ const wa=`https://wa.me/91${o.phone}?text=${encodeURIComponent(`Hi ${o.buyer_name}, this is Echo.TGPCOP regarding your merch pre-order ${o.order_id}.`)}`;
+ return `<details class="oc"><summary><div><b>${esc(o.buyer_name)}</b><small>${esc(o.order_id)} · ${when(o.created_at)}</small></div><div>${o.qty} pcs · ${money(o.total)}<small>${esc(o.batch||'')}</small></div><span class="st ${o.status}">${o.status}</span><span>${o.delivered?'✅':''}</span></summary>
+ <div class="bd2"><table class="t" style="margin:12px 0"><tr><th>Item</th><th>Size</th><th>Name printed</th><th>Qty</th><th>Price</th></tr>${o.items.map(i=>`<tr><td>${esc(i.title)}</td><td>${esc(i.size)}</td><td><b>${esc(i.printName)}</b></td><td>${i.qty}</td><td>${money(i.price*i.qty)}</td></tr>`).join('')}</table>
+ <p style="margin:6px 0">📞 <a href="tel:${esc(o.phone)}">${esc(o.phone)}</a> · ✉️ ${esc(o.email)} · <a class="y" href="${wa}" target="_blank" rel="noopener">💬 WhatsApp</a></p>
+ <p style="margin:6px 0;opacity:.85">Paid online: ${money(o.amount_due)} ${o.cf_payment_id?'· Cashfree #'+esc(o.cf_payment_id):''}</p>
+ <div class="fm"><div class="g3"><div><label>Status</label><select class="os">${['PENDING','PAID','FAILED','CANCELLED','REFUNDED'].map(s=>`<option ${s===o.status?'selected':''}>${s}</option>`).join('')}</select></div><div><label>&nbsp;</label><label class="chk"><input type="checkbox" class="od" ${o.delivered?'checked':''}> Delivered</label></div><div><label>&nbsp;</label><button class="btn s" data-save="${esc(o.order_id)}">Save</button></div></div>
+ <label>Private note</label><textarea class="onote" rows="2" maxlength="500">${esc(o.admin_note||'')}</textarea></div>
+ <p style="font-size:12px;opacity:.7;margin:8px 0 0">Refunds: do them in the Cashfree dashboard, then set status to REFUNDED here.</p></div></details>`}
+
+/* ---------- PRINT SHEET ---------- */
+function vPrint(){
+ const paid=D.orders.filter(o=>o.status==='PAID'),m={};
+ for(const o of paid)for(const i of o.items){const k=i.title+'|'+i.size,r=m[k]||(m[k]={t:i.title,s:i.size,n:0,names:[]});r.n+=i.qty;r.names.push({p:i.printName,q:i.qty,o:o.buyer_name,id:o.order_id,d:o.delivered})}
+ const rows=Object.values(m).sort((a,b)=>a.t.localeCompare(b.t)||a.s.localeCompare(b.s));
+ $('#v').innerHTML=`<div class="tools"><button class="btn sm" id="pc">⬇ Print list CSV</button></div><div class="panel"><p style="margin-top:0">Only <b>PAID</b> orders. Send this to the printing vendor.</p>${rows.length?`<table class="t"><tr><th>Product</th><th>Size</th><th>Pieces</th><th>Names to print</th></tr>${rows.map(r=>`<tr><td>${esc(r.t)}</td><td>${esc(r.s)}</td><td><b>${r.n}</b></td><td>${r.names.map(x=>esc(x.p)+(x.q>1?' ×'+x.q:'')).join(', ')}</td></tr>`).join('')}</table>`:'<p>No paid orders yet.</p>'}</div>`;
+ $('#pc').onclick=()=>csv('echo-print-list.csv',[['Product','Size','Name to print','Qty','Buyer','Order'],...rows.flatMap(r=>r.names.map(x=>[r.t,r.s,x.p,x.q,x.o,x.id]))])}
+
+/* ---------- PRODUCTS ---------- */
+function vProducts(){
+ if(F)return form();
+ $('#v').innerHTML=`<div class="tools"><button class="btn sm" id="np">＋ Add product</button></div><div class="pg">${D.products.map(p=>`<div class="pcard"><div class="im" style="${p.images[0]?`background-image:url('${esc(p.images[0])}')`:''}">${p.images[0]?'':'No photo'}</div><div class="b3"><h4>${esc(p.title)}</h4><p style="margin:4px 0;font-size:13px">${money(p.price)} · ${p.images.length} photo(s) · ${p.sizes.join('/')}</p><p style="margin:4px 0">${p.active?'<span class="st PAID">LIVE</span>':'<span class="st">HIDDEN</span>'} ${p.soldout?'<span class="st FAILED">SOLD OUT</span>':''}</p><button class="btn s" data-e="${esc(p.sku)}">Edit</button></div></div>`).join('')}</div>`;
+ $('#np').onclick=()=>{F={isNew:true,removed:[],p:{sku:'',title:'',edition:'',type:'tee',price:550,color:'#FFFFFF',ink:'#004BFE',spot:'Name on back',sizes:['S','M','L','XL','XXL'],images:[],description:'',active:true,soldout:false,sort:D.products.length+1}};render()};
+ $$('[data-e]').forEach(b=>b.onclick=()=>{F={isNew:false,removed:[],p:JSON.parse(JSON.stringify(D.products.find(x=>x.sku===b.dataset.e)))};render()})}
+
+function form(){
+ const p=F.p;
+ $('#v').innerHTML=`<div class="panel fm"><h3 style="color:var(--yellow);font-size:34px">${F.isNew?'New product':'Edit: '+esc(p.title)}</h3>
+ <div class="g2"><div><label>Title</label><input id="f_t" value="${esc(p.title)}" maxlength="60" placeholder="e.g. Pharmacy Week Tee"></div><div><label>SKU (id, can't change later)</label><input id="f_s" value="${esc(p.sku)}" ${F.isNew?'':'disabled'} maxlength="40"></div></div>
+ <div class="g3"><div><label>Price (₹)</label><input id="f_p" type="number" min="1" value="${p.price}"></div><div><label>Type</label><select id="f_y">${['tee','hoodie','other'].map(t=>`<option ${t===p.type?'selected':''}>${t}</option>`).join('')}</select></div><div><label>Sort order</label><input id="f_o" type="number" value="${p.sort}"></div></div>
+ <div class="g2"><div><label>Edition tag (small yellow pill)</label><input id="f_e" value="${esc(p.edition)}" maxlength="40" placeholder="NSS Edition"></div><div><label>Print spot note</label><input id="f_sp" value="${esc(p.spot)}" maxlength="40"></div></div>
+ <div class="g3"><div><label>Sizes (comma separated)</label><input id="f_sz" value="${esc(p.sizes.join(', '))}"></div><div><label>Shirt colour (mockup)</label><input id="f_c" type="color" value="${esc(p.color)}"></div><div><label>Print colour (mockup)</label><input id="f_i" type="color" value="${esc(p.ink)}"></div></div>
+ <label>Description (optional)</label><textarea id="f_d" rows="3" maxlength="500" placeholder="Fabric, fit, what makes it special…">${esc(p.description)}</textarea>
+ <div class="g2" style="margin-top:8px"><label class="chk"><input type="checkbox" id="f_a" ${p.active?'checked':''}> Visible on store</label><label class="chk"><input type="checkbox" id="f_so" ${p.soldout?'checked':''}> Mark SOLD OUT</label></div>
+ <label>Photos (first = main photo, up to 8)</label><div class="ph" id="ph"></div>
+ <p style="margin:10px 0 0"><input type="file" id="f_f" accept="image/*" multiple style="display:none"><button class="btn o sm" id="up">＋ Upload photos</button> <small id="um"></small></p>
+ <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:22px"><button class="btn" id="sv">Save product</button><button class="btn o" id="cn">Cancel</button>${F.isNew?'':'<button class="btn red" id="dl">Delete</button>'}</div></div>`;
+ const ph=()=>{$('#ph').innerHTML=p.images.length?p.images.map((u,i)=>`<div>${i?'':'<span class="main">MAIN</span>'}<img src="${esc(u)}" alt="" loading="lazy"><span class="tb"><button data-m="${i}" data-d="-1" title="Move left">◀</button><button data-m="${i}" data-d="1" title="Move right">▶</button><button data-x="${i}" title="Remove">✕</button></span></div>`).join(''):'<p style="opacity:.8;margin:0">No photos yet. Upload 5–6 photos from different angles.</p>'};ph();
+ $('#ph').onclick=e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.x!==undefined){F.removed.push(p.images.splice(+b.dataset.x,1)[0])}else{const i=+b.dataset.m,j=i+ +b.dataset.d;if(j>=0&&j<p.images.length)[p.images[i],p.images[j]]=[p.images[j],p.images[i]]}ph()};
+ $('#up').onclick=()=>$('#f_f').click();
+ $('#f_f').onchange=async e=>{const files=[...e.target.files];e.target.value='';const sku=slug($('#f_s').value||$('#f_t').value);if(!sku||sku.length<2){toast('Enter title/SKU first',1);return}
+  for(const[i,f]of files.entries()){if(p.images.length>=8){toast('Max 8 photos',1);break}$('#um').textContent=`Uploading ${i+1}/${files.length}…`;
+   try{const r=await api('upload',{sku,type:'image/jpeg',data:await shrink(f)});p.images.push(r.url);ph()}catch(x){toast(x.message,1)}}
+  $('#um').textContent=''};
+ $('#f_t').oninput=()=>{if(F.isNew)$('#f_s').value=slug($('#f_t').value)};
+ $('#cn').onclick=()=>{F=null;render()};
+ $('#sv').onclick=async()=>{const b=$('#sv');b.disabled=true;
+  const np={sku:slug($('#f_s').value),title:$('#f_t').value,edition:$('#f_e').value,type:$('#f_y').value,price:+$('#f_p').value,color:$('#f_c').value,ink:$('#f_i').value,spot:$('#f_sp').value,sizes:$('#f_sz').value.split(',').map(s=>s.trim()).filter(Boolean),images:p.images,description:$('#f_d').value,active:$('#f_a').checked,soldout:$('#f_so').checked,sort:+$('#f_o').value||0};
+  try{await api('product_save',{product:np});for(const u of F.removed)api('image_delete',{url:u}).catch(()=>{});toast('Product saved ✓');F=null;await refresh()}catch(x){toast(x.message,1);b.disabled=false}};
+ $('#dl')?.addEventListener('click',async()=>{if(!confirm('Delete this product? Old orders stay safe.'))return;try{await api('product_delete',{sku:p.sku});toast('Deleted');F=null;await refresh()}catch(x){toast(x.message,1)}})}
+
+async function shrink(file,max=1400,q=.82){
+ const bmp=await createImageBitmap(file),s=Math.min(1,max/Math.max(bmp.width,bmp.height)),c=document.createElement('canvas');c.width=Math.round(bmp.width*s);c.height=Math.round(bmp.height*s);
+ const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);x.drawImage(bmp,0,0,c.width,c.height);
+ const blob=await new Promise(r=>c.toBlob(r,'image/jpeg',q));return await new Promise(r=>{const fr=new FileReader();fr.onload=()=>r(fr.result.split(',')[1]);fr.readAsDataURL(blob)})}
+
+/* ---------- SETTINGS ---------- */
+function vSettings(){
+ const s=D.settings||{moq:50,deadline:new Date(Date.now()+7*864e5).toISOString(),advance_percent:100,name_max:14,max_qty:5,is_open:true,announcement:''};
+ const dl=new Date(new Date(s.deadline).getTime()+5.5*3600e3).toISOString().slice(0,16);
+ $('#v').innerHTML=`<div class="panel fm"><h3 style="color:var(--yellow);font-size:34px">Store settings</h3>
+ <label class="chk"><input type="checkbox" id="s_o" ${s.is_open?'checked':''}> Store is OPEN (untick to pause orders)</label>
+ <div class="g3"><div><label>MOQ (pieces to confirm drop)</label><input id="s_m" type="number" min="1" value="${s.moq}"></div><div><label>Pre-order closes (IST)</label><input id="s_d" type="datetime-local" value="${dl}"></div><div><label>Pay online now (%)</label><input id="s_a" type="number" min="50" max="100" value="${s.advance_percent}"></div></div>
+ <div class="g2"><div><label>Max letters in printed name</label><input id="s_n" type="number" min="3" max="30" value="${s.name_max}"></div><div><label>Max qty per line</label><input id="s_q" type="number" min="1" max="20" value="${s.max_qty}"></div></div>
+ <label>Announcement banner on merch page (optional)</label><input id="s_an" maxlength="160" value="${esc(s.announcement)}" placeholder="e.g. Deadline extended to Sunday!">
+ <p style="margin-top:20px"><button class="btn" id="ss">Save settings</button></p>
+ <p style="font-size:13px;opacity:.8">Admins: ${D.admins.map(esc).join(', ')} (change via ADMIN_EMAILS in Vercel)</p></div>`;
+ $('#ss').onclick=async()=>{try{await api('settings_save',{settings:{is_open:$('#s_o').checked,moq:+$('#s_m').value,deadline:$('#s_d').value+':00+05:30',advance_percent:+$('#s_a').value,name_max:+$('#s_n').value,max_qty:+$('#s_q').value,announcement:$('#s_an').value}});toast('Settings saved ✓');await refresh()}catch(x){toast(x.message,1)}}}
+</script></body></html>

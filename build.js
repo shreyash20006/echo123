@@ -49,6 +49,8 @@ const staticFiles = [
   'showcase.html',
   'team.html',
   'collab.html',
+  'merch.html',
+  'admin.html',
   'privacy.html',
   'terms.html',
   'echo_logo_white_transparent.png'
