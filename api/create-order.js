@@ -48,7 +48,8 @@ module.exports = async (req, res) => {
     });
     send(res, 200, { order_id: orderId, payment_session_id: cfo.payment_session_id, mode: CF_MODE, total, due });
   } catch (e) {
-    console.error('create-order', e.message, e.data || '');
-    send(res, 500, { error: 'Could not start payment. Please try again in a minute.' });
+    console.error('create-order error:', e.message, e.data || '');
+    const detail = (e.data && (e.data.message || e.data.sub_code)) || e.message || 'Could not start payment.';
+    send(res, e.status || 500, { error: detail });
   }
 };

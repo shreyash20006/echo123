@@ -18,8 +18,8 @@ const MERCH = {
 };
 /* ===================================================== */
 
-const env = (k) => process.env[k] || '';
-const CF_MODE = env('CASHFREE_ENV') === 'production' ? 'production' : 'sandbox';
+const env = (k) => String(process.env[k] || '').trim().replace(/^["']|["']$/g, '');
+const CF_MODE = env('CASHFREE_ENV').toLowerCase() === 'production' ? 'production' : 'sandbox';
 const CF_BASE = CF_MODE === 'production' ? 'https://api.cashfree.com/pg' : 'https://sandbox.cashfree.com/pg';
 
 function send(res, code, obj, headers = {}) {
@@ -36,24 +36,41 @@ async function readBody(req) {
 }
 
 async function cf(path, method = 'GET', body) {
+  const appId = env('CASHFREE_APP_ID');
+  const secretKey = env('CASHFREE_SECRET_KEY');
+  if (!appId || !secretKey) {
+    const e = new Error('CASHFREE_APP_ID or CASHFREE_SECRET_KEY is missing in Vercel environment variables.');
+    e.status = 500;
+    throw e;
+  }
   const r = await fetch(CF_BASE + path, {
     method,
     headers: {
       'x-api-version': '2023-08-01',
-      'x-client-id': env('CASHFREE_APP_ID'),
-      'x-client-secret': env('CASHFREE_SECRET_KEY'),
+      'x-client-id': appId,
+      'x-client-secret': secretKey,
       'Content-Type': 'application/json'
     },
     body: body ? JSON.stringify(body) : undefined
   });
   const data = await r.json().catch(() => ({}));
-  if (!r.ok) { const e = new Error(data.message || 'Cashfree error'); e.status = r.status; e.data = data; throw e; }
+  if (!r.ok) {
+    const msg = data.message || data.error || (data.sub_code ? `Cashfree: ${data.sub_code}` : `Cashfree API error (${r.status})`);
+    const e = new Error(`${msg} [Cashfree Mode: ${CF_MODE}]`);
+    e.status = r.status;
+    e.data = data;
+    throw e;
+  }
   return data;
 }
 
 async function sb(path, { method = 'GET', body, prefer } = {}) {
   const url = env('SUPABASE_URL'), key = env('SUPABASE_SERVICE_ROLE_KEY');
-  if (!url || !key) { const e = new Error('Database not configured'); e.status = 500; throw e; }
+  if (!url || !key) {
+    const e = new Error('SUPABASE_SERVICE_ROLE_KEY or SUPABASE_URL is not configured in Vercel environment variables.');
+    e.status = 500;
+    throw e;
+  }
   const r = await fetch(`${url}/rest/v1/${path}`, {
     method,
     headers: { apikey: key, Authorization: `Bearer ${key}`, 'Content-Type': 'application/json', ...(prefer ? { Prefer: prefer } : {}) },

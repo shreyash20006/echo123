@@ -3,16 +3,24 @@ const crypto = require('crypto');
 const { send, readBody, sb, getCatalog, env } = require('./_lib');
 
 const STATUSES = ['PENDING', 'PAID', 'FAILED', 'CANCELLED', 'REFUNDED'];
-const adminList = () => (env('ADMIN_EMAILS') || 'sb108750@gmail.com').toLowerCase().split(',').map(s => s.trim()).filter(Boolean);
+const adminList = () => (env('ADMIN_EMAILS') || 'sb108750@gmail.com')
+  .toLowerCase()
+  .split(',')
+  .map(s => s.trim().replace(/^["']|["']$/g, ''))
+  .filter(Boolean);
 
 async function whoIsAdmin(req) {
   const tok = String(req.headers.authorization || '').replace(/^Bearer\s+/i, '');
   if (!tok) return null;
-  const r = await fetch(env('SUPABASE_URL') + '/auth/v1/user', { headers: { apikey: env('SUPABASE_ANON_KEY') || env('VITE_SUPABASE_ANON_KEY'), Authorization: 'Bearer ' + tok } });
+  const key = env('SUPABASE_ANON_KEY') || env('SUPABASE_SERVICE_ROLE_KEY') || env('VITE_SUPABASE_ANON_KEY');
+  const r = await fetch(env('SUPABASE_URL') + '/auth/v1/user', {
+    headers: { apikey: key, Authorization: 'Bearer ' + tok }
+  });
   if (!r.ok) return null;
   const u = await r.json();
-  const email = String(u.email || '').toLowerCase();
-  return u.email_confirmed_at && adminList().includes(email) ? email : null;
+  const email = String(u.email || '').toLowerCase().trim();
+  const allowed = adminList();
+  return allowed.includes(email) ? email : null;
 }
 
 const str = (v, max) => String(v ?? '').trim().slice(0, max);
