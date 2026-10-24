@@ -16,7 +16,7 @@ function shell(){
  if(!$('#lb')) document.body.insertAdjacentHTML('beforeend','<div id="lb"></div>');
  const n=$('#nav');
  if(n){
-  n.innerHTML=`<div class="marq"><div id="mq"></div></div><nav><div class="wrap"><a href="index.html"><img src="${C.LOGO}" alt="Echo TGPCOP Media"></a><button id="menu" aria-label="Menu">☰</button><div class="links" id="links"><a href="index.html">Home</a><a href="index.html#about">About</a><a href="events.html">Events</a><a href="showcase.html">Showcase</a><a href="index.html#work">Work</a><a href="team.html">Team</a><a href="merch.html">Merch</a><a href="collab.html">Collab</a><span id="auth"><a class="btn o sm" href="login.html">Login</a></span><a class="btn" href="${C.IG}" target="_blank" rel="noopener">Follow Us</a></div></div></nav>`;
+  n.innerHTML=`<div class="marq"><div id="mq"></div></div><nav><div class="wrap"><a href="index.html"><img src="${C.LOGO}" alt="Echo TGPCOP Media"></a><button id="menu" aria-label="Menu">☰</button><div class="links" id="links"><a href="index.html">Home</a><a href="index.html#about">About</a><a href="events.html">Events</a><a href="showcase.html">Showcase</a><a href="index.html#work">Work</a><a href="team.html">Team</a><a href="collab.html">Collab</a><span id="auth"><a class="btn o sm" href="login.html">Login</a></span><a class="btn" href="${C.IG}" target="_blank" rel="noopener">Follow Us</a></div></div></nav>`;
   const m=$('#mq');if(m)m.innerHTML='<span>ECHO.TGPCOP</span><span>•</span><span>CAMPUS MEDIA</span><span>•</span>'.repeat(16);
   const L=$('#links');$('#menu')?.addEventListener('click',()=>L.classList.toggle('on'));L?.addEventListener('click',e=>{if(e.target.tagName=='A')L.classList.remove('on')});
  }

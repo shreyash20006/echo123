@@ -2,7 +2,7 @@
   "cleanUrls": true,
   "rewrites": [
     {
-      "source": "/((?!public/|images/|api/|events|showcase|team|collab|login|merch|admin|privacy|terms|.*\\..*).*)",
+      "source": "/((?!public/|images/|events|showcase|team|collab|login|privacy|terms|.*\\..*).*)",
       "destination": "/index.html"
     }
   ]
