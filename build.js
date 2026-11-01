@@ -46,6 +46,7 @@ const staticFiles = [
   'env.js',
   'login.html',
   'events.html',
+  'singoff.html',
   'showcase.html',
   'team.html',
   'collab.html',
