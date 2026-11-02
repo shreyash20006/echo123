@@ -1,6 +1,6 @@
 # Echo.TGPCOP recruitment setup
 
-The static application page uses the existing Supabase URL and publishable/anon key from `env.js`. It calls the `submit-team-application` Edge Function; the service-role key is used only by Supabase as a server secret and must never be put in `env.js` or Vercel frontend variables.
+The static application page uses the existing Supabase URL and publishable/anon key from `env.js`. Applicants must sign in with Google first; the page fills and locks the account email. The `submit-team-application` Edge Function independently validates the bearer session and matches the email before writing. The service-role key is used only by Supabase as a server secret and must never be put in `env.js` or Vercel frontend variables.
 
 ## 1. Check the database, then run the SQL
 
@@ -20,6 +20,8 @@ supabase functions deploy submit-team-application --no-verify-jwt
 ```
 
 Set the service role key as a Supabase Function secret only. `--no-verify-jwt` is needed because applicants are public; the function validates the origin, input, declarations, honeypot, IP request limit and duplicate email before writing.
+
+In Supabase Dashboard → Authentication → URL Configuration, add the production join page to Redirect URLs (for example `https://www.echotgpcopmedia.site/join-us`, plus the apex domain if it is used). Ensure Google is enabled as an Auth provider. Add any local development redirect URL only while testing locally.
 
 ## 3. Give admins access
 

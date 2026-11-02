@@ -3,6 +3,7 @@
 
 create table if not exists public.echo_team_applications (
   id uuid primary key default gen_random_uuid(),
+  applicant_user_id uuid references auth.users(id) on delete set null,
   full_name text not null check (char_length(full_name) between 2 and 120),
   email text not null check (char_length(email) <= 254 and position('@' in email) > 1),
   phone text not null check (char_length(phone) between 7 and 25),
@@ -39,6 +40,9 @@ create table if not exists public.echo_team_applications (
   created_at timestamptz not null default now()
 );
 
+alter table public.echo_team_applications
+  add column if not exists applicant_user_id uuid references auth.users(id) on delete set null;
+
 -- Safe to run after the earlier longer form schema too.
 alter table public.echo_team_applications alter column motivation drop not null;
 alter table public.echo_team_applications alter column suitability drop not null;
@@ -46,6 +50,7 @@ alter table public.echo_team_applications drop constraint if exists echo_team_ap
 alter table public.echo_team_applications drop constraint if exists echo_team_applications_suitability_check;
 
 create unique index if not exists echo_team_applications_email_uq on public.echo_team_applications (lower(email));
+create unique index if not exists echo_team_applications_user_uq on public.echo_team_applications (applicant_user_id) where applicant_user_id is not null;
 create index if not exists echo_team_applications_created_idx on public.echo_team_applications (created_at desc);
 create index if not exists echo_team_applications_departments_idx on public.echo_team_applications using gin (departments);
 

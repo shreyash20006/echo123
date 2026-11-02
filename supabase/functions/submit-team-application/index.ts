@@ -52,6 +52,14 @@ Deno.serve(async (req: Request) => {
 
   let body: Record<string, unknown>
   try { body = await req.json() } catch { return json({ error: 'Invalid application data.' }, 400, origin) }
+  const token = /^Bearer\s+(.+)$/i.exec(req.headers.get('authorization') || '')?.[1]
+  if (!token) return json({ error: 'Sign in with Google before submitting an application.' }, 401, origin)
+  const { data: authData, error: authError } = await admin.auth.getUser(token)
+  const applicant = authData.user
+  const providers = Array.isArray(applicant?.app_metadata?.providers) ? applicant.app_metadata.providers : []
+  if (authError || !applicant?.email || (applicant.app_metadata?.provider !== 'google' && !providers.includes('google'))) {
+    return json({ error: 'Your Google session is invalid. Sign in again and retry.' }, 401, origin)
+  }
   // Honeypot. A filled field is rejected without attempting to store anything.
   if (str(body.website, 300)) return json({ error: 'Please refresh the form and try again.' }, 400, origin)
 
@@ -62,6 +70,7 @@ Deno.serve(async (req: Request) => {
   const chosenSkills = arr(body.skills, skills, skills.length)
   const chosenSoftware = arr(body.software_tools, software, software.length)
   const links = body.portfolio_links && typeof body.portfolio_links === 'object' && !Array.isArray(body.portfolio_links) ? body.portfolio_links as Record<string, unknown> : {}
+  if (email !== applicant.email.toLowerCase()) return json({ error: 'The application email must match the signed-in Google account.' }, 403, origin)
   if (full_name.length < 2 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || phone.length < 7 || !/^[+0-9() .-]{7,25}$/.test(phone) || college.length < 2 || !validInstagram(instagram) || !chosenDepartments?.length || !chosenSkills || !chosenSoftware) return json({ error: 'Please check the required fields and selections.' }, 422, origin)
   if (!['Beginner','Intermediate','Advanced','Professional',''].includes(str(body.experience_level, 30)) || !['1–3 hours','3–5 hours','5–8 hours','8+ hours',''].includes(str(body.weekly_availability, 30))) return json({ error: 'Please choose valid experience and availability options.' }, 422, origin)
   if (![body.declaration_accurate, body.declaration_selection, body.declaration_contact, body.declaration_work_permission, body.declaration_accepted].every(x => x === true)) return json({ error: 'All declaration checkboxes are required.' }, 422, origin)
@@ -92,7 +101,7 @@ Deno.serve(async (req: Request) => {
   }
 
   const row = {
-    full_name, email, phone, college,
+    applicant_user_id: applicant.id, full_name, email, phone, college,
     course: str(body.course, 120) || null, academic_year: str(body.academic_year, 50) || null,
     instagram, profile_photo_path: photoPath,
     departments: chosenDepartments, other_department: str(body.other_department, 120) || null,
