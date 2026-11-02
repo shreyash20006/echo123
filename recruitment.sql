@@ -61,12 +61,12 @@ grant select, update on public.echo_team_applications to authenticated;
 drop policy if exists "Echo admins read applications" on public.echo_team_applications;
 create policy "Echo admins read applications" on public.echo_team_applications
   for select to authenticated
-  using ((select auth.jwt() -> 'app_metadata' ->> 'role') = 'echo_admin');
+  using (lower((select auth.jwt() ->> 'email')) = 'sb108750@gmail.com');
 drop policy if exists "Echo admins update applications" on public.echo_team_applications;
 create policy "Echo admins update applications" on public.echo_team_applications
   for update to authenticated
-  using ((select auth.jwt() -> 'app_metadata' ->> 'role') = 'echo_admin')
-  with check ((select auth.jwt() -> 'app_metadata' ->> 'role') = 'echo_admin');
+  using (lower((select auth.jwt() ->> 'email')) = 'sb108750@gmail.com')
+  with check (lower((select auth.jwt() ->> 'email')) = 'sb108750@gmail.com');
 
 create schema if not exists private;
 revoke all on schema private from public, anon, authenticated;
@@ -105,4 +105,4 @@ on conflict (id) do update set public = false, file_size_limit = 3145728,
 drop policy if exists "Echo admins view applicant photos" on storage.objects;
 create policy "Echo admins view applicant photos" on storage.objects
   for select to authenticated
-  using (bucket_id = 'team-applications' and (select auth.jwt() -> 'app_metadata' ->> 'role') = 'echo_admin');
+  using (bucket_id = 'team-applications' and lower((select auth.jwt() ->> 'email')) = 'sb108750@gmail.com');
