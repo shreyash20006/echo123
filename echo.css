@@ -25,7 +25,7 @@ nav .wrap{display:flex;align-items:center;justify-content:space-between;height:7
 .cd{display:flex;gap:14px;flex-wrap:wrap;margin:6px 0 30px}.cd div{background:#fff;color:var(--blue);border-radius:20px;padding:12px 20px;min-width:88px;text-align:center;box-shadow:0 10px 24px rgba(0,20,90,.3)}.cd b{display:block;font:400 50px/1 'Bebas Neue'}.cd small{font-weight:600}
 .sb{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;padding:40px 0}
 .stat{background:#fff;color:var(--blue);border-radius:22px;padding:18px 24px;text-align:center;box-shadow:0 10px 24px rgba(0,20,90,.3)}.stat b{display:block;font:400 64px/1 'Bebas Neue'}.stat span{font-weight:600}
-.tm{text-align:center}.tm .fr{height:330px;margin-bottom:16px}.tm:nth-child(odd) .fr{transform:rotate(-3deg)}.tm:nth-child(even) .fr{transform:rotate(3deg)}.tm h3{font-size:42px;margin:10px 0 6px}
+.tm{text-align:center;width:min(100%,400px);justify-self:center}.tm .fr{height:auto;aspect-ratio:1/1;margin-bottom:16px}.tm:nth-child(odd) .fr,.tm:nth-child(even) .fr{transform:none}.tm h3{font-size:42px;margin:10px 0 6px}
 .ini{height:100%;display:grid;place-items:center;font:400 90px 'Bebas Neue';color:var(--blue);background:#e8f0ff}
 .lv{background:#fff;color:var(--blue);border-radius:24px;padding:22px;transform:rotate(var(--r,0deg));box-shadow:0 12px 28px rgba(0,20,90,.35)}.lv p{margin:0 0 14px;font-weight:500}
 .who{display:flex;align-items:center;gap:12px}.who small{display:block;opacity:.7}.who .av{border-color:var(--blue)}
