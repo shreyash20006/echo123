@@ -19,7 +19,7 @@ supabase secrets set SUPABASE_SERVICE_ROLE_KEY=YOUR_SERVICE_ROLE_KEY
 supabase functions deploy submit-team-application --no-verify-jwt
 ```
 
-Set the service role key as a Supabase Function secret only. `--no-verify-jwt` is needed because applicants are public; the function validates the origin, input, declarations, honeypot, IP request limit and duplicate email before writing.
+Set the service role key as a Supabase Function secret only. Deploy with `--no-verify-jwt` so the Supabase gateway allows the browser's unauthenticated CORS `OPTIONS` preflight. The function itself requires and verifies a Google session JWT on every `POST`, matches its email to the application, then validates the input, declarations, honeypot and IP request limit before writing. If deployed from the Supabase Dashboard, turn off gateway JWT verification for this function, then redeploy the code.
 
 In Supabase Dashboard → Authentication → URL Configuration, add the production join page to Redirect URLs (for example `https://www.echotgpcopmedia.site/join-us`, plus the apex domain if it is used). Ensure Google is enabled as an Auth provider. Add any local development redirect URL only while testing locally.
 
