@@ -28,6 +28,9 @@ function validUrl(v: unknown): boolean {
   if (typeof v !== 'string' || v.length > 500) return false
   try { const u = new URL(v); return u.protocol === 'https:' || u.protocol === 'http:' } catch { return false }
 }
+function validInstagram(v: string): boolean {
+  try { const u = new URL(v); return u.protocol === 'https:' && ['instagram.com','www.instagram.com'].includes(u.hostname) && u.pathname.length > 1 } catch { return false }
+}
 async function sha256(value: string) {
   const data = new TextEncoder().encode(value)
   const digest = await crypto.subtle.digest('SHA-256', data)
@@ -54,12 +57,12 @@ Deno.serve(async (req: Request) => {
 
   const full_name = str(body.full_name, 120), email = str(body.email, 254).toLowerCase()
   const phone = str(body.phone, 25), college = str(body.college, 180)
-  const motivation = str(body.motivation, 3000), suitability = str(body.suitability, 3000)
+  const instagram = str(body.instagram, 500)
   const chosenDepartments = arr(body.departments, departments, departments.length)
   const chosenSkills = arr(body.skills, skills, skills.length)
   const chosenSoftware = arr(body.software_tools, software, software.length)
   const links = body.portfolio_links && typeof body.portfolio_links === 'object' && !Array.isArray(body.portfolio_links) ? body.portfolio_links as Record<string, unknown> : {}
-  if (full_name.length < 2 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || phone.length < 7 || !/^[+0-9() .-]{7,25}$/.test(phone) || college.length < 2 || motivation.length < 10 || suitability.length < 10 || !chosenDepartments?.length || !chosenSkills || !chosenSoftware) return json({ error: 'Please check the required fields and selections.' }, 422, origin)
+  if (full_name.length < 2 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || phone.length < 7 || !/^[+0-9() .-]{7,25}$/.test(phone) || college.length < 2 || !validInstagram(instagram) || !chosenDepartments?.length || !chosenSkills || !chosenSoftware) return json({ error: 'Please check the required fields and selections.' }, 422, origin)
   if (!['Beginner','Intermediate','Advanced','Professional',''].includes(str(body.experience_level, 30)) || !['1–3 hours','3–5 hours','5–8 hours','8+ hours',''].includes(str(body.weekly_availability, 30))) return json({ error: 'Please choose valid experience and availability options.' }, 422, origin)
   if (![body.declaration_accurate, body.declaration_selection, body.declaration_contact, body.declaration_work_permission, body.declaration_accepted].every(x => x === true)) return json({ error: 'All declaration checkboxes are required.' }, 422, origin)
   if (!Object.values(links).every(validUrl)) return json({ error: 'Please enter valid portfolio URLs beginning with http:// or https://.' }, 422, origin)
@@ -91,19 +94,19 @@ Deno.serve(async (req: Request) => {
   const row = {
     full_name, email, phone, college,
     course: str(body.course, 120) || null, academic_year: str(body.academic_year, 50) || null,
-    instagram: str(body.instagram, 60) || null, profile_photo_path: photoPath,
+    instagram, profile_photo_path: photoPath,
     departments: chosenDepartments, other_department: str(body.other_department, 120) || null,
     skills: chosenSkills, experience_level: str(body.experience_level, 30) || null,
     worked_projects: ['Yes','No'].includes(str(body.worked_projects, 10)) ? str(body.worked_projects, 10) : null,
     previous_experience: str(body.previous_experience, 2000) || null,
     worked_organisation: ['Yes','No'].includes(str(body.worked_organisation, 10)) ? str(body.worked_organisation, 10) : null,
     previous_organisation: str(body.previous_organisation, 250) || null, software_tools: chosenSoftware,
-    portfolio_links: links, weekly_availability: str(body.weekly_availability, 30) || null,
+    portfolio_links: { ...links, instagram }, weekly_availability: str(body.weekly_availability, 30) || null,
     event_availability: ['Yes','No','Depends'].includes(str(body.event_availability, 20)) ? str(body.event_availability, 20) : null,
     smartphone_available: ['Yes','No'].includes(str(body.smartphone_available, 10)) ? str(body.smartphone_available, 10) : null,
     team_comfort: ['Yes','No','Need to learn'].includes(str(body.team_comfort, 20)) ? str(body.team_comfort, 20) : null,
     preferred_role: ['Creative','Production','Management','Both','Open to any role'].includes(str(body.preferred_role, 30)) ? str(body.preferred_role, 30) : null,
-    motivation, suitability, ideas: str(body.ideas, 2000) || null,
+    motivation: null, suitability: null, ideas: null,
     learning_goals: str(body.learning_goals, 2000) || null,
     declaration_accepted: true, declaration_accurate: true, declaration_selection: true,
     declaration_contact: true, declaration_work_permission: true,

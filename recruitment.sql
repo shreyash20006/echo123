@@ -1,242 +1,103 @@
-# ECHO.TGPCOP — BUILD COMPLETE TEAM RECRUITMENT APPLICATION SYSTEM
+-- Echo.TGPCOP recruitment schema. Paste this file into Supabase SQL Editor.
+-- Public submissions go through the submit-team-application Edge Function.
 
-Act as a senior full-stack developer and UI/UX designer.
+create table if not exists public.echo_team_applications (
+  id uuid primary key default gen_random_uuid(),
+  full_name text not null check (char_length(full_name) between 2 and 120),
+  email text not null check (char_length(email) <= 254 and position('@' in email) > 1),
+  phone text not null check (char_length(phone) between 7 and 25),
+  college text not null check (char_length(college) between 2 and 180),
+  course text,
+  academic_year text,
+  instagram text not null check (char_length(instagram) <= 500),
+  profile_photo_path text,
+  departments text[] not null check (cardinality(departments) > 0),
+  other_department text,
+  skills text[] not null default '{}',
+  experience_level text check (experience_level is null or experience_level in ('Beginner','Intermediate','Advanced','Professional')),
+  worked_projects text check (worked_projects is null or worked_projects in ('Yes','No')),
+  previous_experience text,
+  previous_organisation text,
+  software_tools text[] not null default '{}',
+  portfolio_links jsonb not null default '{}'::jsonb check (jsonb_typeof(portfolio_links) = 'object'),
+  weekly_availability text check (weekly_availability is null or weekly_availability in ('1–3 hours','3–5 hours','5–8 hours','8+ hours')),
+  event_availability text check (event_availability is null or event_availability in ('Yes','No','Depends')),
+  smartphone_available text check (smartphone_available is null or smartphone_available in ('Yes','No')),
+  team_comfort text check (team_comfort is null or team_comfort in ('Yes','No','Need to learn')),
+  preferred_role text check (preferred_role is null or preferred_role in ('Creative','Production','Management','Both','Open to any role')),
+  motivation text,
+  suitability text,
+  ideas text,
+  learning_goals text,
+  declaration_accepted boolean not null check (declaration_accepted),
+  declaration_accurate boolean not null check (declaration_accurate),
+  declaration_selection boolean not null check (declaration_selection),
+  declaration_contact boolean not null check (declaration_contact),
+  declaration_work_permission boolean not null check (declaration_work_permission),
+  status text not null default 'pending' check (status in ('pending','under_review','shortlisted','selected','rejected')),
+  admin_notes text not null default '',
+  created_at timestamptz not null default now()
+);
 
-I want to build a complete recruitment application system directly inside the existing ECHO.TGPCOP website.
+-- Safe to run after the earlier longer form schema too.
+alter table public.echo_team_applications alter column motivation drop not null;
+alter table public.echo_team_applications alter column suitability drop not null;
+alter table public.echo_team_applications drop constraint if exists echo_team_applications_motivation_check;
+alter table public.echo_team_applications drop constraint if exists echo_team_applications_suitability_check;
 
-IMPORTANT: Do not use Google Forms. Create a native application form integrated into the existing website.
+create unique index if not exists echo_team_applications_email_uq on public.echo_team_applications (lower(email));
+create index if not exists echo_team_applications_created_idx on public.echo_team_applications (created_at desc);
+create index if not exists echo_team_applications_departments_idx on public.echo_team_applications using gin (departments);
 
-First inspect the entire project architecture, existing pages, authentication, Supabase configuration and database schema. Then implement the feature without breaking existing functionality.
+alter table public.echo_team_applications enable row level security;
+revoke all on public.echo_team_applications from anon, authenticated;
+grant insert, select on public.echo_team_applications to service_role;
+grant select, update on public.echo_team_applications to authenticated;
+drop policy if exists "Echo admins read applications" on public.echo_team_applications;
+create policy "Echo admins read applications" on public.echo_team_applications
+  for select to authenticated
+  using ((select auth.jwt() -> 'app_metadata' ->> 'role') = 'echo_admin');
+drop policy if exists "Echo admins update applications" on public.echo_team_applications;
+create policy "Echo admins update applications" on public.echo_team_applications
+  for update to authenticated
+  using ((select auth.jwt() -> 'app_metadata' ->> 'role') = 'echo_admin')
+  with check ((select auth.jwt() -> 'app_metadata' ->> 'role') = 'echo_admin');
 
-## 1. APPLY NOW BUTTON
+create schema if not exists private;
+revoke all on schema private from public, anon, authenticated;
+create table if not exists private.team_application_attempts (
+  ip_hash text not null,
+  attempted_at timestamptz not null default now()
+);
+revoke all on private.team_application_attempts from public, anon, authenticated;
 
-Add a prominent "Apply Now" button on the Join Our Team / Recruitment section.
+create or replace function public.consume_team_application_rate_limit(p_ip_hash text)
+returns boolean
+language plpgsql
+security definer
+set search_path = ''
+as $$
+declare
+  recent_count integer;
+begin
+  if p_ip_hash is null or p_ip_hash !~ '^[a-f0-9]{64}$' then return false; end if;
+  perform pg_catalog.pg_advisory_xact_lock(pg_catalog.hashtextextended(p_ip_hash, 0));
+  select count(*) into recent_count
+    from private.team_application_attempts
+    where ip_hash = p_ip_hash and attempted_at > now() - interval '1 hour';
+  if recent_count >= 5 then return false; end if;
+  insert into private.team_application_attempts(ip_hash) values (p_ip_hash);
+  return true;
+end;
+$$;
+revoke all on function public.consume_team_application_rate_limit(text) from public, anon, authenticated;
+grant execute on function public.consume_team_application_rate_limit(text) to service_role;
 
-On clicking:
-- Open a dedicated recruitment application page or elegant multi-step form.
-- Use a smooth transition.
-- Show a progress indicator.
-- Make the experience fully responsive.
-
-Suggested route: `/join-us` or `/apply`.
-
-## 2. APPLICATION FORM
-
-### Section 1 — Personal Details
-- Full Name (required)
-- Email Address (required, validated)
-- WhatsApp / Phone Number (required)
-- College / Institution (required)
-- Course / Department
-- Current Academic Year
-- Instagram Username (optional)
-- Profile Photograph (optional)
-
-### Section 2 — Department Preferences
-
-Allow multiple selections:
-
-- Photography
-- Videography
-- Video Editing
-- Reels & Content Creation
-- Cinematography
-- Graphic Designing
-- Poster & Banner Designing
-- Social Media Management
-- Content Writing
-- Script Writing
-- Anchoring / Hosting
-- Public Relations
-- Event Management
-- Event Coordination
-- Marketing & Promotions
-- Sponsorship & Outreach
-- Website / Technology
-- Other
-
-### Section 3 — Skills & Experience
-- Current skills (multiple selection)
-- Experience level: Beginner / Intermediate / Advanced / Professional
-- Have you worked on previous projects or events? Yes / No
-- Previous experience description (optional)
-- Have you worked with any college club or organisation? Yes / No
-- Previous role and organisation (optional)
-- Software/tools known:
-  Canva, Photoshop, Lightroom, Premiere Pro, DaVinci Resolve, CapCut, VN Editor, Other, None.
-
-### Section 4 — Portfolio
-Optional fields:
-- Instagram profile URL
-- Photography portfolio URL
-- Video / Reel samples URL
-- Graphic design samples URL
-- Previous project / event coverage URL
-
-Allow optional portfolio uploads if technically supported.
-
-### Section 5 — Availability
-- Weekly availability: 1–3 / 3–5 / 5–8 / 8+ hours
-- Available for campus events and shoots? Yes / No / Depends
-- Smartphone with camera available? Yes / No
-- Comfortable working in a team? Yes / No / Need to learn
-- Preferred role: Creative / Production / Management / Both / Open to any role
-
-### Section 6 — Motivation
-- Why do you want to join ECHO.TGPCOP? (required)
-- What makes you suitable for our team? (required)
-- What new ideas would you bring? (optional)
-- What would you like to learn at ECHO? (optional)
-
-### Section 7 — Declaration
-Required checkboxes:
-- I confirm my information is accurate.
-- I understand that application does not guarantee selection.
-- I agree to be contacted regarding recruitment.
-- I understand that permission will be obtained before using my work publicly.
-
-## 3. DESIGN & USER EXPERIENCE
-
-Use ECHO branding:
-- Royal Blue #004BFE
-- Yellow #FFD400
-- Navy #001C78
-- White
-
-Create a premium, modern recruitment experience:
-- Multi-step form.
-- Step progress bar.
-- Smooth section transitions.
-- Beautiful input fields.
-- Animated focus states.
-- Department selection cards.
-- Responsive layout.
-- Clear validation messages.
-- Back and Continue buttons.
-- Final Review Application screen.
-- Submit Application CTA.
-
-Mobile-first design is mandatory.
-
-## 4. SUPABASE DATABASE INTEGRATION
-
-Inspect the existing Supabase project and schema before creating anything.
-
-Create a suitable table such as `echo_team_applications` if it does not already exist.
-
-Suggested fields:
-- id (UUID primary key)
-- full_name
-- email
-- phone
-- college
-- course
-- academic_year
-- instagram
-- departments (text array)
-- skills (text array)
-- experience_level
-- previous_experience
-- previous_organisation
-- software_tools (text array)
-- portfolio_links (JSONB)
-- weekly_availability
-- event_availability
-- smartphone_available
-- preferred_role
-- motivation
-- suitability
-- ideas
-- learning_goals
-- declaration_accepted
-- status (default: pending)
-- created_at
-
-Use appropriate data types and constraints.
-
-Do not duplicate existing tables. If an existing application table is suitable, extend or reuse it safely.
-
-## 5. SECURITY
-
-- Use Supabase RLS.
-- Public applicants may submit applications only through a secure, validated flow.
-- Applicants must not read other applicants' records.
-- Only authorised ECHO administrators can access the application directory.
-- Never expose Supabase service-role keys in frontend code.
-- Validate all fields server-side or through a secure trusted backend.
-- Add basic spam protection and rate limiting.
-- Validate uploaded file types and sizes.
-- Do not allow public access to private application data.
-
-Inspect existing authentication and role management before implementing admin permissions.
-
-## 6. APPLICATION SUCCESS PAGE
-
-After a successful submission:
-
-Show a premium success screen:
-
-"APPLICATION SUBMITTED!"
-
-"Thank you for your interest in joining ECHO.TGPCOP. Your application has been received successfully. Our team will review your profile and contact you regarding the next steps."
-
-Show:
-- Application reference ID.
-- Submitted email.
-- Back to Home button.
-- Instagram link.
-
-Do not show success if the database submission fails.
-
-Prevent accidental duplicate submissions.
-
-## 7. ADMIN APPLICATION MANAGEMENT
-
-Integrate an application management section into the existing authorised admin dashboard.
-
-Features:
-- View all applications.
-- Search by applicant name or email.
-- Filter by department and experience level.
-- View complete application details.
-- View portfolio links.
-- Review uploaded files securely.
-- Change status: Pending / Under Review / Shortlisted / Selected / Rejected.
-- Add internal admin notes.
-- Export applications as CSV.
-
-Only authorised admins may access this section.
-
-## 8. EMAIL NOTIFICATIONS
-
-If an existing secure email service is configured, integrate it.
-
-- Send an application received confirmation to the applicant.
-- Notify the authorised ECHO recruitment team.
-- Do not expose email API keys.
-- If email delivery fails, preserve the successfully saved application and log the notification failure.
-
-## 9. TESTING
-
-Test:
-- Complete application submission.
-- Required field validation.
-- Email and URL validation.
-- Multiple department selection.
-- Mobile layout.
-- File upload.
-- Database persistence.
-- Duplicate submission prevention.
-- Admin access restrictions.
-- Search, filters and status updates.
-- Success and error states.
-
-Do not break existing website pages, authentication, gallery or other features.
-
-## FINAL REQUIREMENT
-
-Implement the complete working recruitment system in the existing ECHO.TGPCOP website.
-
-Do not stop after designing the UI. Connect the form to Supabase, implement security and admin management, run the production build and report all modified files and tests.
-
-Never claim deployment or successful database changes unless actually completed.
+insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+values ('team-applications', 'team-applications', false, 3145728, array['image/jpeg','image/png','image/webp'])
+on conflict (id) do update set public = false, file_size_limit = 3145728,
+  allowed_mime_types = array['image/jpeg','image/png','image/webp'];
+drop policy if exists "Echo admins view applicant photos" on storage.objects;
+create policy "Echo admins view applicant photos" on storage.objects
+  for select to authenticated
+  using (bucket_id = 'team-applications' and (select auth.jwt() -> 'app_metadata' ->> 'role') = 'echo_admin');

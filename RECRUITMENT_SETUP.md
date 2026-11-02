@@ -35,7 +35,8 @@ Have the user sign out and back in to refresh the JWT. The private admin page is
 
 ## Notes
 
-- `join-us.html` is the public multi-step application. Photo uploads are optional, restricted to JPEG/PNG/WebP up to 3 MB, and stored in the private `team-applications` bucket.
+- `join-us.html` is the compact four-step public form. Applicants provide a valid Instagram profile URL; tool choices use the supplied Canva/Adobe/DaVinci/CapCut/VN logos.
+- Motivation questions were removed from the shorter form; the SQL keeps those old columns nullable for compatibility with submissions made before the form change.
 - `/applications-admin` provides search, department/experience filters, full application detail, status/notes updates, private signed photo access, and CSV export.
 - The repo has no configured secure mail provider or recruitment recipient. Email confirmation/team notification is therefore not enabled; successful database submissions still return the application reference ID.
 - Apply the SQL and deploy the Edge Function before publishing the static page. No live Supabase changes were made from this session.
